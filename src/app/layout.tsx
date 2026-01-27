@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Merriweather, Inter } from "next/font/google";
 import "./globals.css";
 import { Theme } from "@radix-ui/themes";
-import { Header, Footer } from "@/components/layout";
+import { Header, Footer, Navbar } from "@/components/layout";
 
 const merriweather = Merriweather({
   variable: "--font-merriweather",
@@ -36,6 +36,7 @@ export default function RootLayout({
       >
         <Theme>
           <Header />
+          <Navbar />
           <main style={{ minHeight: "60vh" }}>
             {children}
           </main>

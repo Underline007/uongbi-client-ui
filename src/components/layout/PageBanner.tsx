@@ -1,81 +1,26 @@
-import { Box, Container, Text, Flex } from "@radix-ui/themes";
+import Image from "next/image";
 
-interface PageBannerProps {
-    title?: string;
-    subtitle?: string;
-}
-
-export function PageBanner({
-    title = "HƯỚNG TỚI ĐẠI HỘI ĐẠI BIỂU TOÀN QUỐC",
-    subtitle = "LẦN THỨ XIV CỦA ĐẢNG"
-}: PageBannerProps) {
+export function PageBanner() {
     return (
-        <Box
-            py="6"
-            style={{
-                background: "linear-gradient(135deg, var(--primary-brand) 0%, #c41e1e 100%)",
-                position: "relative",
-                overflow: "hidden",
-            }}
-        >
-            {/* Decorative elements */}
-            <Box
-                style={{
-                    position: "absolute",
-                    left: 20,
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    opacity: 0.3,
-                }}
-            >
-                {/* Star decoration placeholder */}
-                <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
-                    <path
-                        d="M40 0L49.5 30.5H80L55.2 49.4L64.7 80L40 61.1L15.3 80L24.8 49.4L0 30.5H30.5L40 0Z"
-                        fill="rgba(255,215,0,0.8)"
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
+            <div className="flex items-center py-3 sm:py-4">
+                <a 
+                    href="https://baochinhphu.vn/chu-de/huong-toi-dai-hoi-dai-bieu-toan-quoc-lan-thu-xiv-cua-dang-206.htm" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="block w-full hover:opacity-90 transition-opacity"
+                >
+                    <Image
+                        src="/images/992a5543-e511-47bf-88fb-6ddac5f44214.jpg" 
+                        alt="Hướng tới Đại hội đại biểu toàn quốc lần thứ XIV của Đảng" 
+                        width={1280}
+                        height={200}
+                        className="w-full h-auto object-contain" 
+                        style={{ maxHeight: "200px" }}
+                        priority
                     />
-                </svg>
-            </Box>
-
-            <Container size="4">
-                <Flex justify="center" align="center" gap="4">
-                    {/* Star icon */}
-                    <Box style={{ color: "#FFD700" }}>
-                        <svg width="40" height="40" viewBox="0 0 40 40" fill="currentColor">
-                            <path d="M20 0L24.7 15.3H40L27.6 24.7L32.4 40L20 30.6L7.6 40L12.4 24.7L0 15.3H15.3L20 0Z" />
-                        </svg>
-                    </Box>
-
-                    {/* Title text */}
-                    <Box style={{ textAlign: "center" }}>
-                        <Text
-                            size="5"
-                            weight="bold"
-                            style={{
-                                color: "#FFD700",
-                                fontFamily: "var(--font-serif)",
-                                textTransform: "uppercase",
-                                letterSpacing: "0.05em",
-                            }}
-                        >
-                            {title}
-                        </Text>
-                        <Text
-                            size="6"
-                            weight="bold"
-                            style={{
-                                color: "white",
-                                fontFamily: "var(--font-serif)",
-                                textTransform: "uppercase",
-                                display: "block",
-                                marginTop: 4,
-                            }}
-                        >
-                            {subtitle}
-                        </Text>
-                    </Box>
-                </Flex>
-            </Container>
-        </Box>
+                </a>
+            </div>
+        </div>
     );
 }
