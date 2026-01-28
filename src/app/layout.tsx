@@ -34,7 +34,7 @@ export default function RootLayout({
       <body
         className={`${merriweather.variable} ${inter.variable}`}
       >
-        <Theme>
+        <Theme accentColor="red" grayColor="slate" radius="medium" scaling="100%">
           <Header />
           <Navbar />
           <main style={{ minHeight: "60vh" }}>

@@ -45,8 +45,8 @@ export function InfoBar() {
               <span className="font-bold text-xs md:text-sm uppercase tracking-wide">TIN MỚI</span>
             </div>
             <div className="flex-1 overflow-hidden relative flex items-center px-2 md:px-4 py-2">
-              <Link 
-                className="absolute w-full flex items-center px-1 md:px-4 group" 
+              <Link
+                className="absolute w-full flex items-center px-1 md:px-4 group"
                 href="/articles/94692871-ddb2-454f-9c83-c55664095ea3"
               >
                 <span className="text-red-600 mr-1 md:mr-2 text-xs md:text-sm font-medium">■</span>
@@ -70,9 +70,9 @@ export function InfoBar() {
           </div>
 
           {/* Feedback Link */}
-          <Link 
-            className="flex items-center md:bg-gray-100 rounded-md md:px-4 px-2 h-12 flex-shrink-0 gap-2 cursor-pointer md:hover:bg-gray-50" 
-            href="/lien-he"
+          <Link
+            className="flex items-center md:bg-gray-100 rounded-md md:px-4 px-2 h-12 flex-shrink-0 gap-2 cursor-pointer md:hover:bg-gray-50"
+            href="/contact"
           >
             <Mail className="h-5 w-5 text-gray-500" />
             <span className="hidden md:inline text-sm font-medium text-gray-700 whitespace-nowrap">Hòm thư góp ý</span>
@@ -80,7 +80,7 @@ export function InfoBar() {
 
           {/* Weather Widget */}
           <div className="relative weather-widget hidden md:block" ref={dropdownRef}>
-            <div 
+            <div
               className="flex items-center bg-gray-100 rounded-md px-4 h-12 flex-shrink-0 gap-2 cursor-pointer hover:bg-gray-50"
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             >
@@ -91,17 +91,17 @@ export function InfoBar() {
                   <Cloud className="h-5 w-5 text-gray-500" />
                 </div>
               </div>
-              <svg 
-                width="11" 
-                height="6" 
-                viewBox="0 0 11 6" 
-                fill="none" 
-                xmlns="http://www.w3.org/2000/svg" 
+              <svg
+                width="11"
+                height="6"
+                viewBox="0 0 11 6"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
                 className={`transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`}
               >
-                <path 
-                  opacity="0.6" 
-                  d="M10.9619 0.308655C10.9241 0.217292 10.86 0.139204 10.7778 0.0842643C10.6956 0.0293243 10.5989 5.83729e-08 10.5 0H0.500002C0.40111 -3.89443e-07 0.304439 0.0293245 0.222214 0.0842662C0.139988 0.139208 0.0759017 0.217299 0.0380584 0.308663C0.000215113 0.400028 -0.00968527 0.500563 0.00960935 0.597554C0.028904 0.694545 0.0765271 0.783637 0.146456 0.853562L5.14645 5.85355C5.19288 5.89998 5.248 5.93681 5.30866 5.96194C5.36932 5.98707 5.43434 6 5.5 6C5.56566 6 5.63068 5.98707 5.69134 5.96194C5.752 5.93681 5.80712 5.89998 5.85355 5.85355L10.8535 0.853562C10.9235 0.783636 10.9711 0.694543 10.9904 0.59755C11.0097 0.500557 10.9998 0.400021 10.9619 0.308655Z" 
+                <path
+                  opacity="0.6"
+                  d="M10.9619 0.308655C10.9241 0.217292 10.86 0.139204 10.7778 0.0842643C10.6956 0.0293243 10.5989 5.83729e-08 10.5 0H0.500002C0.40111 -3.89443e-07 0.304439 0.0293245 0.222214 0.0842662C0.139988 0.139208 0.0759017 0.217299 0.0380584 0.308663C0.000215113 0.400028 -0.00968527 0.500563 0.00960935 0.597554C0.028904 0.694545 0.0765271 0.783637 0.146456 0.853562L5.14645 5.85355C5.19288 5.89998 5.248 5.93681 5.30866 5.96194C5.36932 5.98707 5.43434 6 5.5 6C5.56566 6 5.63068 5.98707 5.69134 5.96194C5.752 5.93681 5.80712 5.89998 5.85355 5.85355L10.8535 0.853562C10.9235 0.783636 10.9711 0.694543 10.9904 0.59755C11.0097 0.500557 10.9998 0.400021 10.9619 0.308655Z"
                   fill="#AAAAAA"
                 ></path>
               </svg>

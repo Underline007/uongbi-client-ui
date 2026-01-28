@@ -1,13 +1,7 @@
 "use client";
 
-import { Box, Flex, Text, Container } from "@radix-ui/themes";
-import {
-    HamburgerMenuIcon,
-    Cross1Icon,
-    ChevronDownIcon,
-    MagnifyingGlassIcon,
-    BellIcon
-} from "@radix-ui/react-icons";
+import { Box, Flex, Text } from "@radix-ui/themes";
+import { Menu, X, Bell } from "lucide-react";
 import { useState, useEffect } from "react";
 import NextLink from "next/link";
 import Image from "next/image";
@@ -79,7 +73,7 @@ function TopSection() {
                                 title="Thông báo"
                                 href="/announcements"
                             >
-                                <BellIcon className="h-5 w-5 sm:h-6 sm:w-6" />
+                                <Bell className="h-5 w-5 sm:h-6 sm:w-6" />
                             </NextLink>
                         </div>
                     </div>
@@ -119,7 +113,7 @@ function MobileHeader() {
                     onClick={() => setIsOpen(!isOpen)}
                     style={{ padding: 8 }}
                 >
-                    {isOpen ? <Cross1Icon width={24} height={24} /> : <HamburgerMenuIcon width={24} height={24} />}
+                    {isOpen ? <X width={24} height={24} /> : <Menu width={24} height={24} />}
                 </button>
             </Flex>
 

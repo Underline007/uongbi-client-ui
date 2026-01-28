@@ -14,17 +14,13 @@ export function Footer() {
             </div>
 
             {/* Main Footer Section - White Bottom */}
-            <div className="relative bg-white border-t border-gray-200 py-6 sm:py-10 overflow-hidden">
+            <div className="relative border-t border-gray-200 py-6 sm:py-10 overflow-hidden">
                 {/* Background Pattern */}
-                <div
-                    className="absolute inset-0 z-0 pointer-events-none"
-                    style={{
-                        backgroundImage: "url(/images/trongdong_header.png)",
-                        backgroundRepeat: "repeat",
-                        backgroundSize: "300px",
-                        backgroundPosition: "center",
-                        opacity: 0.05
-                    }}
+                <Image
+                    src="/images/trongdong.png"
+                    alt="Background Pattern"
+                    fill
+                    className="absolute inset-0 object-cover"
                 />
 
                 <div className="max-w-7xl mx-auto px-4 relative z-10">
