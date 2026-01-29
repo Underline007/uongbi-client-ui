@@ -1,5 +1,5 @@
 
-import { PageBanner } from "@/components/layout";
+import { PageBanner } from "@/components/server";
 import { MapPin, Phone, Mail, User } from "lucide-react";
 
 export default function AboutPage() {

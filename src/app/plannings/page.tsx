@@ -1,4 +1,4 @@
-import { PageBanner } from "@/components/layout";
+import { PageBanner } from "@/components/server";
 import { MapPin, ChevronRight, FileText } from "lucide-react";
 import Link from "next/link";
 

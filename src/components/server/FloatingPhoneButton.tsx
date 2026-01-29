@@ -1,5 +1,3 @@
-"use client";
-
 export function FloatingPhoneButton() {
     return (
         <div style={{ position: 'fixed', left: '20px', bottom: '20px', zIndex: 9999 }}>

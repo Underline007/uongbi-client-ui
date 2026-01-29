@@ -1,5 +1,5 @@
-import { PageBanner } from "@/components/layout";
-import { Search } from "lucide-react";
+import { PageBanner } from "@/components/server";
+import { SearchInput } from "@/components/client";
 import Link from "next/link";
 
 export default function ProceduresPage() {
@@ -18,19 +18,11 @@ export default function ProceduresPage() {
                         </p>
                     </div>
 
-                    {/* Search */}
-                    <div className="mb-3 md:mb-6">
-                        <div className="relative group">
-                            <div className="absolute inset-y-0 left-0 pl-2 md:pl-4 flex items-center pointer-events-none">
-                                <Search className="h-4 w-4 md:h-5 md:w-5 text-slate-400 group-focus-within:text-red-500 transition-colors" />
-                            </div>
-                            <input
-                                type="text"
-                                placeholder="Tìm kiếm thủ tục, dịch vụ..."
-                                className="block w-full pl-8 md:pl-12 pr-8 md:pr-12 py-2 md:py-3 text-xs md:text-base border border-slate-300 bg-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 transition-all duration-300"
-                            />
-                        </div>
-                    </div>
+                    {/* Search (Client Component) */}
+                    <SearchInput
+                        placeholder="Tìm kiếm thủ tục, dịch vụ..."
+                        accentColor="red"
+                    />
 
                     {/* Procedures Table */}
                     <div className="bg-white border border-slate-200 shadow-sm mb-4 md:mb-8">

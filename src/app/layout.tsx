@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Merriweather, Inter } from "next/font/google";
 import "./globals.css";
 import { Theme } from "@radix-ui/themes";
-import { Header, Footer, Navbar, FloatingPhoneButton } from "@/components/layout";
+import { Header, Navbar } from "@/components/client";
+import { Footer, FloatingPhoneButton } from "@/components/server";
 
 const merriweather = Merriweather({
   variable: "--font-merriweather",

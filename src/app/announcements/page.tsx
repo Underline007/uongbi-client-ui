@@ -1,4 +1,4 @@
-import { PageBanner } from "@/components/layout";
+import { PageBanner } from "@/components/server";
 import { Pin, Bell, Eye, Calendar } from "lucide-react";
 import Link from "next/link";
 

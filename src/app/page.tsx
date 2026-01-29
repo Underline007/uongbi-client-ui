@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Phone, Eye, TrendingUp, Users, User, Mail, Clock, Baby, GraduationCap, Briefcase, Home as HomeIcon, Heart, Building2, Activity, Car, ClipboardList, Scale } from "lucide-react";
-import { InfoBar, PageBanner } from "@/components/layout";
+import { InfoBar } from "@/components/client";
+import { PageBanner } from "@/components/server";
 
 // Sample data - in production this would come from API
 const featuredNews = {
