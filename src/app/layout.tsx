@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Merriweather, Inter } from "next/font/google";
 import "./globals.css";
 import { Theme } from "@radix-ui/themes";
-import { Header, Footer, Navbar } from "@/components/layout";
+import { Header, Footer, Navbar, FloatingPhoneButton } from "@/components/layout";
 
 const merriweather = Merriweather({
   variable: "--font-merriweather",
@@ -41,7 +41,9 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
+          <FloatingPhoneButton />
         </Theme>
+
       </body>
     </html>
   );

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Phone, Eye, TrendingUp, Users, User, Mail, Clock, Baby, GraduationCap, Briefcase, Home as HomeIcon, Heart, Building2, Activity, Car, ClipboardList, Scale } from "lucide-react";
-import { InfoBar } from "@/components/layout";
+import { InfoBar, PageBanner } from "@/components/layout";
 
 // Sample data - in production this would come from API
 const featuredNews = {
@@ -99,27 +99,27 @@ const guideProcedures = [
 // Công tác xây dựng Đảng trong sạch vững mạnh - 3 columns
 const partyBuildingColumns = [
   {
-    featured: { 
-      id: "43b0a6bf-1dde-4490-a755-e89543cd6ee1", 
-      title: "Lễ trao tặng Huy hiệu Đảng, công bố Quyết định thành lập các chi, đảng bộ cơ sở.", 
+    featured: {
+      id: "43b0a6bf-1dde-4490-a755-e89543cd6ee1",
+      title: "Lễ trao tặng Huy hiệu Đảng, công bố Quyết định thành lập các chi, đảng bộ cơ sở.",
       image: "https://storage.4ship.vn/public/image/8dd7729b-901d-42a3-b1bc-258aab8d0733.jpeg",
       description: "Ngày 7/11, Đảng ủy phường Móng Cái 3 đã long trọng tổ chức Lễ trao tặng Huy hiệu Đảng, công bố Quyết định thành lập các chi, đảng bộ cơ sở và công bố Quyết định về công tác cán bộ. Đồng chí Nguyễn Phúc Vinh, Bí thư Đảng ủy phường Móng Cái 3."
     },
     item: { id: "38dcb631-30eb-4f7f-b27f-c7832bad42f4", title: "Đại hội đại biểu Đoàn TNCS Hồ Chí Minh phường Móng Cái 3 lần thứ nhất, nhiệm kỳ 2025 - 2030", image: "https://storage.4ship.vn/public/image/652d72d7-1de1-478e-9bf0-ad39218a09d8.jpeg" }
   },
   {
-    featured: { 
-      id: "c0f757a5-ef03-4ae7-8e33-4c47074060f0", 
-      title: "Đảng ủy phường Móng Cái 3 trao huy hiệu Đảng đợt 02/9 cho 6 đảng viên", 
+    featured: {
+      id: "c0f757a5-ef03-4ae7-8e33-4c47074060f0",
+      title: "Đảng ủy phường Móng Cái 3 trao huy hiệu Đảng đợt 02/9 cho 6 đảng viên",
       image: "https://storage.4ship.vn/public/image/87753d97-d1a2-45ac-80cb-b649912b0748.jpeg",
       description: "Nhân dịp kỷ niệm 80 năm Cách mạng tháng Tám thành công (19/8/1945-19/8/2025) và Quốc khánh nước Cộng hòa xã hội chủ nghĩa Việt Nam (02/9/1945- 02/9/2025), Đảng bộ phường Móng Cái 3 vinh dự có 6 đồng chí đảng viên được trao tặng Huy hiệu Đảng."
     },
     item: { id: "ca1229ac-619c-4aa1-b28b-863bc1f86689", title: "Hội Nông dân phường Móng Cái 3: Kỷ niệm 95 năm Ngày thành lập Hội Nông dân Việt Nam", image: "http://storage.4ship.vn/public/image/6a11047b-6c8c-4f90-bbe9-cf563843f70e.jpg" }
   },
   {
-    featured: { 
-      id: "f8af5c56-d044-475e-8972-98c78cabde57", 
-      title: "Hội nghị Ban Chấp hành Đảng bộ phường Móng Cái 3 lần thứ 3", 
+    featured: {
+      id: "f8af5c56-d044-475e-8972-98c78cabde57",
+      title: "Hội nghị Ban Chấp hành Đảng bộ phường Móng Cái 3 lần thứ 3",
       image: "https://storage.4ship.vn/public/image/e472f627-617b-4cb7-9d93-5000c2e0a817.jpeg",
       description: "Sáng 3/10, Đảng ủy phường Móng Cái 3 tổ chức Hội nghị Ban Chấp hành Đảng bộ phường lần thứ 3 khóa I, nhiệm kỳ 2025-2030 để sơ kết công tác quý III/2025, triển khai nhiệm vụ trọng tâm công tác quý IV/2025."
     }
@@ -165,9 +165,9 @@ const staffWorkSidebar = [
 ];
 
 // Hoạt động Đảng bộ phường
-const partyActivityFeatured = { 
-  id: "c593c91a-bf69-486b-a1f7-9f331a333e82", 
-  title: "Đại hội đại biểu MTTQ phường Móng Cái 3 lần thứ I nhiệm kỳ 2025 - 2030", 
+const partyActivityFeatured = {
+  id: "c593c91a-bf69-486b-a1f7-9f331a333e82",
+  title: "Đại hội đại biểu MTTQ phường Móng Cái 3 lần thứ I nhiệm kỳ 2025 - 2030",
   image: "https://storage.4ship.vn/public/image/6dc60fb7-486b-44d1-bbf3-67a92b3b382e.jpeg",
   description: "Ngày 19/9, MTTQ Việt Nam phường Móng Cái 3 long trọng tổ chức Đại hội đại biểu MTTQ Việt Nam lần thứ I, nhiệm kỳ 2025 - 2030.",
   date: "28/12/2025"
@@ -180,17 +180,17 @@ const partyActivityGrid = [
 ];
 
 // Thông tin quy hoạch
-const planningFeatured = { 
-  id: "94692871-ddb2-454f-9c83-c55664095ea3", 
-  title: "Đẩy nhanh tiến độ thi công dự án sửa chữa đường tỉnh 335", 
+const planningFeatured = {
+  id: "94692871-ddb2-454f-9c83-c55664095ea3",
+  title: "Đẩy nhanh tiến độ thi công dự án sửa chữa đường tỉnh 335",
   image: "https://storage.4ship.vn/public/image/57577e22-6922-4281-97c0-9124e776617e.jpeg",
   description: "Một trong những mục tiêu đột phá chiến lược nhằm phát triển khu kinh tế cửa khẩu quốc tế Móng Cái là hạ tầng giao thông.",
   date: "28/12/2025"
 };
 
-const planningSidebar = { 
-  id: "33429716-8635-4702-b27c-429087c95f69", 
-  title: "QUYẾT ĐỊNH V/v phê duyệt Quy hoạch chi tiết tỷ lệ 1/500 Cụm công nghiệp Hải Yên tại phường Móng Cái", 
+const planningSidebar = {
+  id: "33429716-8635-4702-b27c-429087c95f69",
+  title: "QUYẾT ĐỊNH V/v phê duyệt Quy hoạch chi tiết tỷ lệ 1/500 Cụm công nghiệp Hải Yên tại phường Móng Cái",
   image: "https://storage.4ship.vn/public/image/f8671ce1-c16b-4a59-bc4d-d2c1cd606b2b.png",
   date: "28/12/2025"
 };
@@ -207,7 +207,7 @@ export default function Home() {
       <div className="min-h-screen bg-gray-50">
         {/* InfoBar */}
         <InfoBar />
-
+        <PageBanner />
         {/* Main Content Section */}
         <section className="edit-section bg-white pb-4 pt-4">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -221,11 +221,11 @@ export default function Home() {
                     <div>
                       <div className="relative">
                         <div className="aspect-[16/9] overflow-hidden bg-gray-100">
-                          <img 
-                            src={featuredNews.image} 
-                            alt="Featured" 
-                            className="w-full h-full object-cover" 
-                            loading="lazy" 
+                          <img
+                            src={featuredNews.image}
+                            alt="Featured"
+                            className="w-full h-full object-cover"
+                            loading="lazy"
                           />
                         </div>
                       </div>
@@ -235,7 +235,7 @@ export default function Home() {
                             {featuredNews.title}
                           </h2>
                         </Link>
-                        <p className="text-gray-500 text-base leading-relaxed line-clamp-3 font-inter">
+                        <p className="text-gray-500 text-base leading-relaxed line-clamp-3">
                           {featuredNews.description}
                         </p>
                       </div>
@@ -246,7 +246,7 @@ export default function Home() {
                   <div className="lg:col-span-2">
                     <div className="hidden lg:block overflow-y-auto space-y-0 scrollbar-thin" style={{ maxHeight: "530px" }}>
                       {sidebarNews.map((news, index) => (
-                        <Link 
+                        <Link
                           key={news.id}
                           className={`block group py-3 ${index < sidebarNews.length - 1 ? 'border-b border-gray-200' : ''}`}
                           href={`/tin-tuc/${news.id}`}
@@ -258,11 +258,11 @@ export default function Home() {
                               </h4>
                             </div>
                             <div className="w-24 h-16 bg-gray-100 overflow-hidden flex-shrink-0">
-                              <img 
-                                src={news.image} 
-                                alt={news.title} 
-                                className="w-full h-full object-cover" 
-                                loading="lazy" 
+                              <img
+                                src={news.image}
+                                alt={news.title}
+                                className="w-full h-full object-cover"
+                                loading="lazy"
                               />
                             </div>
                           </div>
@@ -273,7 +273,7 @@ export default function Home() {
                     {/* Mobile News List */}
                     <div className="lg:hidden space-y-0">
                       {sidebarNews.map((news, index) => (
-                        <Link 
+                        <Link
                           key={news.id}
                           className={`block group py-3 ${index < sidebarNews.length - 1 ? 'border-b border-gray-200' : ''}`}
                           href={`/tin-tuc/${news.id}`}
@@ -284,12 +284,12 @@ export default function Home() {
                                 {news.title}
                               </h4>
                             </div>
-                            <div className="w-24 h-16 bg-gray-100 overflow-hidden flex-shrink-0">
-                              <img 
-                                src={news.image} 
-                                alt={news.title} 
-                                className="w-full h-full object-cover" 
-                                loading="lazy" 
+                            <div className="w-24 h-16 bg-gray-100 overflow-hidden shrink-0">
+                              <img
+                                src={news.image}
+                                alt={news.title}
+                                className="w-full h-full object-cover"
+                                loading="lazy"
                               />
                             </div>
                           </div>
@@ -320,12 +320,12 @@ export default function Home() {
                               <div className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 w-px h-16 bg-gray-300"></div>
                             )}
                             {column.map((item, itemIndex) => (
-                              <div 
-                                key={item.id} 
+                              <div
+                                key={item.id}
                                 className={`pt-4 ${itemIndex === 0 ? '' : 'pl-4 md:pl-0'} ${itemIndex === 1 ? 'border-b border-dashed border-gray-300 pb-4' : ''}`}
                               >
                                 <span className="text-xs text-gray-500 block mb-2">{item.date}</span>
-                                <Link 
+                                <Link
                                   className={`${item.featured ? 'font-semibold' : ''} text-gray-900 hover:text-red-600 transition-colors line-clamp-${item.featured ? '3' : '2'} text-sm leading-relaxed`}
                                   href={`/tin-tuc/${item.id}`}
                                 >
@@ -350,11 +350,11 @@ export default function Home() {
                       <div className="space-y-4">
                         <div className="overflow-hidden">
                           <div className="overflow-hidden cursor-pointer">
-                            <img 
-                              src="https://storage.4ship.vn/public/image/59d7ec0b-0052-418b-81d2-963b5aa99401.jpg" 
-                              alt="thủ tục hành chính" 
-                              className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" 
-                              loading="lazy" 
+                            <img
+                              src="https://storage.4ship.vn/public/image/59d7ec0b-0052-418b-81d2-963b5aa99401.jpg"
+                              alt="thủ tục hành chính"
+                              className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                              loading="lazy"
                             />
                           </div>
                         </div>
@@ -381,7 +381,7 @@ export default function Home() {
                     {/* Liên hệ */}
                     <div className="hidden md:block bg-red-600 shadow-sm overflow-hidden">
                       <div className="bg-red-600 px-4 py-2 text-center border-b border-red-500">
-                        <h2 className="text-white font-bold text-sm">LIÊN HỆ</h2>
+                        <h2 className="text-white font-bold text-sm font-family: 'Inter', sans-serif;">LIÊN HỆ</h2>
                       </div>
                       <div className="p-4 space-y-3">
                         <div className="text-white">
@@ -405,11 +405,11 @@ export default function Home() {
                       <div className="space-y-4">
                         <div className="overflow-hidden">
                           <div className="overflow-hidden cursor-pointer">
-                            <img 
-                              src="https://storage.4ship.vn/public/image/1fab35bf-1424-4800-94f7-8f3c31c603f5.jpg" 
-                              alt="dịch vụ công" 
-                              className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" 
-                              loading="lazy" 
+                            <img
+                              src="https://storage.4ship.vn/public/image/1fab35bf-1424-4800-94f7-8f3c31c603f5.jpg"
+                              alt="dịch vụ công"
+                              className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                              loading="lazy"
                             />
                           </div>
                         </div>
@@ -538,11 +538,11 @@ export default function Home() {
                       <Link className="block group" href={`/tin-tuc/${category.featured.id}`}>
                         <div className="space-y-2">
                           <div className="aspect-[16/9] overflow-hidden bg-gray-100">
-                            <img 
-                              src={category.featured.image} 
-                              alt={category.featured.title} 
-                              className="w-full h-full group-hover:scale-105 transition-transform duration-200" 
-                              loading="lazy" 
+                            <img
+                              src={category.featured.image}
+                              alt={category.featured.title}
+                              className="w-full h-full group-hover:scale-105 transition-transform duration-200"
+                              loading="lazy"
                             />
                           </div>
                           <h4 className="font-bold text-gray-900 leading-relaxed group-hover:text-red-600 transition-colors line-clamp-2" style={{ fontSize: "0.8rem" }}>
@@ -580,7 +580,7 @@ export default function Home() {
             <div className="w-full bg-white">
               <section className="w-full">
                 <div className="mb-3 md:mb-0 md:relative md:z-10">
-                  <h3 className="inline-block bg-[#e23d3d] py-1.5 px-2.5 text-lg sm:text-2xl lg:text-3xl font-black uppercase text-white rounded-sm font-inter w-fit md:absolute md:top-[-20px] md:left-6 md:z-[1]" style={{ fontWeight: 900 }}>
+                  <h3 className="inline-block bg-[#e23d3d] py-1.5 px-2.5 text-lg sm:text-2xl lg:text-3xl font-black uppercase text-white rounded-sm w-fit md:absolute md:top-[-20px] md:left-6 md:z-[1]" style={{ fontWeight: 900 }}>
                     công tác xây dựng đảng trong sạch vững mạnh
                   </h3>
                 </div>
@@ -590,16 +590,16 @@ export default function Home() {
                       <div key={colIndex} className="flex flex-col space-y-2 md:space-y-3">
                         <Link className="group block" href={`/tin-tuc/${col.featured.id}`}>
                           <div className="aspect-[16/12] mb-2 md:mb-3 overflow-hidden bg-gray-100">
-                            <img 
-                              src={col.featured.image} 
-                              alt="Featured" 
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
+                            <img
+                              src={col.featured.image}
+                              alt="Featured"
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                             />
                           </div>
                           <h3 className="text-sm md:text-lg font-bold text-gray-900 group-hover:text-red-600 transition-colors mb-1 md:mb-2 line-clamp-2">
                             {col.featured.title}
                           </h3>
-                          <p className="text-xs md:text-sm text-gray-600 line-clamp-2 md:line-clamp-3 font-inter">
+                          <p className="text-xs md:text-sm text-gray-600 line-clamp-2 md:line-clamp-3">
                             {col.featured.description}
                           </p>
                         </Link>
@@ -607,10 +607,10 @@ export default function Home() {
                           <div className="space-y-2 md:space-y-3 pt-2 md:pt-3 border-t border-gray-200">
                             <Link className="group flex gap-2 md:gap-3 pb-2 md:pb-3" href={`/tin-tuc/${col.item.id}`}>
                               <div className="flex-shrink-0 w-20 md:w-28 h-11 md:h-16 overflow-hidden bg-gray-100">
-                                <img 
-                                  src={col.item.image} 
-                                  alt="Featured" 
-                                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
+                                <img
+                                  src={col.item.image}
+                                  alt="Featured"
+                                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                                 />
                               </div>
                               <div className="flex-1 min-w-0">
@@ -649,11 +649,11 @@ export default function Home() {
                       <Link className="block group" href={`/tin-tuc/${category.featured.id}`}>
                         <div className="space-y-2">
                           <div className="aspect-[16/9] overflow-hidden bg-gray-100">
-                            <img 
-                              src={category.featured.image} 
-                              alt={category.featured.title} 
-                              className="w-full h-full group-hover:scale-105 transition-transform duration-200" 
-                              loading="lazy" 
+                            <img
+                              src={category.featured.image}
+                              alt={category.featured.title}
+                              className="w-full h-full group-hover:scale-105 transition-transform duration-200"
+                              loading="lazy"
                             />
                           </div>
                           <h4 className="font-bold text-gray-900 leading-relaxed group-hover:text-red-600 transition-colors line-clamp-2" style={{ fontSize: "0.8rem" }}>
@@ -690,7 +690,7 @@ export default function Home() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <section className="w-full">
               <div className="mb-3 lg:mb-6">
-                <h3 className="text-2xl sm:text-3xl font-black uppercase text-gray-900 mb-2 pb-2 border-b-2 border-red-600 font-inter">
+                <h3 className="text-2xl sm:text-3xl font-black uppercase text-gray-900 mb-2 pb-2 border-b-2 border-red-600">
                   Công tác cán bộ
                 </h3>
               </div>
@@ -750,7 +750,7 @@ export default function Home() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <section className="w-full">
               <div className="mb-3 lg:mb-6">
-                <h3 className="text-2xl sm:text-3xl font-black uppercase text-gray-900 mb-2 pb-2 border-b-2 border-red-600 font-inter">
+                <h3 className="text-2xl sm:text-3xl font-black uppercase text-gray-900 mb-2 pb-2 border-b-2 border-red-600">
                   Hoạt động Đảng bộ phường
                 </h3>
               </div>
@@ -766,7 +766,7 @@ export default function Home() {
                       <h3 className="text-lg font-bold text-gray-900 group-hover:text-red-600 transition-colors mb-2">
                         {partyActivityFeatured.title}
                       </h3>
-                      <p className="text-gray-600 text-sm line-clamp-2 mb-2 font-inter">
+                      <p className="text-gray-600 text-sm line-clamp-2 mb-2">
                         {partyActivityFeatured.description}
                       </p>
                       <div className="flex items-center gap-2 text-xs text-gray-500">
@@ -808,7 +808,7 @@ export default function Home() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <section className="w-full">
               <div className="mb-3 lg:mb-6">
-                <h3 className="text-2xl sm:text-3xl font-black uppercase text-gray-900 mb-2 pb-2 border-b-2 border-red-600 font-inter">
+                <h3 className="text-2xl sm:text-3xl font-black uppercase text-gray-900 mb-2 pb-2 border-b-2 border-red-600">
                   Thông tin quy hoạch
                 </h3>
               </div>
@@ -846,7 +846,7 @@ export default function Home() {
                           <h3 className="text-xl font-bold text-gray-900 group-hover:text-red-600 transition-colors mb-3">
                             {planningFeatured.title}
                           </h3>
-                          <p className="text-gray-600 text-sm line-clamp-3 mb-4 font-inter">
+                          <p className="text-gray-600 text-sm line-clamp-3 mb-4">
                             {planningFeatured.description}
                           </p>
                         </div>
@@ -886,11 +886,11 @@ export default function Home() {
                     <Link className="block group" href={`/tin-tuc/${electionInfo.featured.id}`}>
                       <div className="space-y-2">
                         <div className="aspect-[16/9] overflow-hidden bg-gray-100">
-                          <img 
-                            src={electionInfo.featured.image} 
-                            alt={electionInfo.featured.title} 
-                            className="w-full h-full group-hover:scale-105 transition-transform duration-200" 
-                            loading="lazy" 
+                          <img
+                            src={electionInfo.featured.image}
+                            alt={electionInfo.featured.title}
+                            className="w-full h-full group-hover:scale-105 transition-transform duration-200"
+                            loading="lazy"
                           />
                         </div>
                         <h4 className="font-bold text-gray-900 leading-relaxed group-hover:text-red-600 transition-colors line-clamp-2" style={{ fontSize: "0.8rem" }}>
@@ -927,11 +927,11 @@ export default function Home() {
                 <div className="p-2 md:p-6">
                   <div className="grid grid-cols-1 gap-2">
                     {citizenProcedures.map((proc, index) => (
-                      <a 
+                      <a
                         key={index}
-                        href={proc.href} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
+                        href={proc.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="group flex items-center bg-white hover:bg-gray-50 border border-gray-200 transition-all duration-150 p-3"
                       >
                         <div className="flex-shrink-0 w-10 h-10 bg-gray-100 flex items-center justify-center">

@@ -42,7 +42,7 @@ export function Navbar() {
                             return (
                                 <div key={item.href} className="relative pb-3" ref={dropdownRef}>
                                     <div className="relative group dropdown-menu">
-                                        <button 
+                                        <button
                                             className="font-medium hover:text-red-600 transition-colors flex items-center whitespace-nowrap text-xs sm:text-sm lg:text-base focus:outline-none"
                                             style={{ color: 'rgb(55, 65, 81)' }}
                                             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -50,7 +50,7 @@ export function Navbar() {
                                             {item.label}
                                             <ChevronDown className={`ml-0.5 sm:ml-1 h-3 w-3 sm:h-4 sm:w-4 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
                                         </button>
-                                        
+
                                         {/* Dropdown Content */}
                                         {isDropdownOpen && (
                                             <div className="dropdown-content absolute top-full left-0 z-[9999] mt-2 min-w-max">
@@ -87,11 +87,10 @@ export function Navbar() {
                             <Link
                                 key={item.href}
                                 href={item.href}
-                                className={`relative pb-3 hover:text-red-700 transition-colors whitespace-nowrap text-xs sm:text-sm lg:text-base ${
-                                    isActive(item.href) 
-                                        ? "font-bold text-red-600 border-b-2 border-red-600" 
+                                className={`relative pb-3 hover:text-red-700 transition-colors whitespace-nowrap text-xs sm:text-sm lg:text-base ${isActive(item.href)
+                                        ? "font-bold text-red-600 border-b-2 border-red-600"
                                         : "font-medium hover:text-red-600"
-                                } ${item.badge ? "pr-10" : ""}`}
+                                    } ${item.badge ? "pr-10" : ""}`}
                                 style={isActive(item.href) ? {} : { color: 'rgb(55, 65, 81)' }}
                             >
                                 {item.label}
@@ -115,11 +114,10 @@ export function Navbar() {
                                     <Link
                                         key={item.href}
                                         href={item.href}
-                                        className={`relative py-3 hover:text-red-700 transition-colors whitespace-nowrap text-xs ${
-                                            isActive(item.href) 
-                                                ? "font-bold text-red-600 border-b-2 border-red-600" 
+                                        className={`relative py-3 hover:text-red-700 transition-colors whitespace-nowrap text-xs ${isActive(item.href)
+                                                ? "font-bold text-red-600 border-b-2 border-red-600"
                                                 : "font-medium hover:text-red-600"
-                                        } ${item.badge ? "pr-8" : ""}`}
+                                            } ${item.badge ? "pr-8" : ""}`}
                                         style={isActive(item.href) ? {} : { color: 'rgb(55, 65, 81)' }}
                                     >
                                         {item.label}
@@ -132,8 +130,8 @@ export function Navbar() {
                                 ))}
                             </div>
                         </div>
-                        <button 
-                            className="ml-3 p-2 text-gray-700 hover:text-red-600 transition-colors" 
+                        <button
+                            className="ml-3 p-2 text-gray-700 hover:text-red-600 transition-colors"
                             aria-label="Toggle mobile menu"
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                         >
@@ -149,11 +147,10 @@ export function Navbar() {
                                     <div key={item.href}>
                                         <Link
                                             href={item.href}
-                                            className={`block px-4 py-3 text-sm ${
-                                                isActive(item.href) 
-                                                    ? "font-bold text-red-600 bg-red-50" 
+                                            className={`block px-4 py-3 text-sm ${isActive(item.href)
+                                                    ? "font-bold text-red-600 bg-red-50"
                                                     : "font-medium text-gray-700 hover:text-red-600 hover:bg-gray-50"
-                                            }`}
+                                                }`}
                                             onClick={() => setIsMobileMenuOpen(false)}
                                         >
                                             {item.label}
