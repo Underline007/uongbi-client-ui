@@ -19,7 +19,7 @@ export default function NewsPage() {
                                             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                                                 <div className="lg:col-span-2 space-y-6">
                                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                        <Link className="group block bg-white transition-all duration-300" href="/tin-tuc/dai-hoi-dai-bieu-hoi-lhtn-viet-nam-phuong-mong-cai-3-lan-thu-i-nhiem-ky-2025-2029-thanh-cong-tot">
+                                                        <Link className="group block bg-white transition-all duration-300" href="/news/dai-hoi-dai-bieu-hoi-lhtn-viet-nam-phuong-mong-cai-3-lan-thu-i-nhiem-ky-2025-2029-thanh-cong-tot">
                                                             <div className="aspect-[16/10]">
                                                                 <div className="bg-gray-100 overflow-hidden w-full h-full">
                                                                     <img src="https://storage.4ship.vn/public/image/aaa41038-8a6b-4f6a-a43b-bffe7ef3a90e.jpeg" alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
@@ -33,7 +33,7 @@ export default function NewsPage() {
                                                                 </div>
                                                             </div>
                                                         </Link>
-                                                        <Link className="group block bg-white transition-all duration-300" href="/tin-tuc/ky-hop-thu-5-hdnd-phuong-mong-cai-3-khoa-i-nhiem-ky-2021-2026">
+                                                        <Link className="group block bg-white transition-all duration-300" href="/news/ky-hop-thu-5-hdnd-phuong-mong-cai-3-khoa-i-nhiem-ky-2021-2026">
                                                             <div className="aspect-[16/10]">
                                                                 <div className="bg-gray-100 overflow-hidden w-full h-full">
                                                                     <img src="https://storage.4ship.vn/public/image/3ae9df3a-08b2-4ade-98ff-634f33b6d7a9.jpeg" alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
@@ -47,7 +47,7 @@ export default function NewsPage() {
                                                                 </div>
                                                             </div>
                                                         </Link>
-                                                        <Link className="group block bg-white transition-all duration-300" href="/tin-tuc/ky-hop-thu-nhat-hdnd-phuong-mong-cai-3-khoa-i-nhiem-ky-2021-2026">
+                                                        <Link className="group block bg-white transition-all duration-300" href="/news/ky-hop-thu-nhat-hdnd-phuong-mong-cai-3-khoa-i-nhiem-ky-2021-2026">
                                                             <div className="aspect-[16/10]">
                                                                 <div className="bg-gray-100 overflow-hidden w-full h-full">
                                                                     <img src="https://storage.4ship.vn/public/image/d65aa7a8-69e4-4e35-aa2f-18fee7707f50.jpeg" alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
@@ -61,7 +61,7 @@ export default function NewsPage() {
                                                                 </div>
                                                             </div>
                                                         </Link>
-                                                        <Link className="group block bg-white transition-all duration-300" href="/tin-tuc/phuong-mong-cai-3-ra-mat-mo-hinh-bien-gio-i-bi-nh-yen-xa-phuo-ng-khong-xua-t-nha-p-ca-nh-tra-i">
+                                                        <Link className="group block bg-white transition-all duration-300" href="/news/phuong-mong-cai-3-ra-mat-mo-hinh-bien-gio-i-bi-nh-yen-xa-phuo-ng-khong-xua-t-nha-p-ca-nh-tra-i">
                                                             <div className="aspect-[16/10]">
                                                                 <div className="bg-gray-100 overflow-hidden w-full h-full">
                                                                     <img src="https://storage.4ship.vn/public/image/a9518693-c087-4de6-8f6c-432b6236d047.jpeg" alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
@@ -79,7 +79,7 @@ export default function NewsPage() {
                                                 </div>
                                                 <div className="lg:col-span-1">
                                                     <div className="space-y-2">
-                                                        <Link className="group block py-3 hover:bg-gray-50 transition-colors duration-200" href="/tin-tuc/phuong-mong-cai-3-trung-tam-phat-trien-cong-nghiep-va-dich-vu-trong-diem-cua-tinh">
+                                                        <Link className="group block py-3 hover:bg-gray-50 transition-colors duration-200" href="/news/phuong-mong-cai-3-trung-tam-phat-trien-cong-nghiep-va-dich-vu-trong-diem-cua-tinh">
                                                             <div className="flex items-start gap-3">
                                                                 <span className="text-red-600 font-bold text-xs md:mt-0.5 flex-shrink-0">•</span>
                                                                 <div className="flex-1">
@@ -108,7 +108,7 @@ export default function NewsPage() {
                                             </div>
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                                 <div className="md:col-span-1">
-                                                    <Link className="group block bg-white transition-all duration-300" href="/tin-tuc/dai-hoi-hoi-doanh-nghiep-phuong-mong-cai-3-lan-thu-nhat-nhiem-ky-2025-2030">
+                                                    <Link className="group block bg-white transition-all duration-300" href="/news/dai-hoi-hoi-doanh-nghiep-phuong-mong-cai-3-lan-thu-nhat-nhiem-ky-2025-2030">
                                                         <div className="aspect-[16/10]">
                                                             <div className="bg-gray-100 overflow-hidden w-full h-full">
                                                                 <img src="https://storage.4ship.vn/public/image/59463595-39a4-42aa-b300-8fc91f162099.jpeg" alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
@@ -126,7 +126,7 @@ export default function NewsPage() {
                                                 </div>
                                                 <div className="md:col-span-1">
                                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                                        <Link className="group block bg-white transition-all duration-300" href="/tin-tuc/dai-hoi-dai-bieu-dang-bo-phuong-mong-cai-3-lan-thu-i-nhiem-ky-2025-2030">
+                                                        <Link className="group block bg-white transition-all duration-300" href="/news/dai-hoi-dai-bieu-dang-bo-phuong-mong-cai-3-lan-thu-i-nhiem-ky-2025-2030">
                                                             <div className="aspect-[16/10]">
                                                                 <div className="bg-gray-100 overflow-hidden w-full h-full">
                                                                     <img src="https://storage.4ship.vn/public/image/68306c43-b1ff-45fb-92d1-7d2e51a98693.jpeg" alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
@@ -155,7 +155,7 @@ export default function NewsPage() {
                                             <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
                                                 <div className="lg:col-span-1">
                                                     <div className="space-y-4 h-full">
-                                                        <Link className="group block bg-white transition-all duration-300" href="/tin-tuc/doan-phuong-va-hoi-lhtn-phuong-mong-cai-1-mong-cai-2-mong-cai-3-to-chuc-giai-pickleball-thanh-nien">
+                                                        <Link className="group block bg-white transition-all duration-300" href="/news/doan-phuong-va-hoi-lhtn-phuong-mong-cai-1-mong-cai-2-mong-cai-3-to-chuc-giai-pickleball-thanh-nien">
                                                             <div className="aspect-[16/10]">
                                                                 <div className="bg-gray-100 overflow-hidden w-full h-full">
                                                                     <img src="https://storage.4ship.vn/public/image/a6550b09-6ad5-4c7d-831f-a85aa88abe7b.jpeg" alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
@@ -169,7 +169,7 @@ export default function NewsPage() {
                                                                 </div>
                                                             </div>
                                                         </Link>
-                                                        <Link className="group block bg-white transition-all duration-300" href="/tin-tuc/phuong-mong-cai-3-viet-nen-trang-su-moi-trong-ky-nguyen-vuon-minh-cua-dan-toc">
+                                                        <Link className="group block bg-white transition-all duration-300" href="/news/phuong-mong-cai-3-viet-nen-trang-su-moi-trong-ky-nguyen-vuon-minh-cua-dan-toc">
                                                             <div className="aspect-[16/10]">
                                                                 <div className="bg-gray-100 overflow-hidden w-full h-full">
                                                                     <img src="https://storage.4ship.vn/public/image/4d052271-efc1-4d56-8688-da2f93fadc64.jpg" alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
@@ -183,7 +183,7 @@ export default function NewsPage() {
                                                                 </div>
                                                             </div>
                                                         </Link>
-                                                        <Link className="group block bg-white transition-all duration-300" href="/tin-tuc/quang-ninh-day-nhanh-tien-do-xay-dung-cua-khau-thong-minh">
+                                                        <Link className="group block bg-white transition-all duration-300" href="/news/quang-ninh-day-nhanh-tien-do-xay-dung-cua-khau-thong-minh">
                                                             <div className="aspect-[16/10]">
                                                                 <div className="bg-gray-100 overflow-hidden w-full h-full">
                                                                     <img src="https://storage.4ship.vn/public/image/d7dac18d-5b3b-4651-a59c-36b23aab02f0.jpg" alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
@@ -200,7 +200,7 @@ export default function NewsPage() {
                                                     </div>
                                                 </div>
                                                 <div className="lg:col-span-3">
-                                                    <Link className="group block bg-white transition-all duration-300 h-full" href="/tin-tuc/phuong-mong-cai-3-ky-niem-80-nam-ngay-truyen-thong-cua-luc-luong-cong-an-nhan-dan-viet-nam-va-20-nam">
+                                                    <Link className="group block bg-white transition-all duration-300 h-full" href="/news/phuong-mong-cai-3-ky-niem-80-nam-ngay-truyen-thong-cua-luc-luong-cong-an-nhan-dan-viet-nam-va-20-nam">
                                                         <div className="flex flex-col h-full">
                                                             <div className="aspect-[16/10] flex-shrink-0">
                                                                 <div className="bg-gray-100 overflow-hidden w-full h-full">
@@ -240,7 +240,7 @@ export default function NewsPage() {
                                                     <h3 className="text-2xl sm:text-3xl font-black uppercase text-gray-900 mb-2 pb-2 border-b-2 border-red-600 font-inter">công tác xây dựng đảng trong sạch vững mạnh</h3>
                                                 </div>
                                                 <div className="space-y-4">
-                                                    <Link className="group block bg-white transition-all duration-300" href="/tin-tuc/le-trao-tang-huy-hieu-dang-cong-bo-quyet-dinh-thanh-lap-cac-chi-dang-bo-co-so">
+                                                    <Link className="group block bg-white transition-all duration-300" href="/news/le-trao-tang-huy-hieu-dang-cong-bo-quyet-dinh-thanh-lap-cac-chi-dang-bo-co-so">
                                                         <div className="aspect-[16/9] mb-2">
                                                             <div className="bg-gray-100 overflow-hidden w-full h-full">
                                                                 <img src="https://storage.4ship.vn/public/image/8dd7729b-901d-42a3-b1bc-258aab8d0733.jpeg" alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
@@ -256,7 +256,7 @@ export default function NewsPage() {
                                                         </div>
                                                     </Link>
                                                     <div className="space-y-3">
-                                                        <Link className="group flex items-start gap-3 py-2 hover:bg-gray-50 transition-colors duration-200" href="/tin-tuc/dang-uy-phuong-mong-cai-3-trao-huy-hieu-dang-dot-02-9-cho-6-dang-vien">
+                                                        <Link className="group flex items-start gap-3 py-2 hover:bg-gray-50 transition-colors duration-200" href="/news/dang-uy-phuong-mong-cai-3-trao-huy-hieu-dang-dot-02-9-cho-6-dang-vien">
                                                             <div className="flex-shrink-0 w-36 h-24 bg-gray-100 overflow-hidden">
                                                                 <img src="https://storage.4ship.vn/public/image/87753d97-d1a2-45ac-80cb-b649912b0748.jpeg" alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                                                             </div>
@@ -270,7 +270,7 @@ export default function NewsPage() {
                                                                 </div>
                                                             </div>
                                                         </Link>
-                                                        <Link className="group flex items-start gap-3 py-2 hover:bg-gray-50 transition-colors duration-200" href="/tin-tuc/hoi-nghi-ban-chap-hanh-dang-bo-phuong-mong-cai-3-lan-thu-3">
+                                                        <Link className="group flex items-start gap-3 py-2 hover:bg-gray-50 transition-colors duration-200" href="/news/hoi-nghi-ban-chap-hanh-dang-bo-phuong-mong-cai-3-lan-thu-3">
                                                             <div className="flex-shrink-0 w-36 h-24 bg-gray-100 overflow-hidden">
                                                                 <img src="https://storage.4ship.vn/public/image/e472f627-617b-4cb7-9d93-5000c2e0a817.jpeg" alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                                                             </div>
@@ -284,7 +284,7 @@ export default function NewsPage() {
                                                                 </div>
                                                             </div>
                                                         </Link>
-                                                        <Link className="group flex items-start gap-3 py-2 hover:bg-gray-50 transition-colors duration-200" href="/tin-tuc/dai-hoi-dai-bieu-doan-tncs-ho-chi-minh-phuong-mong-cai-3-lan-thu-nhat-nhiem-ky-2025-2030">
+                                                        <Link className="group flex items-start gap-3 py-2 hover:bg-gray-50 transition-colors duration-200" href="/news/dai-hoi-dai-bieu-doan-tncs-ho-chi-minh-phuong-mong-cai-3-lan-thu-nhat-nhiem-ky-2025-2030">
                                                             <div className="flex-shrink-0 w-36 h-24 bg-gray-100 overflow-hidden">
                                                                 <img src="https://storage.4ship.vn/public/image/652d72d7-1de1-478e-9bf0-ad39218a09d8.jpeg" alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                                                             </div>
@@ -298,7 +298,7 @@ export default function NewsPage() {
                                                                 </div>
                                                             </div>
                                                         </Link>
-                                                        <Link className="group flex items-start gap-3 py-2 hover:bg-gray-50 transition-colors duration-200" href="/tin-tuc/hoi-nong-dan-phuong-mong-cai-3-ky-niem-95-nam-ngay-thanh-lap-hoi-nong-dan-viet-nam-14-10-1930-14">
+                                                        <Link className="group flex items-start gap-3 py-2 hover:bg-gray-50 transition-colors duration-200" href="/news/hoi-nong-dan-phuong-mong-cai-3-ky-niem-95-nam-ngay-thanh-lap-hoi-nong-dan-viet-nam-14-10-1930-14">
                                                             <div className="flex-shrink-0 w-36 h-24 bg-gray-100 overflow-hidden">
                                                                 <img src="https://storage.4ship.vn/public/image/6a11047b-6c8c-4f90-bbe9-cf563843f70e.jpg" alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                                                             </div>
@@ -322,7 +322,7 @@ export default function NewsPage() {
                                                     <h3 className="text-2xl sm:text-3xl font-black uppercase text-gray-900 mb-2 pb-2 border-b-2 border-red-600 font-inter">Gương người tốt việc tốt</h3>
                                                 </div>
                                                 <div className="space-y-4">
-                                                    <Link className="group block bg-white transition-all duration-300" href="/tin-tuc/tam-guong-nha-giao-nguyen-thi-van-va-niem-vui-bat-ngo-ngay-be-giang-nam-ho">
+                                                    <Link className="group block bg-white transition-all duration-300" href="/news/tam-guong-nha-giao-nguyen-thi-van-va-niem-vui-bat-ngo-ngay-be-giang-nam-ho">
                                                         <div className="aspect-[16/9] mb-2">
                                                             <div className="bg-gray-100 overflow-hidden w-full h-full">
                                                                 <img src="https://storage.4ship.vn/public/image/f434fbf5-ee9b-4d76-be0d-8cbc427b6f1e.jpg" alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
@@ -350,7 +350,7 @@ export default function NewsPage() {
                                                     <h3 className="text-2xl sm:text-3xl font-black uppercase text-gray-900 mb-2 pb-2 border-b-2 border-red-600 font-inter">Hoạt động lãnh đạo tỉnh</h3>
                                                 </div>
                                                 <div className="space-y-4">
-                                                    <Link className="group block bg-white transition-all duration-300" href="/tin-tuc/toan-van-bai-phat-bieu-chi-dao-cua-dong-chi-chu-tich-ubnd-tinh-quang-ninh-tai-dai-hoi-dai-bieu-dang">
+                                                    <Link className="group block bg-white transition-all duration-300" href="/news/toan-van-bai-phat-bieu-chi-dao-cua-dong-chi-chu-tich-ubnd-tinh-quang-ninh-tai-dai-hoi-dai-bieu-dang">
                                                         <div className="aspect-[16/9] mb-2">
                                                             <div className="bg-gray-100 overflow-hidden w-full h-full">
                                                                 <img src="https://storage.4ship.vn/public/image/7f664e31-4df0-468c-befa-0f5bfb50bfd2.jpeg" alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
@@ -366,7 +366,7 @@ export default function NewsPage() {
                                                         </div>
                                                     </Link>
                                                     <div className="space-y-3">
-                                                        <Link className="group flex items-start gap-3 py-2 hover:bg-gray-50 transition-colors duration-200" href="/tin-tuc/dong-chi-bi-thu-tinh-uy-truong-doan-dai-bieu-quoc-hoi-tinh-quang-ninh-kiem-tra-tuyen-bien-gioi-cua">
+                                                        <Link className="group flex items-start gap-3 py-2 hover:bg-gray-50 transition-colors duration-200" href="/news/dong-chi-bi-thu-tinh-uy-truong-doan-dai-bieu-quoc-hoi-tinh-quang-ninh-kiem-tra-tuyen-bien-gioi-cua">
                                                             <div className="flex-shrink-0 w-36 h-24 bg-gray-100 overflow-hidden">
                                                                 <img src="https://storage.4ship.vn/public/image/11c7518a-8e1b-41b1-a2da-54c026fbb95b.jpeg" alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                                                             </div>
@@ -390,7 +390,7 @@ export default function NewsPage() {
                                                     <h3 className="text-2xl sm:text-3xl font-black uppercase text-gray-900 mb-2 pb-2 border-b-2 border-red-600 font-inter">Công tác an sinh xã hội</h3>
                                                 </div>
                                                 <div className="space-y-4">
-                                                    <Link className="group block bg-white transition-all duration-300" href="/tin-tuc/phat-dong-va-tiep-nhan-kinh-phi-ung-ho-dong-bao-mien-trung-tay-nguyen-khac-phuc-thiet-hai-do-bao-lu">
+                                                    <Link className="group block bg-white transition-all duration-300" href="/news/phat-dong-va-tiep-nhan-kinh-phi-ung-ho-dong-bao-mien-trung-tay-nguyen-khac-phuc-thiet-hai-do-bao-lu">
                                                         <div className="aspect-[16/9] mb-2">
                                                             <div className="bg-gray-100 overflow-hidden w-full h-full">
                                                                 <img src="https://storage.4ship.vn/public/image/5dcf36dd-1de4-4e02-abfd-7a9d9cd2f740.jpeg" alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
@@ -406,7 +406,7 @@ export default function NewsPage() {
                                                         </div>
                                                     </Link>
                                                     <div className="space-y-3">
-                                                        <Link className="group flex items-start gap-3 py-2 hover:bg-gray-50 transition-colors duration-200" href="/tin-tuc/truong-tieu-hoc-hai-yen-trao-50-trieu-dong-ung-ho-dong-bao-bi-anh-huong-boi-bao-lu">
+                                                        <Link className="group flex items-start gap-3 py-2 hover:bg-gray-50 transition-colors duration-200" href="/news/truong-tieu-hoc-hai-yen-trao-50-trieu-dong-ung-ho-dong-bao-bi-anh-huong-boi-bao-lu">
                                                             <div className="flex-shrink-0 w-36 h-24 bg-gray-100 overflow-hidden">
                                                                 <img src="https://storage.4ship.vn/public/image/6d013b86-ccaa-478d-82f1-6e2d185d26ab.jpg" alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                                                             </div>
@@ -434,7 +434,7 @@ export default function NewsPage() {
                                                     <h3 className="text-2xl sm:text-3xl font-black uppercase text-gray-900 mb-2 pb-2 border-b-2 border-red-600 font-inter">Công tác cán bộ</h3>
                                                 </div>
                                                 <div className="space-y-4">
-                                                    <Link className="group block bg-white transition-all duration-300" href="/tin-tuc/doan-cong-tac-van-phong-thuong-truc-ban-chi-dao-389-quoc-gia-khao-sat-dia-ban-thanh-pho-mong-cai">
+                                                    <Link className="group block bg-white transition-all duration-300" href="/news/doan-cong-tac-van-phong-thuong-truc-ban-chi-dao-389-quoc-gia-khao-sat-dia-ban-thanh-pho-mong-cai">
                                                         <div className="aspect-[16/9] mb-2">
                                                             <div className="bg-gray-100 overflow-hidden w-full h-full">
                                                                 <img src="https://storage.4ship.vn/public/image/da4d69a2-6735-42a1-b4c9-455d54334413.jpg" alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
@@ -450,7 +450,7 @@ export default function NewsPage() {
                                                         </div>
                                                     </Link>
                                                     <div className="space-y-3">
-                                                        <Link className="group flex items-start gap-3 py-2 hover:bg-gray-50 transition-colors duration-200" href="/tin-tuc/dai-hoi-chi-bo-co-quan-dang-phuong-mong-cai-3-lan-thu-i-nhiem-ky-2025-2030">
+                                                        <Link className="group flex items-start gap-3 py-2 hover:bg-gray-50 transition-colors duration-200" href="/news/dai-hoi-chi-bo-co-quan-dang-phuong-mong-cai-3-lan-thu-i-nhiem-ky-2025-2030">
                                                             <div className="flex-shrink-0 w-36 h-24 bg-gray-100 overflow-hidden">
                                                                 <img src="https://storage.4ship.vn/public/image/93239d1d-ca4c-491d-a25e-4ce2cb9d6090.jpeg" alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                                                             </div>
@@ -464,7 +464,7 @@ export default function NewsPage() {
                                                                 </div>
                                                             </div>
                                                         </Link>
-                                                        <Link className="group flex items-start gap-3 py-2 hover:bg-gray-50 transition-colors duration-200" href="/tin-tuc/phuong-mong-cai-3-boi-duong-tap-huan-ly-luan-chinh-tri-he-nam-2025">
+                                                        <Link className="group flex items-start gap-3 py-2 hover:bg-gray-50 transition-colors duration-200" href="/news/phuong-mong-cai-3-boi-duong-tap-huan-ly-luan-chinh-tri-he-nam-2025">
                                                             <div className="flex-shrink-0 w-36 h-24 bg-gray-100 overflow-hidden">
                                                                 <img src="https://storage.4ship.vn/public/image/bf5cf486-5822-4f60-8b69-b75539cb5996.jpeg" alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                                                             </div>
@@ -478,7 +478,7 @@ export default function NewsPage() {
                                                                 </div>
                                                             </div>
                                                         </Link>
-                                                        <Link className="group flex items-start gap-3 py-2 hover:bg-gray-50 transition-colors duration-200" href="/tin-tuc/phuong-mong-cai-3-tong-ket-cong-tac-to-chuc-phuc-vu-dai-hoi-va-quan-triet-trien-khai-thuc-hien-nghi">
+                                                        <Link className="group flex items-start gap-3 py-2 hover:bg-gray-50 transition-colors duration-200" href="/news/phuong-mong-cai-3-tong-ket-cong-tac-to-chuc-phuc-vu-dai-hoi-va-quan-triet-trien-khai-thuc-hien-nghi">
                                                             <div className="flex-shrink-0 w-36 h-24 bg-gray-100 overflow-hidden">
                                                                 <img src="https://storage.4ship.vn/public/image/c62a3645-04ba-4d73-be3d-d5a5e68297dc.jpeg" alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                                                             </div>
@@ -492,7 +492,7 @@ export default function NewsPage() {
                                                                 </div>
                                                             </div>
                                                         </Link>
-                                                        <Link className="group flex items-start gap-3 py-2 hover:bg-gray-50 transition-colors duration-200" href="/tin-tuc/hoi-nghi-cong-bo-quyet-dinh-ve-cong-nhan-tieu-doi-dan-quan-thuong-truc-va-quyet-dinh-cong-tac-can-bo">
+                                                        <Link className="group flex items-start gap-3 py-2 hover:bg-gray-50 transition-colors duration-200" href="/news/hoi-nghi-cong-bo-quyet-dinh-ve-cong-nhan-tieu-doi-dan-quan-thuong-truc-va-quyet-dinh-cong-tac-can-bo">
                                                             <div className="flex-shrink-0 w-36 h-24 bg-gray-100 overflow-hidden">
                                                                 <img src="https://storage.4ship.vn/public/image/9feaed73-d96c-44a8-9a54-8ba13a9f5b30.jpeg" alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                                                             </div>
@@ -516,7 +516,7 @@ export default function NewsPage() {
                                                     <h3 className="text-2xl sm:text-3xl font-black uppercase text-gray-900 mb-2 pb-2 border-b-2 border-red-600 font-inter">Hoạt động Đảng bộ phường</h3>
                                                 </div>
                                                 <div className="space-y-4">
-                                                    <Link className="group block bg-white transition-all duration-300" href="/tin-tuc/dai-hoi-dai-bieu-mttq-phuong-mong-cai-3-lan-thu-i-nhiem-ky-2025-2030">
+                                                    <Link className="group block bg-white transition-all duration-300" href="/news/dai-hoi-dai-bieu-mttq-phuong-mong-cai-3-lan-thu-i-nhiem-ky-2025-2030">
                                                         <div className="aspect-[16/9] mb-2">
                                                             <div className="bg-gray-100 overflow-hidden w-full h-full">
                                                                 <img src="https://storage.4ship.vn/public/image/6dc60fb7-486b-44d1-bbf3-67a92b3b382e.jpeg" alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
@@ -532,7 +532,7 @@ export default function NewsPage() {
                                                         </div>
                                                     </Link>
                                                     <div className="space-y-3">
-                                                        <Link className="group flex items-start gap-3 py-2 hover:bg-gray-50 transition-colors duration-200" href="/tin-tuc/hoi-nghi-giao-ban-voi-doi-ngu-bi-thu-chi-bo-truong-thon-khu-truong-ban-cong-tac-mat-tran-thon-khu">
+                                                        <Link className="group flex items-start gap-3 py-2 hover:bg-gray-50 transition-colors duration-200" href="/news/hoi-nghi-giao-ban-voi-doi-ngu-bi-thu-chi-bo-truong-thon-khu-truong-ban-cong-tac-mat-tran-thon-khu">
                                                             <div className="flex-shrink-0 w-36 h-24 bg-gray-100 overflow-hidden">
                                                                 <img src="https://storage.4ship.vn/public/image/16d81876-9a89-4ef1-bd9f-8faa960210c7.jpeg" alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                                                             </div>
@@ -546,7 +546,7 @@ export default function NewsPage() {
                                                                 </div>
                                                             </div>
                                                         </Link>
-                                                        <Link className="group flex items-start gap-3 py-2 hover:bg-gray-50 transition-colors duration-200" href="/tin-tuc/hoi-lhpn-phuong-mong-cai-3-gap-mat-ky-niem-va-cong-bo-thanh-lap-clb-nu-doanh-nghiep-tieu-thuong">
+                                                        <Link className="group flex items-start gap-3 py-2 hover:bg-gray-50 transition-colors duration-200" href="/news/hoi-lhpn-phuong-mong-cai-3-gap-mat-ky-niem-va-cong-bo-thanh-lap-clb-nu-doanh-nghiep-tieu-thuong">
                                                             <div className="flex-shrink-0 w-36 h-24 bg-gray-100 overflow-hidden">
                                                                 <img src="https://storage.4ship.vn/public/image/73f18f41-2f16-41d3-944a-72e81f8f4fac.jpeg" alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                                                             </div>
@@ -560,7 +560,7 @@ export default function NewsPage() {
                                                                 </div>
                                                             </div>
                                                         </Link>
-                                                        <Link className="group flex items-start gap-3 py-2 hover:bg-gray-50 transition-colors duration-200" href="/tin-tuc/dang-uy-phuong-mong-cai-3-hoi-nghi-bao-cao-vien-quy-iv-2025">
+                                                        <Link className="group flex items-start gap-3 py-2 hover:bg-gray-50 transition-colors duration-200" href="/news/dang-uy-phuong-mong-cai-3-hoi-nghi-bao-cao-vien-quy-iv-2025">
                                                             <div className="flex-shrink-0 w-36 h-24 bg-gray-100 overflow-hidden">
                                                                 <img src="https://storage.4ship.vn/public/image/68662ca1-da3d-4826-b4b3-3da8bbde2ca1.jpeg" alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                                                             </div>
@@ -588,7 +588,7 @@ export default function NewsPage() {
                                                     <h3 className="text-2xl sm:text-3xl font-black uppercase text-gray-900 mb-2 pb-2 border-b-2 border-red-600 font-inter">Thông tin quy hoạch</h3>
                                                 </div>
                                                 <div className="space-y-4">
-                                                    <Link className="group block bg-white transition-all duration-300" href="/tin-tuc/day-nhanh-tien-do-thi-cong-du-an-sua-chua-duong-tinh-335">
+                                                    <Link className="group block bg-white transition-all duration-300" href="/news/day-nhanh-tien-do-thi-cong-du-an-sua-chua-duong-tinh-335">
                                                         <div className="aspect-[16/9] mb-2">
                                                             <div className="bg-gray-100 overflow-hidden w-full h-full">
                                                                 <img src="https://storage.4ship.vn/public/image/57577e22-6922-4281-97c0-9124e776617e.jpeg" alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
@@ -604,7 +604,7 @@ export default function NewsPage() {
                                                         </div>
                                                     </Link>
                                                     <div className="space-y-3">
-                                                        <Link className="group flex items-start gap-3 py-2 hover:bg-gray-50 transition-colors duration-200" href="/tin-tuc/quyet-dinh-v-v-phe-duyet-quy-hoach-chi-tiet-ty-le-1-500-cum-cong-nghiep-hai-yen-tai-phuong-mong-cai">
+                                                        <Link className="group flex items-start gap-3 py-2 hover:bg-gray-50 transition-colors duration-200" href="/news/quyet-dinh-v-v-phe-duyet-quy-hoach-chi-tiet-ty-le-1-500-cum-cong-nghiep-hai-yen-tai-phuong-mong-cai">
                                                             <div className="flex-shrink-0 w-36 h-24 bg-gray-100 overflow-hidden">
                                                                 <img src="https://storage.4ship.vn/public/image/f8671ce1-c16b-4a59-bc4d-d2c1cd606b2b.png" alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                                                             </div>
@@ -628,7 +628,7 @@ export default function NewsPage() {
                                                     <h3 className="text-2xl sm:text-3xl font-black uppercase text-gray-900 mb-2 pb-2 border-b-2 border-red-600 font-inter">Thông Tin Bầu Cử</h3>
                                                 </div>
                                                 <div className="space-y-4">
-                                                    <Link className="group block bg-white transition-all duration-300" href="/tin-tuc/thong-bao-danh-sach-don-vi-bau-cu-va-so-luong-dai-bieu-hoi-dong-nhan-dan-phuong-mong-cai-3">
+                                                    <Link className="group block bg-white transition-all duration-300" href="/news/thong-bao-danh-sach-don-vi-bau-cu-va-so-luong-dai-bieu-hoi-dong-nhan-dan-phuong-mong-cai-3">
                                                         <div className="aspect-[16/9] mb-2">
                                                             <div className="bg-gray-100 overflow-hidden w-full h-full">
                                                                 <img src="https://storage.4ship.vn/public/image/9ec81a3d-b673-468f-b24a-176b17cb5799.jpg" alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />

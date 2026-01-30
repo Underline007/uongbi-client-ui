@@ -593,6 +593,93 @@ GET /api/news/category-list
 }
 ```
 
+**Sử dụng tại:** `src/app/news/[slug]/page.tsx` (sidebar categories)
+
+---
+
+### 1.11 Lấy tin tức liên quan
+
+```
+GET /api/news/:id/related
+```
+
+**Path Parameters:**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| id | string | Yes | ID hoặc slug của bài viết |
+
+**Query Parameters:**
+
+| Parameter | Type | Required | Default | Description |
+|-----------|------|----------|---------|-------------|
+| limit | integer | No | 3 | Số lượng tin liên quan |
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": "694e2c8f6808578c44aa1eb6",
+      "title": "QUYẾT ĐỊNH V/v phê duyệt Quy hoạch chi tiết tỷ lệ 1/500 Cụm công nghiệp Hải Yên",
+      "slug": "quyet-dinh-v-v-phe-duyet-quy-hoach-chi-tiet-ty-le-1-500-cum-cong-nghiep-hai-yen",
+      "thumbnail": "https://storage.example.com/images/related-1.jpg",
+      "publishedAt": "2025-12-28T10:00:00.000Z"
+    },
+    {
+      "id": "694e2c8f6808578c44aa1eb7",
+      "title": "Đại hội đại biểu Hội LHTN Việt Nam phường Móng Cái 3",
+      "slug": "dai-hoi-dai-bieu-hoi-lhtn-viet-nam-phuong-mong-cai-3",
+      "thumbnail": "https://storage.example.com/images/related-2.jpg",
+      "publishedAt": "2025-12-26T10:00:00.000Z"
+    }
+  ]
+}
+```
+
+**Sử dụng tại:** `src/app/news/[slug]/page.tsx` (sidebar related news)
+
+---
+
+### 1.12 Lấy tin tức khác (Other News)
+
+```
+GET /api/news/others
+```
+
+**Query Parameters:**
+
+| Parameter | Type | Required | Default | Description |
+|-----------|------|----------|---------|-------------|
+| excludeId | string | No | - | ID bài viết cần loại trừ |
+| limit | integer | No | 8 | Số lượng tin |
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": "694e2c8f6808578c44aa1eb8",
+      "title": "Đại hội đại biểu Hội LHTN Việt Nam phường Móng Cái 3",
+      "slug": "dai-hoi-dai-bieu-hoi-lhtn-viet-nam-phuong-mong-cai-3",
+      "thumbnail": "https://storage.example.com/images/news-1.jpg",
+      "publishedAt": "2025-12-26T12:32:17.287000"
+    },
+    {
+      "id": "694e2c8f6808578c44aa1eb9",
+      "title": "Kỳ họp thứ 5, HĐND phường Móng Cái 3 khóa I",
+      "slug": "ky-hop-thu-5-hdnd-phuong-mong-cai-3-khoa-i",
+      "thumbnail": "https://storage.example.com/images/news-2.jpg",
+      "publishedAt": "2025-12-26T12:29:10.687000"
+    }
+  ]
+}
+```
+
+**Sử dụng tại:** `src/app/news/[slug]/page.tsx` (bottom other news grid)
+
 ---
 
 ## 2. Organization APIs
@@ -1024,7 +1111,138 @@ GET /api/procedures/guides
 
 ---
 
-### 3.4 Lấy danh sách dịch vụ công dân
+### 3.4 Lấy chi tiết hướng dẫn thủ tục
+
+```
+GET /api/guides/:id
+```
+
+**Path Parameters:**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| id | string | Yes | ID hoặc slug của hướng dẫn |
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "id": "guide-001",
+    "procedureId": "694e2b856808578c44aa1eb2",
+    "title": "Đăng ký thường trú",
+    "slug": "dang-ky-thuong-tru",
+    "description": "Hướng dẫn chi tiết thủ tục đăng ký thường trú",
+    "content": "<h2>Trình tự thực hiện</h2><p>Bước 1: Cá nhân chuẩn bị hồ sơ...</p>",
+    "thumbnail": "https://storage.example.com/images/guide-001.jpg",
+    "videoUrl": "https://youtube.com/watch?v=xxx",
+    "processingTime": "5 ngày làm việc",
+    "fee": "Miễn phí",
+    "serviceLevel": "Mức độ 4",
+    "onlineUrl": "https://dichvucong.quangninh.gov.vn/thu-tuc/dang-ky-thuong-tru",
+    "requirements": [
+      "Căn cước công dân",
+      "Sổ hộ khẩu (nếu có)",
+      "Giấy tờ chứng minh chỗ ở hợp pháp"
+    ],
+    "forms": [
+      {
+        "id": "form-001",
+        "name": "Tờ khai đăng ký thường trú",
+        "url": "https://storage.example.com/forms/to-khai-dang-ky-thuong-tru.pdf",
+        "fileSize": "150KB",
+        "fileType": "PDF"
+      }
+    ],
+    "legalBasis": [
+      {
+        "name": "Luật Cư trú 2020",
+        "url": "https://thuvienphapluat.vn/van-ban/luat-cu-tru-2020"
+      }
+    ],
+    "isFeatured": true,
+    "viewCount": 1200,
+    "publishedAt": "2025-12-01T00:00:00.000Z",
+    "createdAt": "2025-01-01T00:00:00.000Z",
+    "updatedAt": "2025-12-01T00:00:00.000Z",
+    "relatedGuides": [
+      {
+        "id": "guide-002",
+        "title": "Thủ tục đăng ký khai sinh",
+        "slug": "thu-tuc-dang-ky-khai-sinh"
+      }
+    ],
+    "otherGuides": [
+      {
+        "id": "guide-003",
+        "title": "Thủ tục đăng ký kết hôn",
+        "slug": "thu-tuc-dang-ky-ket-hon"
+      }
+    ]
+  }
+}
+```
+
+**Sử dụng tại:** `src/app/guides/[slug]/page.tsx`
+
+---
+
+### 3.5 Lấy danh sách hướng dẫn
+
+```
+GET /api/guides
+```
+
+**Query Parameters:**
+
+| Parameter | Type | Required | Default | Description |
+|-----------|------|----------|---------|-------------|
+| page | integer | No | 1 | Số trang |
+| limit | integer | No | 10 | Số lượng/trang |
+| category | string | No | - | Filter theo danh mục |
+| search | string | No | - | Tìm kiếm theo tên |
+| featured | boolean | No | - | Chỉ lấy hướng dẫn nổi bật |
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": "guide-001",
+      "title": "Đăng ký thường trú",
+      "slug": "dang-ky-thuong-tru",
+      "description": "Hướng dẫn chi tiết thủ tục đăng ký thường trú",
+      "thumbnail": "https://storage.example.com/images/guide-001.jpg",
+      "category": {
+        "id": "cat-001",
+        "name": "Cư trú",
+        "slug": "cu-tru"
+      },
+      "processingTime": "5 ngày làm việc",
+      "fee": "Miễn phí",
+      "serviceLevel": "Mức độ 4",
+      "isFeatured": true,
+      "viewCount": 1200,
+      "publishedAt": "2025-12-01T00:00:00.000Z"
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 10,
+    "total": 50,
+    "totalPages": 5,
+    "hasNext": true,
+    "hasPrev": false
+  }
+}
+```
+
+**Sử dụng tại:** `src/app/guides/page.tsx`
+
+---
+
+### 3.6 Lấy danh sách dịch vụ công dân
 
 ```
 GET /api/services/citizen
@@ -1236,32 +1454,56 @@ GET /api/announcements
 GET /api/announcements/:id
 ```
 
+**Path Parameters:**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| id | string | Yes | ID hoặc slug của thông báo |
+
 **Response:**
 ```json
 {
   "success": true,
   "data": {
     "id": "694e2c8f6808578c44aa1eb5",
-    "title": "Phường Móng Cái 3 ra mắt mô hình 'Biên giới bình yên'",
+    "title": "Phường Móng Cái 3 ra mắt mô hình 'Biên giới bình yên – xã, phường không xuất nhập cảnh trái phép'",
     "slug": "phuong-mong-cai-3-ra-mat-mo-hinh-bien-gioi-binh-yen",
-    "content": "<p>Nội dung HTML chi tiết thông báo...</p>",
+    "content": "<h2>Phường Móng Cái 3 ra mắt mô hình...</h2><p>Ngày 5/8, Phường Móng Cái 3 ra mắt mô hình...</p>",
     "excerpt": "Tóm tắt thông báo...",
     "type": {
       "id": "type-001",
-      "name": "Thông báo chung",
-      "slug": "thong-bao-chung"
+      "name": "Thông thường",
+      "slug": "thong-thuong"
     },
-    "attachments": [],
+    "category": "Thông báo",
+    "attachments": [
+      {
+        "id": "attach-001",
+        "name": "Van_ban_dinh_kem.pdf",
+        "url": "https://storage.example.com/attachments/van-ban.pdf",
+        "fileSize": "2.5MB",
+        "fileType": "PDF"
+      }
+    ],
     "isPinned": true,
-    "isImportant": true,
+    "isImportant": false,
     "viewCount": 350,
     "publishedAt": "2025-12-26T06:34:00.000Z",
     "expiresAt": null,
     "createdAt": "2025-12-26T06:00:00.000Z",
-    "relatedAnnouncements": []
+    "relatedAnnouncements": [
+      {
+        "id": "694e2c8f6808578c44aa1eb6",
+        "title": "Thông báo liên quan",
+        "slug": "thong-bao-lien-quan",
+        "publishedAt": "2025-12-25T10:00:00.000Z"
+      }
+    ]
   }
 }
 ```
+
+**Sử dụng tại:** `src/app/announcements/[slug]/page.tsx`
 
 ---
 
@@ -2261,6 +2503,15 @@ GET /api/menu
 ---
 
 ## Changelog
+
+### Version 1.1.0 (2025-01-30)
+- Added `GET /api/news/:id/related` - Lấy tin tức liên quan
+- Added `GET /api/news/others` - Lấy tin tức khác
+- Added `GET /api/guides/:id` - Lấy chi tiết hướng dẫn thủ tục
+- Added `GET /api/guides` - Lấy danh sách hướng dẫn
+- Updated `GET /api/announcements/:id` - Cập nhật response với đầy đủ fields
+- Updated section 1.10 with usage location
+- Total: 41 endpoints
 
 ### Version 1.0.0 (2025-12-29)
 - Initial API documentation
