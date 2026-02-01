@@ -4,6 +4,7 @@ import "./globals.css";
 import { Theme } from "@radix-ui/themes";
 import { Header, Navbar } from "@/components/client";
 import { Footer, FloatingPhoneButton } from "@/components/server";
+import { Providers } from "@/providers";
 
 const merriweather = Merriweather({
   variable: "--font-merriweather",
@@ -35,16 +36,17 @@ export default function RootLayout({
       <body
         className={`${merriweather.variable} ${inter.variable}`}
       >
-        <Theme accentColor="red" grayColor="slate" radius="medium" scaling="100%">
-          <Header />
-          <Navbar />
-          <main style={{ minHeight: "60vh" }}>
-            {children}
-          </main>
-          <Footer />
-          <FloatingPhoneButton />
-        </Theme>
-
+        <Providers>
+          <Theme accentColor="red" grayColor="slate" radius="medium" scaling="100%">
+            <Header />
+            <Navbar />
+            <main style={{ minHeight: "60vh" }}>
+              {children}
+            </main>
+            <Footer />
+            <FloatingPhoneButton />
+          </Theme>
+        </Providers>
       </body>
     </html>
   );
