@@ -133,7 +133,7 @@ export default async function Home() {
 
                   {/* Sidebar News List */}
                   <div className="lg:col-span-2">
-                    <div className="hidden lg:block overflow-y-auto space-y-0 scrollbar-thin" style={{ maxHeight: "530px" }}>
+                    <div className="hidden lg:block overflow-y-auto scrollbar-hide space-y-0 scrollbar-thin" style={{ maxHeight: "530px" }}>
                       {featured.sidebar.map((news, index) => (
                         <Link
                           key={news.id}
@@ -146,7 +146,7 @@ export default async function Home() {
                                 {news.title}
                               </h4>
                             </div>
-                            <div className="w-24 h-16 bg-gray-100 overflow-hidden flex-shrink-0">
+                            <div className="w-24 h-16 bg-gray-100 shrink-0 ">
                               <img
                                 src={news.image}
                                 alt={news.title}
@@ -253,15 +253,16 @@ export default async function Home() {
                     {/* Thông báo */}
                     <div className="hidden md:block bg-white border border-gray-200 p-4 shadow-sm">
                       <div className="flex items-center justify-between mb-4 pb-2">
-                        <h3 className="text-xl font-bold text-gray-900">THÔNG BÁO</h3>
-                        <Link className="text-sm text-gray-500 hover:text-gray-700 font-medium transition-colors" href="/announcements">
+                        <h3 className="text-base font-bold text-gray-900">THÔNG BÁO</h3>
+                        <Link className="text-sm text-gray-500 hover:text-gray-700 font-medium transition-colors" style={{ fontFamily: 'var(--font-merriweather), Merriweather, serif' }} href="/announcements">
                           Xem thêm →
                         </Link>
                       </div>
                       <div className="space-y-0">
                         {announcements.map((announcement) => (
-                          <div key={announcement.id} className="py-3">
-                            <div className="font-semibold text-sm text-gray-900 line-clamp-2 leading-snug">
+                          <div key={announcement.id}
+                            className="py-3">
+                            <div className="font-semibold text-sm text-gray-900 line-clamp-2 leading-snug " style={{ fontFamily: 'var(--font-merriweather), Merriweather, serif' }}>
                               {announcement.title}
                             </div>
                           </div>
@@ -280,9 +281,9 @@ export default async function Home() {
                             <div className="bg-white p-2">
                               <Phone className="h-5 w-5 text-red-600" />
                             </div>
-                            <div className="flex-1">
-                              <h3 className="font-medium text-[10px] mb-1 text-yellow-200 uppercase">Trực ban tại phường</h3>
-                              <a href="tel:0203.3881892" className="text-base font-bold text-yellow-200 hover:text-white transition-colors">
+                            <div className="flex-1 text-base">
+                              <h3 className="font-medium mb-1 text-yellow-200 uppercase">Trực ban tại phường</h3>
+                              <a href="tel:0203.3881892" className="font-bold text-yellow-200 hover:text-white transition-colors">
                                 0203.3881892
                               </a>
                             </div>
@@ -420,7 +421,7 @@ export default async function Home() {
                     <div className="flex items-center mb-2 lg:mb-4 pb-2 lg:pb-3 border-b border-gray-200">
                       <div className="w-1 h-6 bg-red-600 mr-3"></div>
                       <Link href={`/categories/${category.id}`}>
-                        <h3 className="font-bold text-gray-900 uppercase hover:text-red-600 transition-colors" style={{ fontSize: "0.8rem" }}>
+                        <h3 className="font-bold text-gray-900 uppercase hover:text-red-600 transition-colors">
                           {category.name}
                         </h3>
                       </Link>
@@ -471,7 +472,7 @@ export default async function Home() {
             <div className="w-full bg-white">
               <section className="w-full">
                 <div className="mb-3 md:mb-0 md:relative md:z-10">
-                  <h3 className="inline-block bg-[#e23d3d] py-1.5 px-2.5 text-lg sm:text-2xl lg:text-3xl font-black uppercase text-white rounded-sm w-fit md:absolute md:top-[-20px] md:left-6 md:z-[1]" style={{ fontWeight: 900 }}>
+                  <h3 className="inline-block bg-primary py-1.5 px-2.5 text-base font-black uppercase text-white rounded-sm w-fit md:absolute md:top-[-20px] md:left-6 md:z-[1]" style={{ fontWeight: 900 }}>
                     công tác xây dựng đảng trong sạch vững mạnh
                   </h3>
                 </div>
@@ -497,7 +498,7 @@ export default async function Home() {
                         {col.secondary && (
                           <div className="space-y-2 md:space-y-3 pt-2 md:pt-3 border-t border-gray-200">
                             <Link className="group flex gap-2 md:gap-3 pb-2 md:pb-3" href={`/tin-tuc/${col.secondary.id}`}>
-                              <div className="flex-shrink-0 w-20 md:w-28 h-11 md:h-16 overflow-hidden bg-gray-100">
+                              <div className="shrink-0 w-20 md:w-28 h-11 md:h-16 overflow-hidden bg-gray-100">
                                 <img
                                   src={col.secondary.image}
                                   alt="Featured"
@@ -531,7 +532,7 @@ export default async function Home() {
                     <div className="flex items-center mb-2 lg:mb-4 pb-2 lg:pb-3 border-b border-gray-200">
                       <div className="w-1 h-6 bg-red-600 mr-3"></div>
                       <Link href={`/categories/${category.id}`}>
-                        <h3 className="font-bold text-gray-900 uppercase hover:text-red-600 transition-colors" style={{ fontSize: "0.8rem" }}>
+                        <h3 className="font-bold text-gray-900 uppercase hover:text-red-600 transition-colors" >
                           {category.name}
                         </h3>
                       </Link>
@@ -581,7 +582,7 @@ export default async function Home() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <section className="w-full">
               <div className="mb-3 lg:mb-6">
-                <h3 className="text-2xl sm:text-3xl font-black uppercase text-gray-900 mb-2 pb-2 border-b-2 border-red-600">
+                <h3 className="text-base font-bold uppercase text-gray-900 mb-2 pb-2 border-b-2 border-red-600">
                   Công tác cán bộ
                 </h3>
               </div>
@@ -613,7 +614,7 @@ export default async function Home() {
                     {staffWork.sidebar.map((news) => (
                       <Link key={news.id} className="group block py-3 hover:bg-gray-50 transition-colors duration-200" href={`/tin-tuc/${news.id}`}>
                         <div className="flex items-start gap-3">
-                          <span className="text-red-600 font-bold text-xs md:mt-0.5 flex-shrink-0">•</span>
+                          <span className="text-red-600 font-bold text-xs md:mt-0.5 shrink-0">•</span>
                           <div className="flex-1">
                             <h5 className="font-medium text-sm text-gray-900 group-hover:text-red-600 transition-colors leading-tight">
                               {news.title}
@@ -641,7 +642,7 @@ export default async function Home() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <section className="w-full">
               <div className="mb-3 lg:mb-6">
-                <h3 className="text-2xl sm:text-3xl font-black uppercase text-gray-900 mb-2 pb-2 border-b-2 border-red-600">
+                <h3 className="text-base font-black uppercase text-gray-900 mb-2 pb-2 border-b-2 border-red-600">
                   Hoạt động Đảng bộ phường
                 </h3>
               </div>
@@ -699,7 +700,7 @@ export default async function Home() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <section className="w-full">
               <div className="mb-3 lg:mb-6">
-                <h3 className="text-2xl sm:text-3xl font-black uppercase text-gray-900 mb-2 pb-2 border-b-2 border-red-600">
+                <h3 className="text-base font-black uppercase text-gray-900 mb-2 pb-2 border-b-2 border-red-600">
                   Thông tin quy hoạch
                 </h3>
               </div>
@@ -727,7 +728,7 @@ export default async function Home() {
                 <div className="lg:col-span-3">
                   <Link className="group block bg-white transition-all duration-300 h-full" href={`/tin-tuc/${plannings.featured.id}`}>
                     <div className="flex flex-col h-full">
-                      <div className="aspect-[16/10] flex-shrink-0">
+                      <div className="aspect-[16/10] shrink-0">
                         <div className="bg-gray-100 overflow-hidden w-full h-full">
                           <img src={plannings.featured.image} alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                         </div>
@@ -768,7 +769,7 @@ export default async function Home() {
                   <div className="flex items-center mb-2 lg:mb-4 pb-2 lg:pb-3 border-b border-gray-200">
                     <div className="w-1 h-6 bg-red-600 mr-3"></div>
                     <Link href={`/categories/${election.id}`}>
-                      <h3 className="font-bold text-gray-900 uppercase hover:text-red-600 transition-colors" style={{ fontSize: "0.8rem" }}>
+                      <h3 className="font-bold text-gray-900 uppercase hover:text-red-600 transition-colors">
                         {election.name}
                       </h3>
                     </Link>
@@ -841,8 +842,8 @@ export default async function Home() {
               {/* Bài hướng dẫn */}
               <div className="bg-white border border-gray-300">
                 <div className="bg-white border-b-2 border-red-600 px-6 py-3 flex items-center justify-between">
-                  <h3 className="text-lg font-bold text-gray-900 uppercase">Bài hướng dẫn</h3>
-                  <Link className="text-sm text-gray-400 hover:text-gray-600 transition-colors" href="/procedures">
+                  <h3 className="text-base font-bold text-gray-900 uppercase">Bài hướng dẫn</h3>
+                  <Link className="text-base text-gray-400 hover:text-gray-600 transition-colors" href="/procedures">
                     Xem tất cả
                   </Link>
                 </div>

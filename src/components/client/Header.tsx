@@ -23,7 +23,7 @@ export function Header() {
     }, []);
 
     return (
-        <header className="bg-white border-b shadow-sm relative w-full font-sans">
+        <header className="bg-white border-b shadow-sm relative w-full font-sans" style={{ borderColor: "var(--gray-200)" }}>
             <div
                 className="absolute inset-0 bg-center bg-cover bg-no-repeat"
                 style={{
