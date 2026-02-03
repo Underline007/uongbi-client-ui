@@ -41,7 +41,7 @@ export function InfoBar() {
         <div className="flex items-center h-12 gap-1 sm:gap-2 md:gap-4">
           {/* News Ticker Section */}
           <div className="flex-1 flex items-center bg-gray-100 rounded-md h-full">
-            <div className="hidden md:flex items-center px-2 md:px-4 py-2 flex-shrink-0">
+            <div className="hidden md:flex items-center px-2 md:px-4 py-2 shrink-0">
               <span className="font-bold text-xs md:text-sm uppercase tracking-wide">TIN MỚI</span>
             </div>
             <div className="flex-1 overflow-hidden relative flex items-center px-2 md:px-4 py-2">
@@ -50,7 +50,7 @@ export function InfoBar() {
                 href="/articles/94692871-ddb2-454f-9c83-c55664095ea3"
               >
                 <span className="text-red-600 mr-1 md:mr-2 text-xs md:text-sm font-medium">■</span>
-                <span className="text-xs md:text-sm font-medium truncate group-hover:text-red-600 transition-colors">
+                <span className="text-gray-900 text-xs md:text-sm font-medium truncate group-hover:text-red-600 transition-colors">
                   Đẩy nhanh tiến độ thi công dự án sửa chữa đường tỉnh 335
                 </span>
               </Link>
