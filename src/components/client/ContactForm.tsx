@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { User, Mail, Phone, MessageSquare, Send } from "lucide-react";
+import { trackContactFormSubmit } from "@/lib/analytics";
 
 export function ContactForm() {
     const [formData, setFormData] = useState({
@@ -21,6 +22,10 @@ export function ContactForm() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        // Track form submission with GA4
+        if (formData.subject) {
+            trackContactFormSubmit(formData.subject);
+        }
         // TODO: Implement form submission logic
         console.log("Form submitted:", formData);
     };

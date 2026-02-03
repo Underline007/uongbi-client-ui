@@ -5,6 +5,7 @@ import { Theme } from "@radix-ui/themes";
 import { Header, Navbar } from "@/components/client";
 import { Footer, FloatingPhoneButton } from "@/components/server";
 import { Providers } from "@/providers";
+import { GoogleAnalytics } from "@/components/analytics";
 
 const merriweather = Merriweather({
   variable: "--font-merriweather",
@@ -47,6 +48,7 @@ export default function RootLayout({
             <FloatingPhoneButton />
           </Theme>
         </Providers>
+        <GoogleAnalytics />
       </body>
     </html>
   );
