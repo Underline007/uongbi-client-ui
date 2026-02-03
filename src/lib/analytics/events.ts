@@ -1,6 +1,6 @@
 // Custom GA4 event tracking functions
 
-import { event } from './gtag';
+import { event, getUserType } from './gtag';
 
 /**
  * Track contact form submission
@@ -107,5 +107,64 @@ export function trackButtonClick(
     event_label: buttonName,
     button_name: buttonName,
     click_location: location,
+  });
+}
+
+/**
+ * Track summary button clicks
+ */
+export function trackSummaryButtonClick(
+  articleId: string | number,
+  articleTitle: string
+): void {
+  event('click_summary', {
+    event_category: 'engagement',
+    event_label: 'summary_button',
+    article_id: articleId,
+    article_title: articleTitle,
+  });
+}
+
+/**
+ * Track user engagement (time on page, scroll depth, etc.)
+ */
+export function trackUserEngagement(
+  engagementType: 'scroll' | 'time_on_page' | 'interaction',
+  value: number,
+  additionalParams?: Record<string, unknown>
+): void {
+  const userType = getUserType();
+  event('user_engagement', {
+    event_category: 'engagement',
+    engagement_type: engagementType,
+    value: value,
+    user_type: userType,
+    ...additionalParams,
+  });
+}
+
+/**
+ * Track scroll depth milestones (25%, 50%, 75%, 100%)
+ */
+export function trackScrollDepth(
+  depth: 25 | 50 | 75 | 100,
+  pageUrl?: string
+): void {
+  const userType = getUserType();
+  event('scroll', {
+    event_category: 'engagement',
+    percent_scrolled: depth,
+    page_location: pageUrl || (typeof window !== 'undefined' ? window.location.pathname : ''),
+    user_type: userType,
+  });
+}
+
+/**
+ * Track session start with user type
+ */
+export function trackSessionStart(): void {
+  const userType = getUserType();
+  event('session_start', {
+    user_type: userType,
   });
 }

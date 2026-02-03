@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Search, Filter, Calendar } from "lucide-react";
+import { trackSearch } from "@/lib/analytics";
 
 interface DocumentSearchProps {
     onSearch?: (query: string, documentType: string, year: string) => void;
@@ -12,10 +13,24 @@ export function DocumentSearch({ onSearch }: DocumentSearchProps) {
     const [documentType, setDocumentType] = useState("all");
     const [year, setYear] = useState("all");
 
+    // Debounce timer ref
+    const debounceTimer = useRef<NodeJS.Timeout>(null);
+
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setSearchQuery(value);
         onSearch?.(value, documentType, year);
+
+        // Track search with debounce (1.5s delay to capture complete query)
+        if (debounceTimer.current) {
+            clearTimeout(debounceTimer.current);
+        }
+
+        if (value.trim().length > 2) {
+            debounceTimer.current = setTimeout(() => {
+                trackSearch(value);
+            }, 1500);
+        }
     };
 
     const handleDocumentTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {

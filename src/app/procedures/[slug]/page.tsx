@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ArrowLeft, Facebook, Twitter, MessageCircle, LinkIcon, FileText } from "lucide-react";
+import { ArrowLeft, FileText } from "lucide-react";
+import { ArticleTracker, ShareButtons } from "@/components/analytics";
 
 // Mock data - sẽ được thay thế bằng API call
 const guideDetail = {
@@ -34,6 +35,7 @@ const otherGuides: { id: string; title: string; slug: string }[] = [];
 
 export default function GuideDetailPage() {
     return (
+        <ArticleTracker type="procedure" id={guideDetail.id} title={guideDetail.title}>
         <main className="flex-1">
             <div className="min-h-screen bg-white">
                 <div className="py-8">
@@ -94,33 +96,11 @@ export default function GuideDetailPage() {
 
                                 {/* Share Buttons */}
                                 <div className="flex justify-end mt-8">
-                                    <div className="flex items-center gap-1 flex-wrap">
-                                        <span className="text-xs font-medium text-gray-600 mr-2">Chia sẻ:</span>
-                                        <button
-                                            className="p-1.5 bg-blue-600 text-white hover:bg-blue-700 transition-colors"
-                                            title="Chia sẻ lên Facebook"
-                                        >
-                                            <Facebook className="h-3 w-3" />
-                                        </button>
-                                        <button
-                                            className="p-1.5 bg-black text-white hover:bg-gray-800 transition-colors"
-                                            title="Chia sẻ lên X (Twitter)"
-                                        >
-                                            <Twitter className="h-3 w-3" />
-                                        </button>
-                                        <button
-                                            className="p-1.5 bg-green-500 text-white hover:bg-green-600 transition-colors"
-                                            title="Chia sẻ lên WhatsApp"
-                                        >
-                                            <MessageCircle className="h-3 w-3" />
-                                        </button>
-                                        <button
-                                            className="p-1.5 bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors"
-                                            title="Sao chép liên kết"
-                                        >
-                                            <LinkIcon className="h-3 w-3" />
-                                        </button>
-                                    </div>
+                                    <ShareButtons
+                                        contentType="procedure"
+                                        itemId={guideDetail.id}
+                                        title={guideDetail.title}
+                                    />
                                 </div>
                             </div>
 
@@ -203,5 +183,6 @@ export default function GuideDetailPage() {
                 </div>
             </div>
         </main>
+        </ArticleTracker>
     );
 }
