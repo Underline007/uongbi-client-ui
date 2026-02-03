@@ -7,6 +7,7 @@ import { Search, X } from 'lucide-react';
 import { searchFormSchema, type SearchFormData } from '@/lib/validations';
 import { usePreferencesStore } from '@/stores/app-store';
 import { cn } from '@/lib/utils';
+import { trackSearch } from '@/lib/analytics';
 
 interface SearchFormProps {
   onClose?: () => void;

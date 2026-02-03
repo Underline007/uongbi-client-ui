@@ -5,7 +5,14 @@ export {
   isAnalyticsEnabled,
   pageview,
   event,
+  getUserType,
+  markUserAsVisited,
+  getFirstVisitDate,
+  setUserProperties,
+  initUserTracking,
 } from './gtag';
+
+export type { UserType } from './gtag';
 
 export {
   trackContactFormSubmit,
@@ -16,4 +23,8 @@ export {
   trackSocialShare,
   trackOutboundLink,
   trackButtonClick,
+  trackUserEngagement,
+  trackScrollDepth,
+  trackSessionStart,
+  trackSummaryButtonClick,
 } from './events';

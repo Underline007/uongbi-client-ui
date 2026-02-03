@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Calendar, FileText, Facebook, Twitter, MessageCircle, LinkIcon } from "lucide-react";
+import { Calendar } from "lucide-react";
+import { ArticleTracker, ShareButtons, SummaryButton } from "@/components/analytics";
 
 // Mock data - sẽ được thay thế bằng API call
 const newsDetail = {
@@ -141,6 +142,7 @@ function formatDate(dateString: string, includeTime = false) {
 
 export default function NewsDetailPage() {
     return (
+        <ArticleTracker type="news" id={newsDetail.id} title={newsDetail.title}>
         <main className="flex-1">
             <div className="min-h-screen bg-white">
                 <div className="py-1 sm:py-8">
@@ -164,13 +166,10 @@ export default function NewsDetailPage() {
                                                 </div>
                                             </div>
                                             <div className="flex items-center space-x-2 sm:space-x-3">
-                                                <button className="flex items-center space-x-1 sm:space-x-2 px-2 sm:px-4 py-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed bg-purple-100 text-purple-700 hover:bg-purple-200">
-                                                    <FileText className="h-4 w-4" />
-                                                    <span className="text-xs sm:text-sm font-medium">
-                                                        <span className="sm:hidden">Tóm tắt</span>
-                                                        <span className="hidden sm:inline">Tóm tắt nội dung</span>
-                                                    </span>
-                                                </button>
+                                                <SummaryButton
+                                                    articleId={newsDetail.id}
+                                                    articleTitle={newsDetail.title}
+                                                />
                                             </div>
                                         </div>
 
@@ -192,33 +191,11 @@ export default function NewsDetailPage() {
 
                                     {/* Share Buttons */}
                                     <div className="flex justify-end mt-8">
-                                        <div className="flex items-center gap-1 flex-wrap">
-                                            <span className="text-xs font-medium text-gray-600 mr-2">Chia sẻ:</span>
-                                            <button
-                                                className="p-1.5 bg-blue-600 text-white hover:bg-blue-700 transition-colors"
-                                                title="Chia sẻ lên Facebook"
-                                            >
-                                                <Facebook className="h-3 w-3" />
-                                            </button>
-                                            <button
-                                                className="p-1.5 bg-black text-white hover:bg-gray-800 transition-colors"
-                                                title="Chia sẻ lên X (Twitter)"
-                                            >
-                                                <Twitter className="h-3 w-3" />
-                                            </button>
-                                            <button
-                                                className="p-1.5 bg-green-500 text-white hover:bg-green-600 transition-colors"
-                                                title="Chia sẻ lên WhatsApp"
-                                            >
-                                                <MessageCircle className="h-3 w-3" />
-                                            </button>
-                                            <button
-                                                className="p-1.5 bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors"
-                                                title="Sao chép liên kết"
-                                            >
-                                                <LinkIcon className="h-3 w-3" />
-                                            </button>
-                                        </div>
+                                        <ShareButtons
+                                            contentType="news"
+                                            itemId={newsDetail.id}
+                                            title={newsDetail.title}
+                                        />
                                     </div>
                                 </article>
                             </div>
@@ -327,5 +304,6 @@ export default function NewsDetailPage() {
                 </div>
             </div>
         </main>
+        </ArticleTracker>
     );
 }
