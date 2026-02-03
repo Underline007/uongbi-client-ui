@@ -25,6 +25,9 @@ export const metadata: Metadata = {
   title: "Trang Thông Tin Điện Tử - UBND Phường",
   description: "Trang thông tin điện tử UBND Phường. Tin tức, thông báo, thủ tục hành chính và dịch vụ công trực tuyến.",
   keywords: "Phường, UBND, thông tin điện tử, tin tức, thủ tục hành chính, dịch vụ công",
+  icons: {
+    icon: "/images/7f1950c1-a8f8-4139-82ab-320fc1bf646a.png",
+  },
 };
 
 export default function RootLayout({
