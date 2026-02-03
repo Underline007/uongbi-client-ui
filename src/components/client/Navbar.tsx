@@ -35,7 +35,7 @@ export function Navbar() {
         <div className="relative bg-white border-b border-gray-200 transition-all duration-300" style={{ fontFamily: 'var(--font-merriweather), Merriweather, serif' }}>
             <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
                 {/* Desktop Navigation */}
-                <nav className="hidden md:flex items-center space-x-2 sm:space-x-4 lg:space-x-8 pb-0 pt-3 sm:pt-4 relative">
+                <nav className="hidden md:flex items-center space-x-2 sm:space-x-4 lg:space-x-8 pb-0 pt-3 sm:pt-4 relative overflow-hidden scroll-hidden">
                     {menuItems.map((item) => {
                         // Special handling for dropdown menu
                         if (item.submenu) {
