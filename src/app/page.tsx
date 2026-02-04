@@ -828,7 +828,7 @@ export default async function Home() {
                           rel="noopener noreferrer"
                           className="group flex items-center bg-white hover:bg-gray-50 border border-gray-200 transition-all duration-150 p-3"
                         >
-                          <div className="flex-shrink-0 w-10 h-10 bg-gray-100 flex items-center justify-center">
+                          <div className="shrink-0 w-10 h-10 bg-gray-100 flex items-center justify-center">
                             <IconComponent className="w-5 h-5 text-gray-700" />
                           </div>
                           <span className="ml-3 text-gray-900 text-sm group-hover:text-gray-700">{service.label}</span>
