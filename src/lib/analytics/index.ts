@@ -19,6 +19,7 @@ export {
   trackDocumentDownload,
   trackNewsView,
   trackProcedureView,
+  trackArticleReadTime,
   trackSearch,
   trackSocialShare,
   trackOutboundLink,

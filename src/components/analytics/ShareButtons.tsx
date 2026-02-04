@@ -18,7 +18,7 @@ export function ShareButtons({ contentType, itemId, title, url }: ShareButtonsPr
   const shareUrl = url || (typeof window !== 'undefined' ? window.location.href : '');
 
   const handleShare = (platform: 'facebook' | 'twitter' | 'zalo' | 'copy') => {
-    trackSocialShare(platform, contentType, itemId);
+    trackSocialShare(platform, contentType, itemId, title);
 
     const encodedUrl = encodeURIComponent(shareUrl);
     const encodedTitle = encodeURIComponent(title);

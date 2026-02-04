@@ -35,11 +35,13 @@ export function trackNewsView(
   newsId: string | number,
   newsTitle: string
 ): void {
+  const userType = getUserType();
   event('view_item', {
     event_category: 'content',
     content_type: 'news',
-    item_id: newsId,
+    item_id: String(newsId),
     item_name: newsTitle,
+    user_type: userType,
   });
 }
 
@@ -50,11 +52,40 @@ export function trackProcedureView(
   procedureId: string | number,
   procedureTitle: string
 ): void {
+  const userType = getUserType();
   event('view_item', {
     event_category: 'content',
     content_type: 'procedure',
-    item_id: procedureId,
+    item_id: String(procedureId),
     item_name: procedureTitle,
+    user_type: userType,
+  });
+}
+
+/**
+ * Track article reading time
+ * @param articleId - Article ID
+ * @param articleTitle - Article title
+ * @param contentType - Type of content (news, procedure)
+ * @param readTimeSeconds - Time spent reading in seconds
+ * @param scrollDepthPercent - Maximum scroll depth reached (0-100)
+ */
+export function trackArticleReadTime(
+  articleId: string | number,
+  articleTitle: string,
+  contentType: 'news' | 'procedure',
+  readTimeSeconds: number,
+  scrollDepthPercent: number
+): void {
+  const userType = getUserType();
+  event('article_read', {
+    event_category: 'engagement',
+    content_type: contentType,
+    item_id: String(articleId),
+    item_name: articleTitle,
+    engagement_time_sec: Math.round(readTimeSeconds),
+    scroll_depth_percent: Math.round(scrollDepthPercent),
+    user_type: userType,
   });
 }
 
@@ -69,18 +100,22 @@ export function trackSearch(searchTerm: string): void {
 }
 
 /**
- * Track social sharing
+ * Track social sharing with article details
  */
 export function trackSocialShare(
-  platform: 'facebook' | 'twitter' | 'zalo' | 'email' | string,
-  contentType?: string,
-  itemId?: string | number
+  platform: 'facebook' | 'twitter' | 'zalo' | 'copy' | string,
+  contentType: 'news' | 'procedure' | 'announcement' | string,
+  itemId: string | number,
+  itemTitle?: string
 ): void {
+  const userType = getUserType();
   event('share', {
     event_category: 'engagement',
     method: platform,
     content_type: contentType,
-    item_id: itemId,
+    item_id: String(itemId),
+    item_name: itemTitle,
+    user_type: userType,
   });
 }
 
@@ -148,13 +183,18 @@ export function trackUserEngagement(
  */
 export function trackScrollDepth(
   depth: 25 | 50 | 75 | 100,
-  pageUrl?: string
+  articleId?: string | number,
+  articleTitle?: string,
+  contentType?: 'news' | 'procedure'
 ): void {
   const userType = getUserType();
   event('scroll', {
     event_category: 'engagement',
     percent_scrolled: depth,
-    page_location: pageUrl || (typeof window !== 'undefined' ? window.location.pathname : ''),
+    page_location: typeof window !== 'undefined' ? window.location.pathname : '',
+    item_id: articleId ? String(articleId) : undefined,
+    item_name: articleTitle,
+    content_type: contentType,
     user_type: userType,
   });
 }
