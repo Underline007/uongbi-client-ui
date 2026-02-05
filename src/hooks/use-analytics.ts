@@ -51,8 +51,8 @@ export function useAnalytics() {
   }, []);
 
   const trackShare = useCallback(
-    (platform: string, contentType?: string, itemId?: string | number) => {
-      trackSocialShare(platform, contentType, itemId);
+    (platform: string, contentType: string, itemId: string | number, itemTitle?: string) => {
+      trackSocialShare(platform, contentType, itemId, itemTitle);
     },
     []
   );

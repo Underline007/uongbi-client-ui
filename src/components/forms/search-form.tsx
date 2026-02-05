@@ -32,6 +32,9 @@ export function SearchForm({ onClose, className }: SearchFormProps) {
   });
 
   const onSubmit = (data: SearchFormData) => {
+    // Track search with GA4
+    trackSearch(data.query);
+
     addRecentSearch(data.query);
     const params = new URLSearchParams();
     params.set('q', data.query);
