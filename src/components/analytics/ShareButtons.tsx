@@ -3,6 +3,7 @@
 import { Facebook, Twitter, MessageCircle, LinkIcon } from 'lucide-react';
 import { trackSocialShare } from '@/lib/analytics';
 import { toast } from 'sonner';
+import Image from 'next/image';
 
 interface ShareButtonsProps {
   contentType: 'news' | 'procedure' | 'announcement';
@@ -40,15 +41,34 @@ export function ShareButtons({ contentType, itemId, title, url }: ShareButtonsPr
         break;
       case 'zalo':
         window.open(
-          `https://zalo.me/share?url=${encodedUrl}`,
+          `https://share.zalo.me/?url=${encodedUrl}&title=${encodedTitle}`,
           '_blank',
           'width=600,height=400'
         );
         break;
       case 'copy':
-        navigator.clipboard.writeText(shareUrl).then(() => {
-          toast.success('Đã sao chép liên kết!');
-        });
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(shareUrl).then(() => {
+            toast.success('Đã sao chép liên kết!');
+          }).catch(() => {
+            toast.error('Không thể sao chép liên kết');
+          });
+        } else {
+          // Fallback cho browser cũ hoặc HTTP
+          const textArea = document.createElement('textarea');
+          textArea.value = shareUrl;
+          textArea.style.position = 'fixed';
+          textArea.style.left = '-999999px';
+          document.body.appendChild(textArea);
+          textArea.select();
+          try {
+            document.execCommand('copy');
+            toast.success('Đã sao chép liên kết!');
+          } catch {
+            toast.error('Không thể sao chép liên kết');
+          }
+          document.body.removeChild(textArea);
+        }
         break;
     }
   };
@@ -72,10 +92,16 @@ export function ShareButtons({ contentType, itemId, title, url }: ShareButtonsPr
       </button>
       <button
         onClick={() => handleShare('zalo')}
-        className="p-1.5 bg-green-500 text-white hover:bg-green-600 transition-colors"
+        className="p-1.5 bg-green-400 text-white hover:bg-green-600 transition-colors"
         title="Chia sẻ lên Zalo"
       >
-        <MessageCircle className="h-3 w-3" />
+        <Image
+        src='/zalo.svg'
+        alt='Chia sẻ lên Zalo'
+        width={5}
+        height={5}
+        className='w-3 h-3'
+        />
       </button>
       <button
         onClick={() => handleShare('copy')}
