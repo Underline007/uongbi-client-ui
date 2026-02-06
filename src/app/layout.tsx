@@ -5,7 +5,7 @@ import { Theme } from "@radix-ui/themes";
 import { Header, Navbar } from "@/components/client";
 import { Footer, FloatingPhoneButton } from "@/components/server";
 import { Providers } from "@/providers";
-import { GoogleAnalytics } from "@/components/analytics";
+import { GoogleAnalytics, PageTracker, WebVitals } from "@/components/analytics";
 
 const merriweather = Merriweather({
   variable: "--font-merriweather",
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   description: "Trang thông tin điện tử UBND Phường. Tin tức, thông báo, thủ tục hành chính và dịch vụ công trực tuyến.",
   keywords: "Phường, UBND, thông tin điện tử, tin tức, thủ tục hành chính, dịch vụ công",
   icons: {
-    icon: "/images/7f1950c1-a8f8-4139-82ab-320fc1bf646a.png",
+    icon: "images/quochuy.png",
   },
 };
 
@@ -52,6 +52,8 @@ export default function RootLayout({
           </Theme>
         </Providers>
         <GoogleAnalytics />
+        <PageTracker />
+        <WebVitals />
       </body>
     </html>
   );

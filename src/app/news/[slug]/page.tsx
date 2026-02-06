@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Calendar } from "lucide-react";
 import { ArticleTracker, ShareButtons, SummaryButton } from "@/components/analytics";
+import { CommentList } from "@/components/comments";
 
 // Mock data - sẽ được thay thế bằng API call
 const newsDetail = {
@@ -197,6 +198,9 @@ export default function NewsDetailPage() {
                                             title={newsDetail.title}
                                         />
                                     </div>
+
+                                    {/* Comments */}
+                                    <CommentList articleId={newsDetail.id} />
                                 </article>
                             </div>
 

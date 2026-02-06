@@ -18,23 +18,22 @@ export default function AnnouncementsPage() {
                         {/* Pinned Announcements */}
                         <div className="space-y-6">
                             {/* Announcement Card */}
-                            <div className="group bg-white shadow-sm border border-gray-200 hover:shadow-lg hover:border-gray-300 transition-all duration-200 overflow-hidden">
-                                <div className="h-1 bg-gray-200"></div>
+                            <div className="group bg-white shadow-red-300 hover:shadow-lg hover:border-gray-300 transition-all duration-200 overflow-hidden">
                                 <div className="p-6">
                                     <div className="flex items-start justify-between mb-4">
                                         <div className="flex items-center flex-wrap gap-2">
                                             {/* Badge: Thông thường */}
-                                            <div className="inline-flex items-center px-3 py-1 text-xs font-semibold bg-white border border-gray-200 text-gray-900 group-hover:text-red-600 group-hover:border-red-600 transition-colors">
-                                                <Bell className="w-4 h-4 text-gray-900 group-hover:text-red-600" />
+                                            <div className="inline-flex items-center px-3 py-1 text-xs font-semibold bg-white border border-gray-200 text-gray-900 ">
+                                                <Bell className="w-4 h-4 text-gray-900" />
                                                 <span className="ml-1">Thông thường</span>
                                             </div>
                                             {/* Badge: Ghim */}
-                                            <div className="inline-flex items-center px-3 py-1 text-xs font-semibold bg-white border border-gray-200 text-gray-900 group-hover:text-red-600 group-hover:border-red-600 transition-colors">
+                                            <div className="inline-flex items-center px-3 py-1 text-xs font-semibold bg-white border border-gray-200 text-gray-900 ">
                                                 <Pin className="w-3 h-3 mr-1" />
                                                 Ghim
                                             </div>
                                             {/* Badge: Thông báo */}
-                                            <div className="inline-flex items-center px-3 py-1 text-xs font-medium bg-white border border-gray-200 text-gray-900 group-hover:text-red-600 group-hover:border-red-600 transition-colors">
+                                            <div className="inline-flex items-center px-3 py-1 text-xs font-medium bg-white border border-gray-200 text-gray-900 ">
                                                 Thông báo
                                             </div>
                                         </div>

@@ -1,13 +1,15 @@
+'use client';
+
+import { OutboundLink } from "@/components/analytics";
+
 export function PageBanner() {
     return (
         <div className="w-full">
             <div className="bg-white">
                 <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
                     <div className="flex items-center py-3 sm:py-4">
-                        <a
+                        <OutboundLink
                             href="https://baochinhphu.vn/chu-de/huong-toi-dai-hoi-dai-bieu-toan-quoc-lan-thu-xiv-cua-dang-206.htm"
-                            target="_blank"
-                            rel="noopener noreferrer"
                             className="block w-full hover:opacity-90 transition-opacity"
                         >
                             <img
@@ -16,7 +18,7 @@ export function PageBanner() {
                                 className="w-full h-auto object-contain"
                                 style={{ maxHeight: "200px" }}
                             />
-                        </a>
+                        </OutboundLink>
                     </div>
                 </div>
             </div>

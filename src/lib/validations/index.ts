@@ -101,6 +101,18 @@ export const newsletterSchema = z.object({
 
 export type NewsletterData = z.infer<typeof newsletterSchema>;
 
+// Comment Form Schema
+export const commentFormSchema = z.object({
+  name: requiredString('Họ tên')
+    .min(2, 'Họ tên phải có ít nhất 2 ký tự')
+    .max(50, 'Họ tên không được quá 50 ký tự'),
+  content: requiredString('Nội dung')
+    .min(5, 'Nội dung phải có ít nhất 5 ký tự')
+    .max(1000, 'Nội dung không được quá 1000 ký tự'),
+});
+
+export type CommentFormData = z.infer<typeof commentFormSchema>;
+
 // Login Schema (for future admin panel)
 export const loginSchema = z.object({
   username: requiredString('Tên đăng nhập')

@@ -39,7 +39,7 @@ export function Header() {
                     <div className="flex items-center flex-1">
                         <div className="mr-2 sm:mr-4 lg:mr-6">
                             <img
-                                src="/images/7f1950c1-a8f8-4139-82ab-320fc1bf646a.png"
+                                src="/images/quochuy.png"
                                 alt="Logo Phường Móng Cái 3"
                                 className="h-12 w-12 sm:h-16 sm:w-16 lg:h-28 lg:w-28 object-contain"
                             />

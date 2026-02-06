@@ -1,0 +1,585 @@
+Group,Name,Method,Endpoint,Request Parameters,Sub Parameters,,Request Body,Response Body,Note
+ARTICLES,List articles,GET,/api/articles,"category:string (required) - news|procedures|announcements|plannings|documents
+page:number (default: 1)
+limit:number (default: 10)
+
+","[category=news]
+subcategory:string - slug danh muc tin (tin-tuc-tong-hop, kinh-te-chinh-tri, van-hoa-xa-hoi,...)
+search:string - tim kiem theo title
+featured:boolean - loc tin noi bat
+sortBy:string - createdAt|views|title
+order:string - asc|desc
+",,,"{
+  ""success"": true,
+  ""data"": [
+    {
+      ""id"": ""string"",
+      ""title"": ""string"",
+      ""slug"": ""string | null"",
+      ""description"": ""string | null"",
+      ""image"": ""string"",
+      ""category"": {
+        ""id"": ""string"",
+        ""name"": ""string"",
+        ""slug"": ""string""
+      } | null,
+      ""author"": ""string | null"",
+      ""views"": ""number | null"",
+      ""featured"": ""boolean | null"",
+      ""date"": ""string | null"",
+      ""createdAt"": ""string | null"",
+      ""updatedAt"": ""string | null""
+    }
+  ],
+  ""meta"": {
+    ""total"": 100,
+    ""page"": 1,
+    ""limit"": 10,
+    ""totalPages"": 10
+  }
+}",
+,,,,,"[category=procedures]
+subcategory:string - danh muc TTHC (Cu tru, Ho tich,...)
+search:string - tim kiem theo title",,,"{
+  ""success"": true,
+  ""data"": [
+    {
+      ""id"": ""string"",
+      ""code"": ""string"",
+      ""title"": ""string"",
+      ""category"": ""string"",
+      ""processingTime"": ""string"",
+      ""fee"": ""string"",
+      ""level"": ""number (1-4)"",
+      ""status"": ""active | inactive"",
+      ""createdAt"": ""string""
+    }
+  ],
+  ""meta"": {
+    ""total"": 100,
+    ""page"": 1,
+    ""limit"": 10,
+    ""totalPages"": 10
+  }
+}",
+,,,,,"[category=announcements]
+pinned:boolean - loc thong bao ghim
+important:boolean - loc thong bao quan trong
+search:string - tim kiem theo title",,,"{
+  ""success"": true,
+  ""data"": [
+    {
+      ""id"": ""string"",
+      ""title"": ""string"",
+      ""excerpt"": ""string | null"",
+      ""pinned"": ""boolean"",
+      ""important"": ""boolean"",
+      ""createdAt"": ""string""
+    }
+  ],
+  ""meta"": {
+    ""total"": 100,
+    ""page"": 1,
+    ""limit"": 10,
+    ""totalPages"": 10
+  }
+}",
+,,,,,"[category=plannings]
+search:string - tim kiem theo title",,,"{
+  ""success"": true,
+  ""data"": {
+    ""items"": [
+      {
+        ""id"": ""string"",
+        ""title"": ""string"",
+        ""image"": ""string"",
+        ""description"": ""string"",
+        ""category"": ""string"",
+        ""date"": ""string (YYYY-MM-DD)""
+      }
+    ]
+  },
+  ""meta"": {
+    ""total"": 100,
+    ""page"": 1,
+    ""limit"": 10,
+    ""totalPages"": 10
+  }
+}",
+,,,,,"[category=documents]
+type:string - loai van ban
+year:number - nam ban hanh
+search:string - tim kiem theo title""",,,"{
+  ""success"": true,
+  ""data"": [
+    {
+      ""id"": ""string"",
+      ""title"": ""string"",
+      ""documentNumber"": ""string"",
+      ""type"": ""string"",
+      ""issuedDate"": ""string (YYYY-MM-DD)"",
+      ""effectiveDate"": ""string (YYYY-MM-DD) | null"",
+      ""issuer"": ""string"",
+      ""attachments"": [
+        {
+          ""id"": ""string"",
+          ""name"": ""string"",
+          ""url"": ""string"",
+          ""size"": ""number (bytes)"",
+          ""type"": ""string (MIME type)""
+        }
+      ],
+      ""createdAt"": ""string (ISO 8601)""
+    }
+  ],
+  ""meta"": {
+    ""total"": 100,
+    ""page"": 1,
+    ""limit"": 10,
+    ""totalPages"": 10
+  }
+}",
+ARTICLES,Article detail,GET,/api/articles/{id},,,NewsDetail,,"{
+  ""success"": true,
+  ""data"": {
+    ""id"": ""string"",
+    ""title"": ""string"",
+    ""slug"": ""string | null"",
+    ""description"": ""string | null"",
+    ""image"": ""string"",
+    ""content"": ""string (HTML)"",
+    ""category"": {
+      ""id"": ""string"",
+      ""name"": ""string"",
+      ""slug"": ""string""
+    },
+    ""author"": ""string | null"",
+    ""views"": ""number | null"",
+    ""featured"": ""boolean | null"",
+    ""date"": ""string | null"",
+    ""createdAt"": ""string | null"",
+    ""updatedAt"": ""string | null"",
+    ""images"": [""string""],
+    ""tags"": [""string""],
+    ""attachments"": [
+      {
+        ""id"": ""string"",
+        ""name"": ""string"",
+        ""url"": ""string"",
+        ""size"": ""number"",
+        ""type"": ""string""
+      }
+    ],
+    ""relatedNews"": [
+      {
+        ""id"": ""string"",
+        ""title"": ""string"",
+        ""image"": ""string""
+      }
+    ]
+  }
+}
+","
+"
+,,,,,,ProcedureDetail,,"{
+  ""success"": true,
+  ""data"": {
+    ""id"": ""string"",
+    ""code"": ""string"",
+    ""title"": ""string"",
+    ""category"": ""string"",
+    ""processingTime"": ""string"",
+    ""fee"": ""string"",
+    ""level"": ""number (1-4)"",
+    ""status"": ""active | inactive"",
+    ""createdAt"": ""string (ISO 8601)"",
+    ""updatedAt"": ""string (ISO 8601)"",
+    ""legalBasis"": [""string""],
+    ""requiredDocuments"": [
+      {
+        ""name"": ""string"",
+        ""template"": ""string (URL) | null"",
+        ""required"": ""boolean""
+      }
+    ],
+    ""process"": [
+      {
+        ""step"": ""number"",
+        ""title"": ""string"",
+        ""description"": ""string"",
+        ""duration"": ""string""
+      }
+    ],
+    ""submissionMethods"": [
+      {
+        ""type"": ""online | offline"",
+        ""url"": ""string | undefined"",
+        ""address"": ""string | undefined"",
+        ""description"": ""string""
+      }
+    ],
+    ""contact"": {
+      ""department"": ""string"",
+      ""phone"": ""string"",
+      ""email"": ""string""
+    },
+    ""relatedProcedures"": [
+      {
+        ""id"": ""string"",
+        ""title"": ""string""
+      }
+    ]
+  }
+}",
+,,,,,,AnnouncementDetail,,"{
+  ""success"": true,
+  ""data"": {
+    ""id"": ""string"",
+    ""title"": ""string"",
+    ""excerpt"": ""string | null"",
+    ""content"": ""string (HTML)"",
+    ""pinned"": ""boolean"",
+    ""important"": ""boolean"",
+    ""createdAt"": ""string (ISO 8601)"",
+    ""updatedAt"": ""string (ISO 8601)"",
+    ""attachments"": [
+      {
+        ""id"": ""string"",
+        ""name"": ""string"",
+        ""url"": ""string"",
+        ""size"": ""number"",
+        ""type"": ""string""
+      }
+    ]
+  }
+}",
+,,,,,,PlanningDetail,,"{
+  ""success"": true,
+  ""data"": {
+    ""id"": ""string"",
+    ""title"": ""string"",
+    ""image"": ""string (URL)"",
+    ""description"": ""string"",
+    ""content"": ""string (HTML)"",
+    ""category"": ""string"",
+    ""date"": ""string (YYYY-MM-DD)"",
+    ""createdAt"": ""string (ISO 8601)"",
+    ""updatedAt"": ""string (ISO 8601)"",
+    ""attachments"": [
+      {
+        ""id"": ""string"",
+        ""name"": ""string"",
+        ""url"": ""string"",
+        ""size"": ""number"",
+        ""type"": ""string""
+      }
+    ],
+    ""relatedPlannings"": [
+      {
+        ""id"": ""string"",
+        ""title"": ""string"",
+        ""image"": ""string""
+      }
+    ]
+  }
+}",
+,,,,,,DocumentDetail,,"
+  ""success"": true,
+  ""data"": {
+    ""id"": ""string"",
+    ""title"": ""string"",
+    ""documentNumber"": ""string"",
+    ""type"": ""string"",
+    ""issuedDate"": ""string (YYYY-MM-DD)"",
+    ""effectiveDate"": ""string (YYYY-MM-DD) | null"",
+    ""expiryDate"": ""string (YYYY-MM-DD) | null"",
+    ""issuer"": ""string"",
+    ""signer"": ""string"",
+    ""signerPosition"": ""string"",
+    ""summary"": ""string | null"",
+    ""content"": ""string (HTML) | null"",
+    ""status"": ""string (active|expired|replaced)"",
+    ""createdAt"": ""string (ISO 8601)"",
+    ""updatedAt"": ""string (ISO 8601)"",
+    ""attachments"": [
+      {
+        ""id"": ""string"",
+        ""name"": ""string"",
+        ""url"": ""string"",
+        ""size"": ""number"",
+        ""type"": ""string""
+      }
+    ],
+    ""relatedDocuments"": [
+      {
+        ""id"": ""string"",
+        ""title"": ""string"",
+        ""documentNumber"": ""string"",
+        ""type"": ""string""
+      }
+    ],
+    ""replacedBy"": {
+      ""id"": ""string"",
+      ""title"": ""string"",
+      ""documentNumber"": ""string""
+    } | null
+  }
+}",
+ARTICLES,Featured articles,GET,/api/articles/featured,"category:string (required) - news|plannings
+limit:number (default: 5)",,,,"{
+  ""success"": true,
+  ""data"": {
+    ""mainNews"": {
+      ""id"": ""string"",
+      ""title"": ""string"",
+      ""description"": ""string"",
+      ""image"": ""string (URL)"",
+      ""createdAt"": ""string (ISO 8601)""
+    },
+    ""sidebar"": [
+      {
+        ""id"": ""string"",
+        ""title"": ""string"",
+        ""image"": ""string (URL)""
+      }
+    ]
+  }
+}","Bai viet noi bat
+
+"
+ARTICLES,Highlights,GET,/api/articles/highlights,category:string (default: news),,,,"{
+  ""success"": true,
+  ""data"": [
+    {
+      ""column"": ""number (1-3)"",
+      ""items"": [
+        {
+          ""id"": ""string"",
+          ""title"": ""string"",
+          ""date"": ""string"",
+          ""featured"": ""boolean | undefined""
+        }
+      ]
+    }
+  ]
+}","Bai viet tieu diem (chi ap dung cho news)
+
+"
+ARTICLES,Summary AI,GET,/api/articles/{id}/summary,,,,,"{
+  ""success"": true,
+  ""data"": {
+    ""summary"": ""string"",
+    ""keyPoints"": [""string""],
+    ""generatedAt"": ""string (ISO 8601)""
+  }
+}",Tom tat AI cho bai viet
+ORGANIZATION,Members,GET,/api/organization/members,,,,,"{
+  ""success"": true,
+  ""data"": [
+    {
+      ""id"": ""string"",
+      ""name"": ""string"",
+      ""avatar"": ""string (URL) | null"",
+      ""position"": ""string"",
+      ""position2"": ""string | null"",
+      ""phone"": ""string | null"",
+      ""email"": ""string | null"",
+      ""order"": ""number""
+    }
+  ]
+}","Danh sach lanh dao
+
+"
+SERVICES,Citizen,GET,/api/services/citizen,,,,,"{
+  ""success"": true,
+  ""data"": [
+    {
+      ""id"": ""string"",
+      ""icon"": ""string"",
+      ""label"": ""string"",
+      ""href"": ""string (URL)"",
+      ""order"": ""number""
+    }
+  ]
+}","Dich vu cong dan (lay tu doc vu cong quoc gia)
+
+"
+CONFIG,Contact,GET,/api/config/contact,,,,,"{
+  ""success"": true,
+  ""data"": {
+    ""organizationName"": ""string"",
+    ""fullName"": ""string"",
+    ""address"": ""string"",
+    ""phone"": ""string"",
+    ""fax"": ""string | undefined"",
+    ""email"": ""string"",
+    ""hotline"": ""string"",
+    ""website"": ""string (URL)"",
+    ""mapUrl"": ""string (URL) | undefined"",
+    ""coordinates"": {
+      ""lat"": ""number"",
+      ""lng"": ""number""
+    },
+    ""socialMedia"": {
+      ""facebook"": ""string (URL) | undefined"",
+      ""zalo"": ""string (URL) | undefined""
+    }
+  }
+}","Thong tin lien he
+
+"
+CONFIG,Business hours,GET,/api/config/business-hours,,,,,"{
+  ""success"": true,
+  ""data"": {
+    ""weekdays"": {
+      ""morning"": ""string"",
+      ""afternoon"": ""string""
+    },
+    ""saturday"": {
+      ""morning"": ""string | null"",
+      ""afternoon"": ""string | null""
+    },
+    ""sunday"": ""string | null"",
+    ""holidays"": ""string""
+  }
+}",Gio lam viec
+CONFIG,Site info,GET,/api/config/site-info,,,,,"{
+  ""success"": true,
+  ""data"": {
+    ""siteName"": ""string"",
+    ""shortName"": ""string"",
+    ""tagline"": ""string"",
+    ""logo"": ""string (URL)"",
+    ""favicon"": ""string (URL)"",
+    ""headerBackground"": ""string (URL)"",
+    ""footerBackground"": ""string (URL)"",
+    ""coatOfArms"": ""string (URL)"",
+    ""copyright"": ""string"",
+    ""country"": ""string"",
+    ""province"": ""string"",
+    ""district"": ""string""
+  }
+}","{
+  ""success"": true,
+  ""data"": {
+    ""siteName"": ""C?ng thông tin ?i?n t? ph??ng Móng Cái 3"",
+    ""shortName"": ""Ph??ng Móng Cái 3"",
+    ""tagline"": ""Ph?c v? nhân dân - Xây d?ng quê h??ng"",
+    ""logo"": ""https://storage.4ship.vn/public/image/logo-pmc3.png"",
+    ""favicon"": ""https://storage.4ship.vn/public/image/favicon.ico"",
+    ""headerBackground"": ""https://storage.4ship.vn/public/image/header-bg.jpg"",
+    ""footerBackground"": ""https://storage.4ship.vn/public/image/footer-bg.jpg"",
+    ""coatOfArms"": ""https://storage.4ship.vn/public/image/quoc-huy.png"",
+    ""copyright"": ""B?n quy?n thu?c UBND ph??ng Móng Cái 3"",
+    ""country"": ""Vi?t Nam"",
+    ""province"": ""Qu?ng Ninh"",
+    ""district"": ""Móng Cái""
+  }
+}
+"
+FORMS,Form subjects,GET,/api/forms/contact/form-subjects,,,,,"{
+  ""success"": true,
+  ""data"": [
+    {
+      ""id"": ""string"",
+      ""name"": ""string"",
+      ""description"": ""string | null""
+    }
+  ]
+}",Danh sach chu de lien he de dien vao category khi gui y kien 
+FORMS,Submit,POST,/api/forms/contact,,,,"{
+  ""fullName"": ""string"",
+  ""email"": ""string"",
+  ""phone"": ""string"",
+  ""address"": ""string"",
+  ""subjectId"": ""string"",
+  ""title"": ""string"",
+  ""content"": ""string"",
+  ""attachments"": [{
+    ""name"": ""string"",
+    ""url"": ""string""
+  }],
+}",No content,Gui form lien he
+ANALYTICS,Stats,GET,/api/analytics/stats,,,,,"{
+  ""success"": true,
+  ""data"": {
+    ""online"": ""number"",
+    ""today"": ""number"",
+    ""yesterday"": ""number"",
+    ""thisWeek"": ""number"",
+    ""thisMonth"": ""number"",
+    ""total"": ""number"",
+    ""lastUpdated"": ""string (ISO 8601)""
+  }
+}","Thong ke truy cap
+
+"
+BANNERS,All,GET,/api/banners,,,,,"{
+  ""success"": true,
+  ""data"": [
+    {
+      ""positionId"": ""string"",
+      ""positionName"": ""string"",
+      ""displayMode"": ""string (slide l| stack)"",
+      ""interval"": ""number (ms) | null"",
+      ""width"": ""string | null"",
+      ""height"": ""string | null"",
+      ""sticky"": ""boolean"",
+      ""banners"": [
+        {
+          ""id"": ""string"",
+          ""title"": ""string"",
+          ""image"": ""string (URL)"",
+          ""imageAlt"": ""string"",
+          ""link"": ""string (URL) | null"",
+          ""linkTarget"": ""string (_self|_blank)"",
+          ""content"": ""string (HTML) | null"",
+          ""priority"": ""number"",
+          ""startDate"": ""string (YYYY-MM-DD) | null"",
+          ""endDate"": ""string (YYYY-MM-DD) | null"",
+          ""active"": ""boolean""
+        }
+      ]
+    }
+  ]
+}",Banner
+LOCATIONS,Provinces,GET,/api/locations/provinces,,,,,"{
+  ""success"": true,
+  ""data"": [
+    {
+      ""id"": ""string"",
+      ""name"": ""string"",
+      ""code"": ""string""
+    }
+  ]
+}",Danh sach tinh
+WEATHER,Weather,GET,/api/weather,location:string,,,,"{
+  ""success"": true,
+  ""data"": {
+    ""location"": ""string"",
+    ""temperature"": ""number"",
+    ""icon"": ""string (URL)"",
+    ""updatedAt"": ""string""
+  }
+}",Thoi tiet theo dia diem
+MENU,Menu,GET,/api/menu,,,,,"{
+  ""success"": true,
+  ""data"": [
+    {
+      ""id"": ""string"",
+      ""label"": ""string"",
+      ""href"": ""string (URL)"",
+      ""icon"": ""string | null"",
+      ""order"": ""number"",
+      ""children"": [
+        {
+          ""id"": ""string"",
+          ""label"": ""string"",
+          ""href"": ""string (URL)"",
+          ""order"": ""number""
+        }
+      ] | null
+    }
+  ]
+}",Menu dieu huong
+PAGES,About,GET,/api/pages/about,,,,,,Trang gioi thieu

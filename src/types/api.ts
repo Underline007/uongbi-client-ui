@@ -285,6 +285,15 @@ export interface SiteInfo {
   district: string;
 }
 
+// Comment Types
+export interface Comment {
+  id: string;
+  articleId: string;
+  name: string;
+  content: string;
+  createdAt: string;
+}
+
 // Attachment Types
 export interface Attachment {
   id: string;

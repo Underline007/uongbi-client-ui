@@ -16,9 +16,25 @@ declare global {
 // User type constants
 export type UserType = 'new' | 'returning';
 
-// Local storage key for tracking returning users
+// Local storage keys
 const USER_VISITED_KEY = 'ga_user_visited';
 const USER_FIRST_VISIT_KEY = 'ga_first_visit';
+
+/**
+ * Safe localStorage access with error handling
+ */
+function safeLocalStorage() {
+  try {
+    if (typeof window === 'undefined') return null;
+    // Test if localStorage is available
+    const testKey = '__test__';
+    localStorage.setItem(testKey, testKey);
+    localStorage.removeItem(testKey);
+    return localStorage;
+  } catch {
+    return null;
+  }
+}
 
 /**
  * Check if Google Analytics is enabled
@@ -28,7 +44,8 @@ export function isAnalyticsEnabled(): boolean {
     typeof window !== 'undefined' &&
     process.env.NODE_ENV === 'production' &&
     !!GA_MEASUREMENT_ID &&
-    GA_MEASUREMENT_ID !== 'G-XXXXXXXXXX'
+    GA_MEASUREMENT_ID !== 'G-XXXXXXXXXX' &&
+    typeof window.gtag === 'function'
   );
 }
 
@@ -37,31 +54,33 @@ export function isAnalyticsEnabled(): boolean {
  * Uses localStorage to persist across sessions
  */
 export function getUserType(): UserType {
-  if (typeof window === 'undefined') return 'new';
+  const storage = safeLocalStorage();
+  if (!storage) return 'new';
 
-  const hasVisited = localStorage.getItem(USER_VISITED_KEY);
-  return hasVisited ? 'returning' : 'new';
+  return storage.getItem(USER_VISITED_KEY) ? 'returning' : 'new';
 }
 
 /**
  * Mark user as visited (call after first page load)
  */
 export function markUserAsVisited(): void {
-  if (typeof window === 'undefined') return;
+  const storage = safeLocalStorage();
+  if (!storage) return;
 
   const now = new Date().toISOString();
-  if (!localStorage.getItem(USER_VISITED_KEY)) {
-    localStorage.setItem(USER_FIRST_VISIT_KEY, now);
+  if (!storage.getItem(USER_VISITED_KEY)) {
+    storage.setItem(USER_FIRST_VISIT_KEY, now);
   }
-  localStorage.setItem(USER_VISITED_KEY, now);
+  storage.setItem(USER_VISITED_KEY, now);
 }
 
 /**
  * Get user's first visit date
  */
 export function getFirstVisitDate(): string | null {
-  if (typeof window === 'undefined') return null;
-  return localStorage.getItem(USER_FIRST_VISIT_KEY);
+  const storage = safeLocalStorage();
+  if (!storage) return null;
+  return storage.getItem(USER_FIRST_VISIT_KEY);
 }
 
 /**
@@ -125,10 +144,14 @@ export function pageview(url: string): void {
 
 /**
  * Track custom events
+ * @param action - Event name
+ * @param params - Event parameters
+ * @param useBeacon - Use sendBeacon for critical events (e.g., on page unload)
  */
 export function event(
   action: string,
-  params?: Record<string, unknown>
+  params?: Record<string, unknown>,
+  useBeacon: boolean = false
 ): void {
   if (!isAnalyticsEnabled()) {
     if (process.env.NODE_ENV === 'development') {
@@ -137,5 +160,66 @@ export function event(
     return;
   }
 
+  // Use sendBeacon for unload events to ensure delivery
+  if (useBeacon && navigator.sendBeacon && GA_MEASUREMENT_ID) {
+    const payload = {
+      client_id: getClientId(),
+      events: [{
+        name: action,
+        params: {
+          ...params,
+          send_to: GA_MEASUREMENT_ID,
+        },
+      }],
+    };
+
+    const url = `https://www.google-analytics.com/mp/collect?measurement_id=${GA_MEASUREMENT_ID}&api_secret=`;
+    navigator.sendBeacon(url, JSON.stringify(payload));
+    return;
+  }
+
   window.gtag('event', action, params);
+}
+
+/**
+ * Get GA client ID from cookie
+ */
+function getClientId(): string {
+  try {
+    const match = document.cookie.match(/_ga=GA\d+\.\d+\.(\d+\.\d+)/);
+    return match ? match[1] : 'unknown';
+  } catch {
+    return 'unknown';
+  }
+}
+
+/**
+ * Throttle function to limit execution frequency
+ */
+export function throttle<T extends (...args: unknown[]) => void>(
+  func: T,
+  limit: number
+): (...args: Parameters<T>) => void {
+  let inThrottle = false;
+  return function (this: unknown, ...args: Parameters<T>) {
+    if (!inThrottle) {
+      func.apply(this, args);
+      inThrottle = true;
+      setTimeout(() => (inThrottle = false), limit);
+    }
+  };
+}
+
+/**
+ * Debounce function to delay execution
+ */
+export function debounce<T extends (...args: unknown[]) => void>(
+  func: T,
+  wait: number
+): (...args: Parameters<T>) => void {
+  let timeout: ReturnType<typeof setTimeout> | null = null;
+  return function (this: unknown, ...args: Parameters<T>) {
+    if (timeout) clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(this, args), wait);
+  };
 }

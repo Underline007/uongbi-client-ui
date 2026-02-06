@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function ProceduresPage() {
     return (
         <main className="flex-1">
-            <div className="min-h-screen bg-gradient-to-br from-amber-50 via-white to-red-50">
+            <div className="min-h-screen">
                 <PageBanner />
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 md:py-4 lg:py-8">
                     {/* Header */}

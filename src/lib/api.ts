@@ -12,6 +12,7 @@ import type {
   Announcement,
   AnalyticsStats,
   PlanningItem,
+  Comment,
 } from '@/types/api';
 
 // Import mock data for direct use during SSR/build
@@ -31,6 +32,7 @@ import {
   planningSidebarData,
   electionInfoData,
   announcementsData,
+  commentsData,
 } from '@/lib/mock-data';
 
 // Helper to create API response
@@ -166,6 +168,26 @@ export const planningsApi = {
   },
 };
 
+// Comments API
+export const commentsApi = {
+  getByArticleId: async (articleId: string): Promise<ApiResponse<Comment[]>> => {
+    const filtered = commentsData.filter(c => c.articleId === articleId);
+    return createResponse(filtered);
+  },
+
+  create: async (data: { articleId: string; name: string; content: string }): Promise<ApiResponse<Comment>> => {
+    const newComment: Comment = {
+      id: `cmt-${Date.now()}`,
+      articleId: data.articleId,
+      name: data.name,
+      content: data.content,
+      createdAt: new Date().toISOString(),
+    };
+    commentsData.push(newComment);
+    return createResponse(newComment);
+  },
+};
+
 // Export all APIs
 export const api = {
   news: newsApi,
@@ -175,6 +197,7 @@ export const api = {
   announcements: announcementsApi,
   analytics: analyticsApi,
   plannings: planningsApi,
+  comments: commentsApi,
 };
 
 export default api;
