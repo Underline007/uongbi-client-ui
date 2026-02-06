@@ -7,3 +7,4 @@ export * from './analytics';
 export * from './config';
 export * from './announcements';
 export * from './plannings';
+export * from './comments';

@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ArrowLeft, Bell, Pin, Calendar, Share2 } from "lucide-react";
+import { ArrowLeft, Bell, Pin, Calendar } from "lucide-react";
+import { ArticleTracker, ShareButtons } from "@/components/analytics";
 
 // Mock data - sẽ được thay thế bằng API call
 const announcementDetail = {
@@ -34,6 +35,7 @@ function formatDate(dateString: string) {
 
 export default function AnnouncementDetailPage() {
     return (
+        <ArticleTracker type="announcement" id={announcementDetail.id} title={announcementDetail.title}>
         <main className="flex-1">
             <div className="min-h-screen bg-gray-50">
                 {/* Header */}
@@ -47,12 +49,11 @@ export default function AnnouncementDetailPage() {
                                 <ArrowLeft className="w-5 h-5 mr-2" />
                                 Quay lại danh sách
                             </Link>
-                            <div className="flex items-center space-x-3">
-                                <button className="flex items-center px-3 py-2 text-gray-600 hover:text-gray-900 transition-colors">
-                                    <Share2 className="w-4 h-4 mr-1" />
-                                    Chia sẻ
-                                </button>
-                            </div>
+                            <ShareButtons
+                                contentType="announcement"
+                                itemId={announcementDetail.id}
+                                title={announcementDetail.title}
+                            />
                         </div>
                     </div>
                 </div>
@@ -114,5 +115,6 @@ export default function AnnouncementDetailPage() {
                 </div>
             </div>
         </main>
+        </ArticleTracker>
     );
 }

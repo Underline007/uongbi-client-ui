@@ -10,6 +10,8 @@ export {
   getFirstVisitDate,
   setUserProperties,
   initUserTracking,
+  throttle,
+  debounce,
 } from './gtag';
 
 export type { UserType } from './gtag';
@@ -19,6 +21,9 @@ export {
   trackDocumentDownload,
   trackNewsView,
   trackProcedureView,
+  trackAnnouncementView,
+  trackDocumentView,
+  trackPlanningView,
   trackArticleReadTime,
   trackSearch,
   trackSocialShare,
@@ -28,4 +33,8 @@ export {
   trackScrollDepth,
   trackSessionStart,
   trackSummaryButtonClick,
+  trackWebVitals,
+  trackError,
 } from './events';
+
+export type { ContentType } from './events';

@@ -5,8 +5,7 @@ import { Theme } from "@radix-ui/themes";
 import { Header, Navbar } from "@/components/client";
 import { Footer, FloatingPhoneButton } from "@/components/server";
 import { Providers } from "@/providers";
-import { GoogleAnalytics } from "@/components/analytics";
-import Script from "next/script";
+import { GoogleAnalytics, PageTracker, WebVitals } from "@/components/analytics";
 
 const merriweather = Merriweather({
   variable: "--font-merriweather",
@@ -38,20 +37,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="vi">
-      <head>
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-G80S4ZGW4H"
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-G80S4ZGW4H');
-          `}
-        </Script>
-      </head>
       <body
         className={`${merriweather.variable} ${inter.variable}`}
       >
@@ -67,6 +52,8 @@ export default function RootLayout({
           </Theme>
         </Providers>
         <GoogleAnalytics />
+        <PageTracker />
+        <WebVitals />
       </body>
     </html>
   );

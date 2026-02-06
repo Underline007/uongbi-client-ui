@@ -1,6 +1,8 @@
+'use client';
 
 import { PageBanner } from "@/components/server";
 import { MapPin, Phone, Mail, User } from "lucide-react";
+import { OutboundLink } from "@/components/analytics";
 
 export default function AboutPage() {
     return (
@@ -83,10 +85,8 @@ export default function AboutPage() {
                                         {/* Sidebar */}
                                         <div className="space-y-6">
                                             <div className="space-y-4">
-                                                <a
+                                                <OutboundLink
                                                     href="https://www.google.com/maps/search/?api=1&query=số%20533%20đường%20Doan%20Tĩnh,%20khu%20Hải%20Yên%204,%20phường%20Móng%20Cái%203,%20tỉnh%20Quảng%20Ninh"
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
                                                     className="block bg-gray-50 border border-gray-200 rounded-lg p-4 hover:bg-gray-100 hover:border-red-300 transition-all cursor-pointer"
                                                 >
                                                     <div className="flex items-start space-x-3">
@@ -97,7 +97,7 @@ export default function AboutPage() {
                                                             <p className="text-xs text-blue-600 mt-1 font-medium">Nhấn để chỉ đường</p>
                                                         </div>
                                                     </div>
-                                                </a>
+                                                </OutboundLink>
                                                 <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
                                                     <div className="flex items-start space-x-3">
                                                         <Phone className="h-5 w-5 text-red-600 mt-0.5 flex-shrink-0" />
