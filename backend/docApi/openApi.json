@@ -1,0 +1,4655 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "CMS Public API",
+    "description": "\nCMS Public API\n\nA read-only API for serving published content to frontend applications.\n\nFeatures:\n- Published articles with pagination and search\n- Category listings and tree structure\n- Organization/ward information\n- Redis caching for performance\n        ",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/v1/{org_code}": {
+      "get": {
+        "tags": [
+          "organizations"
+        ],
+        "summary": "Get Organization",
+        "description": "Get organization/ward information.\n\nReturns basic organization details including contact information.",
+        "operationId": "get_organization_api_v1__org_code__get",
+        "parameters": [
+          {
+            "name": "org_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Organization code",
+              "title": "Org Code"
+            },
+            "description": "Organization code"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrganizationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/{org_code}/articles": {
+      "get": {
+        "tags": [
+          "articles"
+        ],
+        "summary": "List Articles",
+        "description": "List published articles with pagination.\n\nSupports filtering by category and tag.",
+        "operationId": "list_articles_api_v1__org_code__articles_get",
+        "parameters": [
+          {
+            "name": "org_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50,
+              "description": "Organization code",
+              "title": "Org Code"
+            },
+            "description": "Organization code"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Page number",
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Page number"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Items per page",
+              "default": 20,
+              "title": "Page Size"
+            },
+            "description": "Items per page"
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by category slug",
+              "title": "Category"
+            },
+            "description": "Filter by category slug"
+          },
+          {
+            "name": "tag",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by tag",
+              "title": "Tag"
+            },
+            "description": "Filter by tag"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArticleListResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/{org_code}/articles/latest": {
+      "get": {
+        "tags": [
+          "articles"
+        ],
+        "summary": "Get Latest Articles",
+        "description": "Get latest published articles.",
+        "operationId": "get_latest_articles_api_v1__org_code__articles_latest_get",
+        "parameters": [
+          {
+            "name": "org_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50,
+              "description": "Organization code",
+              "title": "Org Code"
+            },
+            "description": "Organization code"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 20,
+              "minimum": 1,
+              "description": "Number of articles",
+              "default": 5,
+              "title": "Limit"
+            },
+            "description": "Number of articles"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArticleResponse"
+                  },
+                  "title": "Response Get Latest Articles Api V1  Org Code  Articles Latest Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/{org_code}/articles/popular": {
+      "get": {
+        "tags": [
+          "articles"
+        ],
+        "summary": "Get Popular Articles",
+        "description": "Get most viewed articles.",
+        "operationId": "get_popular_articles_api_v1__org_code__articles_popular_get",
+        "parameters": [
+          {
+            "name": "org_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50,
+              "description": "Organization code",
+              "title": "Org Code"
+            },
+            "description": "Organization code"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 20,
+              "minimum": 1,
+              "description": "Number of articles",
+              "default": 5,
+              "title": "Limit"
+            },
+            "description": "Number of articles"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArticleResponse"
+                  },
+                  "title": "Response Get Popular Articles Api V1  Org Code  Articles Popular Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/{org_code}/articles/search": {
+      "get": {
+        "tags": [
+          "articles"
+        ],
+        "summary": "Search Articles",
+        "description": "Full-text search articles.\n\nSearches in article title and content.",
+        "operationId": "search_articles_api_v1__org_code__articles_search_get",
+        "parameters": [
+          {
+            "name": "org_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50,
+              "description": "Organization code",
+              "title": "Org Code"
+            },
+            "description": "Organization code"
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 200,
+              "description": "Search query",
+              "title": "Q"
+            },
+            "description": "Search query"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 1000,
+              "minimum": 1,
+              "description": "Page number",
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Page number"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Items per page",
+              "default": 20,
+              "title": "Page Size"
+            },
+            "description": "Items per page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArticleListResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/{org_code}/articles/featured": {
+      "get": {
+        "tags": [
+          "articles"
+        ],
+        "summary": "Get Featured Articles",
+        "description": "Get featured/pinned articles.\n\nReturns articles marked as featured, typically for homepage display.",
+        "operationId": "get_featured_articles_api_v1__org_code__articles_featured_get",
+        "parameters": [
+          {
+            "name": "org_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50,
+              "description": "Organization code",
+              "title": "Org Code"
+            },
+            "description": "Organization code"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 20,
+              "minimum": 1,
+              "description": "Number of articles",
+              "default": 5,
+              "title": "Limit"
+            },
+            "description": "Number of articles"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArticleResponse"
+                  },
+                  "title": "Response Get Featured Articles Api V1  Org Code  Articles Featured Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/{org_code}/articles/{slug}/related": {
+      "get": {
+        "tags": [
+          "articles"
+        ],
+        "summary": "Get Related Articles",
+        "description": "Get related articles for a given article.\n\nReturns articles in the same category or with similar tags.",
+        "operationId": "get_related_articles_api_v1__org_code__articles__slug__related_get",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          },
+          {
+            "name": "org_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50,
+              "description": "Organization code",
+              "title": "Org Code"
+            },
+            "description": "Organization code"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 10,
+              "minimum": 1,
+              "description": "Number of articles",
+              "default": 5,
+              "title": "Limit"
+            },
+            "description": "Number of articles"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArticleResponse"
+                  },
+                  "title": "Response Get Related Articles Api V1  Org Code  Articles  Slug  Related Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/{org_code}/articles/{slug}": {
+      "get": {
+        "tags": [
+          "articles"
+        ],
+        "summary": "Get Article By Slug",
+        "description": "Get article detail by slug.\n\nIncrements view count on each request.",
+        "operationId": "get_article_by_slug_api_v1__org_code__articles__slug__get",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200,
+              "title": "Slug"
+            }
+          },
+          {
+            "name": "org_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50,
+              "description": "Organization code",
+              "title": "Org Code"
+            },
+            "description": "Organization code"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArticleDetailResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/{org_code}/categories": {
+      "get": {
+        "tags": [
+          "categories"
+        ],
+        "summary": "List Categories",
+        "description": "List all active categories for organization as nested tree.",
+        "operationId": "list_categories_api_v1__org_code__categories_get",
+        "parameters": [
+          {
+            "name": "org_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50,
+              "description": "Organization code",
+              "title": "Org Code"
+            },
+            "description": "Organization code"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryListResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/{org_code}/categories/tree": {
+      "get": {
+        "tags": [
+          "categories"
+        ],
+        "summary": "Get Category Tree",
+        "description": "Get category tree structure.\n\nReturns hierarchical tree with nested children.\nUse depth parameter to limit tree depth (e.g. depth=1 for departments only).",
+        "operationId": "get_category_tree_api_v1__org_code__categories_tree_get",
+        "parameters": [
+          {
+            "name": "org_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50,
+              "description": "Organization code",
+              "title": "Org Code"
+            },
+            "description": "Organization code"
+          },
+          {
+            "name": "depth",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Max tree depth (1=roots only, 2=roots+children, etc.)",
+              "title": "Depth"
+            },
+            "description": "Max tree depth (1=roots only, 2=roots+children, etc.)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryTreeResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/{org_code}/categories/{slug}": {
+      "get": {
+        "tags": [
+          "categories"
+        ],
+        "summary": "Get Category By Slug",
+        "description": "Get category detail by slug.",
+        "operationId": "get_category_by_slug_api_v1__org_code__categories__slug__get",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          },
+          {
+            "name": "org_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50,
+              "description": "Organization code",
+              "title": "Org Code"
+            },
+            "description": "Organization code"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/{org_code}/categories/{slug}/articles": {
+      "get": {
+        "tags": [
+          "categories"
+        ],
+        "summary": "Get Articles By Category",
+        "description": "Get articles in a specific category.\n\nSupports pagination.",
+        "operationId": "get_articles_by_category_api_v1__org_code__categories__slug__articles_get",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          },
+          {
+            "name": "org_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50,
+              "description": "Organization code",
+              "title": "Org Code"
+            },
+            "description": "Organization code"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Page number",
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Page number"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Items per page",
+              "default": 20,
+              "title": "Page Size"
+            },
+            "description": "Items per page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArticleListResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/{org_code}/banners": {
+      "get": {
+        "tags": [
+          "banners"
+        ],
+        "summary": "List Banners",
+        "description": "List banners for organization.\n\nOptionally filter by position.",
+        "operationId": "list_banners_api_v1__org_code__banners_get",
+        "parameters": [
+          {
+            "name": "org_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50,
+              "description": "Organization code",
+              "title": "Org Code"
+            },
+            "description": "Organization code"
+          },
+          {
+            "name": "position",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by position (homepage, sidebar, footer)",
+              "title": "Position"
+            },
+            "description": "Filter by position (homepage, sidebar, footer)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BannerListResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/{org_code}/banners/active": {
+      "get": {
+        "tags": [
+          "banners"
+        ],
+        "summary": "Get Active Banners",
+        "description": "Get currently active banners (within date range).\n\nReturns only banners that are currently within their display period.",
+        "operationId": "get_active_banners_api_v1__org_code__banners_active_get",
+        "parameters": [
+          {
+            "name": "org_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50,
+              "description": "Organization code",
+              "title": "Org Code"
+            },
+            "description": "Organization code"
+          },
+          {
+            "name": "position",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Banner position",
+              "default": "homepage",
+              "title": "Position"
+            },
+            "description": "Banner position"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BannerResponse"
+                  },
+                  "title": "Response Get Active Banners Api V1  Org Code  Banners Active Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/{org_code}/banners/by-code/{code}": {
+      "get": {
+        "tags": [
+          "banners"
+        ],
+        "summary": "Get Banner By Code",
+        "description": "Get banner by code string.\n\nUseful for embedding banners by their generated code.",
+        "operationId": "get_banner_by_code_api_v1__org_code__banners_by_code__code__get",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Code"
+            }
+          },
+          {
+            "name": "org_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50,
+              "description": "Organization code",
+              "title": "Org Code"
+            },
+            "description": "Organization code"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BannerResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/{org_code}/links": {
+      "get": {
+        "tags": [
+          "links"
+        ],
+        "summary": "List Links",
+        "description": "List external links for organization.\n\nOptionally filter by category.",
+        "operationId": "list_links_api_v1__org_code__links_get",
+        "parameters": [
+          {
+            "name": "org_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50,
+              "description": "Organization code",
+              "title": "Org Code"
+            },
+            "description": "Organization code"
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by category (partner, government, other)",
+              "title": "Category"
+            },
+            "description": "Filter by category (partner, government, other)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LinkListResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/{org_code}/links/category/{category}": {
+      "get": {
+        "tags": [
+          "links"
+        ],
+        "summary": "Get Links By Category",
+        "description": "Get links by category.",
+        "operationId": "get_links_by_category_api_v1__org_code__links_category__category__get",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Category"
+            }
+          },
+          {
+            "name": "org_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50,
+              "description": "Organization code",
+              "title": "Org Code"
+            },
+            "description": "Organization code"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LinkResponse"
+                  },
+                  "title": "Response Get Links By Category Api V1  Org Code  Links Category  Category  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/{org_code}/tags": {
+      "get": {
+        "tags": [
+          "tags"
+        ],
+        "summary": "List Tags",
+        "description": "List all tags with article counts.\n\nReturns tags sorted by article count (most used first).",
+        "operationId": "list_tags_api_v1__org_code__tags_get",
+        "parameters": [
+          {
+            "name": "org_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50,
+              "description": "Organization code",
+              "title": "Org Code"
+            },
+            "description": "Organization code"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 200,
+              "minimum": 1,
+              "description": "Maximum tags to return",
+              "default": 50,
+              "title": "Limit"
+            },
+            "description": "Maximum tags to return"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TagListResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/{org_code}/tags/{tag}/articles": {
+      "get": {
+        "tags": [
+          "tags"
+        ],
+        "summary": "Get Articles By Tag",
+        "description": "Get articles with a specific tag.",
+        "operationId": "get_articles_by_tag_api_v1__org_code__tags__tag__articles_get",
+        "parameters": [
+          {
+            "name": "tag",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Tag"
+            }
+          },
+          {
+            "name": "org_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50,
+              "description": "Organization code",
+              "title": "Org Code"
+            },
+            "description": "Organization code"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Page number",
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Page number"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Items per page",
+              "default": 20,
+              "title": "Page Size"
+            },
+            "description": "Items per page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArticleListResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/{org_code}/pages": {
+      "get": {
+        "tags": [
+          "pages"
+        ],
+        "summary": "List Pages",
+        "description": "List all static pages for the organization.\n\nReturns pages like About Us, Contact, Privacy Policy, etc.",
+        "operationId": "list_pages_api_v1__org_code__pages_get",
+        "parameters": [
+          {
+            "name": "org_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50,
+              "description": "Organization code",
+              "title": "Org Code"
+            },
+            "description": "Organization code"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageListResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/{org_code}/pages/{slug}": {
+      "get": {
+        "tags": [
+          "pages"
+        ],
+        "summary": "Get Page By Slug",
+        "description": "Get static page detail by slug.\n\nReturns the full page content.",
+        "operationId": "get_page_by_slug_api_v1__org_code__pages__slug__get",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          },
+          {
+            "name": "org_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50,
+              "description": "Organization code",
+              "title": "Org Code"
+            },
+            "description": "Organization code"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageDetailResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/{org_code}/documents/sections": {
+      "get": {
+        "tags": [
+          "documents"
+        ],
+        "summary": "List Doc Sections",
+        "description": "Get document section tree for the organization.",
+        "operationId": "list_doc_sections_api_v1__org_code__documents_sections_get",
+        "parameters": [
+          {
+            "name": "org_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50,
+              "description": "Organization code",
+              "title": "Org Code"
+            },
+            "description": "Organization code"
+          },
+          {
+            "name": "doc_type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Filter by doc_type",
+              "title": "Doc Type"
+            },
+            "description": "Filter by doc_type"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocSectionTreeResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/{org_code}/documents/sections/{slug}": {
+      "get": {
+        "tags": [
+          "documents"
+        ],
+        "summary": "Get Doc Section By Slug",
+        "description": "Get section detail with documents and data sheets by slug.",
+        "operationId": "get_doc_section_by_slug_api_v1__org_code__documents_sections__slug__get",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          },
+          {
+            "name": "org_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50,
+              "description": "Organization code",
+              "title": "Org Code"
+            },
+            "description": "Organization code"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocSectionDetailResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/{org_code}/documents/data-sheets/{slug}": {
+      "get": {
+        "tags": [
+          "documents"
+        ],
+        "summary": "Get Data Sheet By Slug",
+        "description": "Get data sheet detail by slug.",
+        "operationId": "get_data_sheet_by_slug_api_v1__org_code__documents_data_sheets__slug__get",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          },
+          {
+            "name": "org_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50,
+              "description": "Organization code",
+              "title": "Org Code"
+            },
+            "description": "Organization code"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataSheetDetailResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/{org_code}/documents/{slug}": {
+      "get": {
+        "tags": [
+          "documents"
+        ],
+        "summary": "Get Document By Slug",
+        "description": "Get document detail by slug.",
+        "operationId": "get_document_by_slug_api_v1__org_code__documents__slug__get",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          },
+          {
+            "name": "org_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50,
+              "description": "Organization code",
+              "title": "Org Code"
+            },
+            "description": "Organization code"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentDetailResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/{org_code}/search": {
+      "get": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Global Search",
+        "description": "Global search across articles and categories.\n\nSearches article titles, content, and category names.\nReturns matching articles (paginated) and matching categories.",
+        "operationId": "global_search_api_v1__org_code__search_get",
+        "parameters": [
+          {
+            "name": "org_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50,
+              "description": "Organization code",
+              "title": "Org Code"
+            },
+            "description": "Organization code"
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 200,
+              "description": "Search query",
+              "title": "Q"
+            },
+            "description": "Search query"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 1000,
+              "minimum": 1,
+              "description": "Page number",
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Page number"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Items per page",
+              "default": 20,
+              "title": "Page Size"
+            },
+            "description": "Items per page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GlobalSearchResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/{org_code}/feedback/articles/{article_slug}/comments": {
+      "get": {
+        "tags": [
+          "feedback"
+        ],
+        "summary": "Get Article Comments",
+        "description": "Get approved comments for an article by slug.",
+        "operationId": "get_article_comments_api_v1__org_code__feedback_articles__article_slug__comments_get",
+        "parameters": [
+          {
+            "name": "article_slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Article Slug"
+            }
+          },
+          {
+            "name": "org_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50,
+              "description": "Organization code",
+              "title": "Org Code"
+            },
+            "description": "Organization code"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "title": "Page"
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 20,
+              "title": "Page Size"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "feedback"
+        ],
+        "summary": "Create Comment",
+        "description": "Create a comment on an article (rate limited: 5/min per IP).",
+        "operationId": "create_comment_api_v1__org_code__feedback_articles__article_slug__comments_post",
+        "parameters": [
+          {
+            "name": "article_slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Article Slug"
+            }
+          },
+          {
+            "name": "org_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50,
+              "description": "Organization code",
+              "title": "Org Code"
+            },
+            "description": "Organization code"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCommentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/{org_code}/feedback/comments/{comment_id}/reactions": {
+      "post": {
+        "tags": [
+          "feedback"
+        ],
+        "summary": "Add Reaction",
+        "description": "Add reaction to a comment (rate limited: 10/min per IP).",
+        "operationId": "add_reaction_api_v1__org_code__feedback_comments__comment_id__reactions_post",
+        "parameters": [
+          {
+            "name": "comment_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Comment Id"
+            }
+          },
+          {
+            "name": "org_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50,
+              "description": "Organization code",
+              "title": "Org Code"
+            },
+            "description": "Organization code"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReactionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/{org_code}/feedback/forms": {
+      "get": {
+        "tags": [
+          "feedback"
+        ],
+        "summary": "List Active Forms",
+        "description": "List active forms for this organization.",
+        "operationId": "list_active_forms_api_v1__org_code__feedback_forms_get",
+        "parameters": [
+          {
+            "name": "org_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50,
+              "description": "Organization code",
+              "title": "Org Code"
+            },
+            "description": "Organization code"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/{org_code}/feedback/forms/{form_slug}": {
+      "get": {
+        "tags": [
+          "feedback"
+        ],
+        "summary": "Get Form",
+        "description": "Get a form by slug.",
+        "operationId": "get_form_api_v1__org_code__feedback_forms__form_slug__get",
+        "parameters": [
+          {
+            "name": "form_slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Form Slug"
+            }
+          },
+          {
+            "name": "org_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50,
+              "description": "Organization code",
+              "title": "Org Code"
+            },
+            "description": "Organization code"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/{org_code}/feedback/forms/{form_id}/submit": {
+      "post": {
+        "tags": [
+          "feedback"
+        ],
+        "summary": "Submit Form",
+        "description": "Submit a form response (rate limited: 3/min per IP).",
+        "operationId": "submit_form_api_v1__org_code__feedback_forms__form_id__submit_post",
+        "parameters": [
+          {
+            "name": "form_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Form Id"
+            }
+          },
+          {
+            "name": "org_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50,
+              "description": "Organization code",
+              "title": "Org Code"
+            },
+            "description": "Organization code"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubmitFormRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/{org_code}/homepage": {
+      "get": {
+        "tags": [
+          "composite"
+        ],
+        "summary": "Get Homepage Data",
+        "description": "Get all data needed for homepage in a single request.\n\nThis endpoint aggregates:\n- Organization info\n- Featured articles\n- Latest articles\n- Popular articles\n- Articles by main categories\n- Homepage banners\n- Header/footer menus\n\nUsing this endpoint instead of multiple separate calls\nsignificantly improves page load performance.",
+        "operationId": "get_homepage_data_api_v1__org_code__homepage_get",
+        "parameters": [
+          {
+            "name": "org_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50,
+              "description": "Organization code",
+              "title": "Org Code"
+            },
+            "description": "Organization code"
+          },
+          {
+            "name": "featured_limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 10,
+              "minimum": 1,
+              "default": 5,
+              "title": "Featured Limit"
+            }
+          },
+          {
+            "name": "latest_limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 20,
+              "minimum": 1,
+              "default": 10,
+              "title": "Latest Limit"
+            }
+          },
+          {
+            "name": "popular_limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 10,
+              "minimum": 1,
+              "default": 5,
+              "title": "Popular Limit"
+            }
+          },
+          {
+            "name": "articles_per_category",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 10,
+              "minimum": 1,
+              "default": 5,
+              "title": "Articles Per Category"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HomepageResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/{org_code}/categories/{slug}/page": {
+      "get": {
+        "tags": [
+          "composite"
+        ],
+        "summary": "Get Category Page Data",
+        "description": "Get all data needed for a category page.\n\nIncludes:\n- Category information\n- Paginated articles in category\n- Subcategories\n- Parent category (for breadcrumb)",
+        "operationId": "get_category_page_data_api_v1__org_code__categories__slug__page_get",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          },
+          {
+            "name": "org_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50,
+              "description": "Organization code",
+              "title": "Org Code"
+            },
+            "description": "Organization code"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "title": "Page"
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 20,
+              "title": "Page Size"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryPageResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/{org_code}/archive": {
+      "get": {
+        "tags": [
+          "composite"
+        ],
+        "summary": "Get Archive Data",
+        "description": "Get archive data with article counts by year/month.\n\nOptionally filter articles by specific year/month.",
+        "operationId": "get_archive_data_api_v1__org_code__archive_get",
+        "parameters": [
+          {
+            "name": "org_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50,
+              "description": "Organization code",
+              "title": "Org Code"
+            },
+            "description": "Organization code"
+          },
+          {
+            "name": "year",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by year",
+              "title": "Year"
+            },
+            "description": "Filter by year"
+          },
+          {
+            "name": "month",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "maximum": 12,
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by month",
+              "title": "Month"
+            },
+            "description": "Filter by month"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "title": "Page"
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 20,
+              "title": "Page Size"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArchiveResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/{org_code}/sitemap": {
+      "get": {
+        "tags": [
+          "composite"
+        ],
+        "summary": "Get Sitemap Data",
+        "description": "Get sitemap data for SEO.\n\nReturns all article slugs and category slugs for sitemap generation.",
+        "operationId": "get_sitemap_data_api_v1__org_code__sitemap_get",
+        "parameters": [
+          {
+            "name": "org_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50,
+              "description": "Organization code",
+              "title": "Org Code"
+            },
+            "description": "Organization code"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SitemapResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/{org_code}/statistics": {
+      "get": {
+        "tags": [
+          "composite"
+        ],
+        "summary": "Get Statistics",
+        "description": "Get content statistics for the organization.\n\nReturns aggregate counts of articles, categories, tags, banners, and links.\nUseful for dashboard displays and overview pages.",
+        "operationId": "get_statistics_api_v1__org_code__statistics_get",
+        "parameters": [
+          {
+            "name": "org_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50,
+              "description": "Organization code",
+              "title": "Org Code"
+            },
+            "description": "Organization code"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatisticsResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/internal/v1/assets/publish": {
+      "post": {
+        "tags": [
+          "internal-assets"
+        ],
+        "summary": "Publish Article Assets",
+        "description": "Copy article images to public bucket and return rewritten content.\n\nCalled by CMS backend during article publish flow.",
+        "operationId": "publish_article_assets_api_internal_v1_assets_publish_post",
+        "parameters": [
+          {
+            "name": "X-Internal-Api-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "X-Internal-Api-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PublishAssetsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublishAssetsResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "summary": "Health Check",
+        "description": "Health check endpoint.",
+        "operationId": "health_check_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "summary": "Root",
+        "description": "Root endpoint with API information.",
+        "operationId": "root__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ArchiveMonthStats": {
+        "properties": {
+          "year": {
+            "type": "integer",
+            "title": "Year"
+          },
+          "month": {
+            "type": "integer",
+            "title": "Month"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          }
+        },
+        "type": "object",
+        "required": [
+          "year",
+          "month",
+          "count"
+        ],
+        "title": "ArchiveMonthStats",
+        "description": "Article count for a specific month."
+      },
+      "ArchiveResponse": {
+        "properties": {
+          "stats": {
+            "items": {
+              "$ref": "#/components/schemas/ArchiveMonthStats"
+            },
+            "type": "array",
+            "title": "Stats",
+            "description": "Article counts by year/month"
+          },
+          "articles": {
+            "items": {
+              "$ref": "#/components/schemas/ArticleResponse"
+            },
+            "type": "array",
+            "title": "Articles",
+            "description": "Articles for selected period"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total",
+            "default": 0
+          },
+          "page": {
+            "type": "integer",
+            "title": "Page",
+            "default": 1
+          },
+          "page_size": {
+            "type": "integer",
+            "title": "Page Size",
+            "default": 20
+          },
+          "total_pages": {
+            "type": "integer",
+            "title": "Total Pages",
+            "default": 0
+          },
+          "selected_year": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Selected Year"
+          },
+          "selected_month": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Selected Month"
+          }
+        },
+        "type": "object",
+        "title": "ArchiveResponse",
+        "description": "Archive page response with statistics."
+      },
+      "ArticleDetailResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "excerpt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Excerpt"
+          },
+          "content": {
+            "type": "string",
+            "title": "Content",
+            "default": ""
+          },
+          "featured_image": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Featured Image"
+          },
+          "author_name": {
+            "type": "string",
+            "title": "Author Name"
+          },
+          "category_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Category Name"
+          },
+          "category_slug": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Category Slug"
+          },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Tags"
+          },
+          "views": {
+            "type": "integer",
+            "title": "Views",
+            "default": 0
+          },
+          "published_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Published At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "slug",
+          "author_name",
+          "published_at"
+        ],
+        "title": "ArticleDetailResponse",
+        "description": "Article detail response with full content."
+      },
+      "ArticleListResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/ArticleResponse"
+            },
+            "type": "array",
+            "title": "Data"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/PaginationMeta"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data",
+          "meta"
+        ],
+        "title": "ArticleListResponse",
+        "description": "Paginated article list response."
+      },
+      "ArticleResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "excerpt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Excerpt"
+          },
+          "featured_image": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Featured Image"
+          },
+          "author_name": {
+            "type": "string",
+            "title": "Author Name"
+          },
+          "category_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Category Name"
+          },
+          "category_slug": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Category Slug"
+          },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Tags"
+          },
+          "views": {
+            "type": "integer",
+            "title": "Views",
+            "default": 0
+          },
+          "published_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Published At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "slug",
+          "author_name",
+          "published_at"
+        ],
+        "title": "ArticleResponse",
+        "description": "Article list item response."
+      },
+      "BannerItemResponse": {
+        "properties": {
+          "image_url": {
+            "type": "string",
+            "title": "Image Url"
+          },
+          "title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title"
+          },
+          "link_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Link Url"
+          },
+          "link_target": {
+            "type": "string",
+            "title": "Link Target",
+            "default": "_self"
+          },
+          "display_order": {
+            "type": "integer",
+            "title": "Display Order",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "required": [
+          "image_url"
+        ],
+        "title": "BannerItemResponse",
+        "description": "Banner item (slide) response."
+      },
+      "BannerListResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/BannerResponse"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "total"
+        ],
+        "title": "BannerListResponse",
+        "description": "Banner list response."
+      },
+      "BannerResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "image_url": {
+            "type": "string",
+            "title": "Image Url"
+          },
+          "subtitle": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Subtitle"
+          },
+          "link_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Link Url"
+          },
+          "link_target": {
+            "type": "string",
+            "title": "Link Target",
+            "default": "_self"
+          },
+          "position": {
+            "type": "string",
+            "title": "Position",
+            "default": "homepage"
+          },
+          "code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Code"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "display_mode": {
+            "type": "string",
+            "title": "Display Mode",
+            "default": "single"
+          },
+          "layout_width": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Layout Width"
+          },
+          "layout_height": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Layout Height"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/BannerItemResponse"
+            },
+            "type": "array",
+            "title": "Items",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "image_url"
+        ],
+        "title": "BannerResponse",
+        "description": "Banner response."
+      },
+      "CategoryArticlesSection": {
+        "properties": {
+          "category": {
+            "$ref": "#/components/schemas/CategoryResponse"
+          },
+          "articles": {
+            "items": {
+              "$ref": "#/components/schemas/ArticleResponse"
+            },
+            "type": "array",
+            "title": "Articles"
+          }
+        },
+        "type": "object",
+        "required": [
+          "category",
+          "articles"
+        ],
+        "title": "CategoryArticlesSection",
+        "description": "Articles grouped by category for homepage."
+      },
+      "CategoryListResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/CategoryTreeNode"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "CategoryListResponse",
+        "description": "Category list response (nested tree)."
+      },
+      "CategoryPageResponse": {
+        "properties": {
+          "category": {
+            "$ref": "#/components/schemas/CategoryResponse"
+          },
+          "articles": {
+            "items": {
+              "$ref": "#/components/schemas/ArticleResponse"
+            },
+            "type": "array",
+            "title": "Articles"
+          },
+          "total_articles": {
+            "type": "integer",
+            "title": "Total Articles"
+          },
+          "page": {
+            "type": "integer",
+            "title": "Page"
+          },
+          "page_size": {
+            "type": "integer",
+            "title": "Page Size"
+          },
+          "total_pages": {
+            "type": "integer",
+            "title": "Total Pages"
+          },
+          "subcategories": {
+            "items": {
+              "$ref": "#/components/schemas/CategoryResponse"
+            },
+            "type": "array",
+            "title": "Subcategories",
+            "description": "Child categories"
+          },
+          "parent_category": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CategoryResponse"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Parent category for breadcrumb"
+          }
+        },
+        "type": "object",
+        "required": [
+          "category",
+          "articles",
+          "total_articles",
+          "page",
+          "page_size",
+          "total_pages"
+        ],
+        "title": "CategoryPageResponse",
+        "description": "All data needed for a category page.\n\nIncludes category info, articles, and subcategories."
+      },
+      "CategoryResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "article_count": {
+            "type": "integer",
+            "title": "Article Count",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "slug"
+        ],
+        "title": "CategoryResponse",
+        "description": "Category response."
+      },
+      "CategoryStats": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "article_count": {
+            "type": "integer",
+            "title": "Article Count"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "slug",
+          "article_count"
+        ],
+        "title": "CategoryStats",
+        "description": "Statistics for a single category."
+      },
+      "CategoryTreeNode": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "article_count": {
+            "type": "integer",
+            "title": "Article Count",
+            "default": 0
+          },
+          "children": {
+            "items": {
+              "$ref": "#/components/schemas/CategoryTreeNode"
+            },
+            "type": "array",
+            "title": "Children"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "slug"
+        ],
+        "title": "CategoryTreeNode",
+        "description": "Category tree node with children."
+      },
+      "CategoryTreeResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/CategoryTreeNode"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "CategoryTreeResponse",
+        "description": "Category tree response."
+      },
+      "CreateCommentRequest": {
+        "properties": {
+          "author_name": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Author Name"
+          },
+          "content": {
+            "type": "string",
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Content"
+          },
+          "author_email": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 254
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Author Email"
+          },
+          "parent_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 50
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "author_name",
+          "content"
+        ],
+        "title": "CreateCommentRequest"
+      },
+      "DataSheetDetailResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "section_slug": {
+            "type": "string",
+            "title": "Section Slug"
+          },
+          "section_name": {
+            "type": "string",
+            "title": "Section Name"
+          },
+          "doc_type": {
+            "type": "string",
+            "title": "Doc Type",
+            "default": "org_info"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "custom_fields": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Custom Fields"
+          },
+          "thumbnails": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Thumbnails"
+          },
+          "order": {
+            "type": "integer",
+            "title": "Order",
+            "default": 0
+          },
+          "views": {
+            "type": "integer",
+            "title": "Views",
+            "default": 0
+          },
+          "published_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Published At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "section_slug",
+          "section_name",
+          "title",
+          "slug"
+        ],
+        "title": "DataSheetDetailResponse",
+        "description": "Full data sheet detail with custom fields."
+      },
+      "DataSheetSummaryResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "thumbnails": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Thumbnails"
+          },
+          "doc_type": {
+            "type": "string",
+            "title": "Doc Type",
+            "default": "org_info"
+          },
+          "order": {
+            "type": "integer",
+            "title": "Order",
+            "default": 0
+          },
+          "views": {
+            "type": "integer",
+            "title": "Views",
+            "default": 0
+          },
+          "published_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Published At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "slug"
+        ],
+        "title": "DataSheetSummaryResponse",
+        "description": "Data sheet summary for list views."
+      },
+      "DocSectionDetailResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "icon": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Icon"
+          },
+          "doc_type": {
+            "type": "string",
+            "title": "Doc Type",
+            "default": "org_info"
+          },
+          "order": {
+            "type": "integer",
+            "title": "Order",
+            "default": 0
+          },
+          "published_document_count": {
+            "type": "integer",
+            "title": "Published Document Count",
+            "default": 0
+          },
+          "documents": {
+            "items": {
+              "$ref": "#/components/schemas/DocumentSummaryResponse"
+            },
+            "type": "array",
+            "title": "Documents"
+          },
+          "data_sheets": {
+            "items": {
+              "$ref": "#/components/schemas/DataSheetSummaryResponse"
+            },
+            "type": "array",
+            "title": "Data Sheets"
+          },
+          "breadcrumb": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Breadcrumb"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "slug"
+        ],
+        "title": "DocSectionDetailResponse",
+        "description": "Section detail with documents, data sheets, and breadcrumb."
+      },
+      "DocSectionTreeNodeResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "icon": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Icon"
+          },
+          "doc_type": {
+            "type": "string",
+            "title": "Doc Type",
+            "default": "org_info"
+          },
+          "order": {
+            "type": "integer",
+            "title": "Order",
+            "default": 0
+          },
+          "published_document_count": {
+            "type": "integer",
+            "title": "Published Document Count",
+            "default": 0
+          },
+          "children": {
+            "items": {
+              "$ref": "#/components/schemas/DocSectionTreeNodeResponse"
+            },
+            "type": "array",
+            "title": "Children"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "slug"
+        ],
+        "title": "DocSectionTreeNodeResponse",
+        "description": "Section tree node response (recursive)."
+      },
+      "DocSectionTreeResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/DocSectionTreeNodeResponse"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "total"
+        ],
+        "title": "DocSectionTreeResponse",
+        "description": "Section tree list response."
+      },
+      "DocumentDetailResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "section_slug": {
+            "type": "string",
+            "title": "Section Slug"
+          },
+          "section_name": {
+            "type": "string",
+            "title": "Section Name"
+          },
+          "doc_type": {
+            "type": "string",
+            "title": "Doc Type",
+            "default": "org_info"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "content": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Content"
+          },
+          "excerpt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Excerpt"
+          },
+          "thumbnails": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Thumbnails"
+          },
+          "attachments": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Attachments"
+          },
+          "order": {
+            "type": "integer",
+            "title": "Order",
+            "default": 0
+          },
+          "views": {
+            "type": "integer",
+            "title": "Views",
+            "default": 0
+          },
+          "published_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Published At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "section_slug",
+          "section_name",
+          "title",
+          "slug"
+        ],
+        "title": "DocumentDetailResponse",
+        "description": "Full document detail with content."
+      },
+      "DocumentSummaryResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "excerpt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Excerpt"
+          },
+          "thumbnails": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Thumbnails"
+          },
+          "doc_type": {
+            "type": "string",
+            "title": "Doc Type",
+            "default": "org_info"
+          },
+          "order": {
+            "type": "integer",
+            "title": "Order",
+            "default": 0
+          },
+          "views": {
+            "type": "integer",
+            "title": "Views",
+            "default": 0
+          },
+          "published_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Published At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "slug"
+        ],
+        "title": "DocumentSummaryResponse",
+        "description": "Document summary (no content) for list views."
+      },
+      "GlobalSearchResponse": {
+        "properties": {
+          "query": {
+            "type": "string",
+            "title": "Query",
+            "description": "The search query"
+          },
+          "articles": {
+            "$ref": "#/components/schemas/ArticleListResponse",
+            "description": "Matching articles (paginated)"
+          },
+          "categories": {
+            "items": {
+              "$ref": "#/components/schemas/CategoryResponse"
+            },
+            "type": "array",
+            "title": "Categories",
+            "description": "Matching categories"
+          },
+          "total_results": {
+            "type": "integer",
+            "title": "Total Results",
+            "description": "Total matching items across all types"
+          }
+        },
+        "type": "object",
+        "required": [
+          "query",
+          "articles",
+          "total_results"
+        ],
+        "title": "GlobalSearchResponse",
+        "description": "Global search response with results from multiple content types."
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "HomepageResponse": {
+        "properties": {
+          "organization": {
+            "$ref": "#/components/schemas/OrganizationResponse"
+          },
+          "featured_articles": {
+            "items": {
+              "$ref": "#/components/schemas/ArticleResponse"
+            },
+            "type": "array",
+            "title": "Featured Articles",
+            "description": "Featured/pinned articles for main highlight section"
+          },
+          "latest_articles": {
+            "items": {
+              "$ref": "#/components/schemas/ArticleResponse"
+            },
+            "type": "array",
+            "title": "Latest Articles",
+            "description": "Latest articles across all categories"
+          },
+          "popular_articles": {
+            "items": {
+              "$ref": "#/components/schemas/ArticleResponse"
+            },
+            "type": "array",
+            "title": "Popular Articles",
+            "description": "Most viewed articles"
+          },
+          "articles_by_category": {
+            "items": {
+              "$ref": "#/components/schemas/CategoryArticlesSection"
+            },
+            "type": "array",
+            "title": "Articles By Category",
+            "description": "Articles grouped by main categories"
+          },
+          "banners": {
+            "items": {
+              "$ref": "#/components/schemas/BannerResponse"
+            },
+            "type": "array",
+            "title": "Banners",
+            "description": "Homepage banners"
+          },
+          "header_menu": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MenuWithItemsResponse"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Header navigation menu"
+          },
+          "footer_menu": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MenuWithItemsResponse"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Footer navigation menu"
+          }
+        },
+        "type": "object",
+        "required": [
+          "organization"
+        ],
+        "title": "HomepageResponse",
+        "description": "All data needed for homepage in a single response.\n\nOptimized to reduce multiple API calls to one."
+      },
+      "LinkListResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/LinkResponse"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "total"
+        ],
+        "title": "LinkListResponse",
+        "description": "Link list response."
+      },
+      "LinkResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "url": {
+            "type": "string",
+            "title": "Url"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "logo_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Logo Url"
+          },
+          "category": {
+            "type": "string",
+            "title": "Category",
+            "default": "partner"
+          },
+          "target": {
+            "type": "string",
+            "title": "Target",
+            "default": "_blank"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "url"
+        ],
+        "title": "LinkResponse",
+        "description": "Link response."
+      },
+      "MenuItemTreeNode": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "url": {
+            "type": "string",
+            "title": "Url"
+          },
+          "icon": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Icon"
+          },
+          "target": {
+            "type": "string",
+            "title": "Target",
+            "default": "_self"
+          },
+          "children": {
+            "items": {
+              "$ref": "#/components/schemas/MenuItemTreeNode"
+            },
+            "type": "array",
+            "title": "Children"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "url"
+        ],
+        "title": "MenuItemTreeNode",
+        "description": "Menu item with nested children."
+      },
+      "MenuWithItemsResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "position": {
+            "type": "string",
+            "title": "Position"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/MenuItemTreeNode"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "slug",
+          "position",
+          "items"
+        ],
+        "title": "MenuWithItemsResponse",
+        "description": "Menu with items as tree."
+      },
+      "OrganizationResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "logo_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Logo Url"
+          },
+          "address": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Address"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          },
+          "website": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Website"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "code",
+          "name"
+        ],
+        "title": "OrganizationResponse",
+        "description": "Organization/ward info response."
+      },
+      "PageDetailResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "content": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Content"
+          },
+          "excerpt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Excerpt"
+          },
+          "featured_image": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Featured Image"
+          },
+          "template": {
+            "type": "string",
+            "title": "Template",
+            "default": "default"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "slug"
+        ],
+        "title": "PageDetailResponse",
+        "description": "Full page detail with content."
+      },
+      "PageListResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/PageSummaryResponse"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "total"
+        ],
+        "title": "PageListResponse",
+        "description": "Page list response."
+      },
+      "PageSummaryResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "excerpt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Excerpt"
+          },
+          "featured_image": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Featured Image"
+          },
+          "template": {
+            "type": "string",
+            "title": "Template",
+            "default": "default"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "slug"
+        ],
+        "title": "PageSummaryResponse",
+        "description": "Page summary (no content) for list views."
+      },
+      "PaginationMeta": {
+        "properties": {
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "page": {
+            "type": "integer",
+            "title": "Page"
+          },
+          "page_size": {
+            "type": "integer",
+            "title": "Page Size"
+          },
+          "total_pages": {
+            "type": "integer",
+            "title": "Total Pages"
+          }
+        },
+        "type": "object",
+        "required": [
+          "total",
+          "page",
+          "page_size",
+          "total_pages"
+        ],
+        "title": "PaginationMeta",
+        "description": "Pagination metadata."
+      },
+      "PublishAssetsRequest": {
+        "properties": {
+          "tenant_id": {
+            "type": "string",
+            "title": "Tenant Id"
+          },
+          "article_id": {
+            "type": "string",
+            "title": "Article Id"
+          },
+          "thumbnails": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Thumbnails",
+            "default": []
+          },
+          "attachments": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Attachments",
+            "default": []
+          },
+          "content_dict": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Content Dict",
+            "default": {
+
+            }
+          }
+        },
+        "type": "object",
+        "required": [
+          "tenant_id",
+          "article_id"
+        ],
+        "title": "PublishAssetsRequest",
+        "description": "Request body for publishing article assets."
+      },
+      "PublishAssetsResponse": {
+        "properties": {
+          "content_dict": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Content Dict"
+          },
+          "thumbnails": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Thumbnails"
+          },
+          "attachments": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Attachments"
+          }
+        },
+        "type": "object",
+        "required": [
+          "content_dict",
+          "thumbnails",
+          "attachments"
+        ],
+        "title": "PublishAssetsResponse",
+        "description": "Response with rewritten URLs."
+      },
+      "ReactionRequest": {
+        "properties": {
+          "reaction_type": {
+            "type": "string",
+            "pattern": "^(like|dislike)$",
+            "title": "Reaction Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "reaction_type"
+        ],
+        "title": "ReactionRequest"
+      },
+      "SitemapArticle": {
+        "properties": {
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "published_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Published At"
+          },
+          "category_slug": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Category Slug"
+          }
+        },
+        "type": "object",
+        "required": [
+          "slug",
+          "published_at"
+        ],
+        "title": "SitemapArticle",
+        "description": "Minimal article data for sitemap."
+      },
+      "SitemapResponse": {
+        "properties": {
+          "articles": {
+            "items": {
+              "$ref": "#/components/schemas/SitemapArticle"
+            },
+            "type": "array",
+            "title": "Articles"
+          },
+          "categories": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Categories"
+          },
+          "total_articles": {
+            "type": "integer",
+            "title": "Total Articles"
+          }
+        },
+        "type": "object",
+        "required": [
+          "articles",
+          "categories",
+          "total_articles"
+        ],
+        "title": "SitemapResponse",
+        "description": "Sitemap data for SEO."
+      },
+      "StatisticsResponse": {
+        "properties": {
+          "total_articles": {
+            "type": "integer",
+            "title": "Total Articles",
+            "description": "Total published articles"
+          },
+          "total_categories": {
+            "type": "integer",
+            "title": "Total Categories",
+            "description": "Total active categories"
+          },
+          "total_tags": {
+            "type": "integer",
+            "title": "Total Tags",
+            "description": "Total unique tags used"
+          },
+          "total_banners": {
+            "type": "integer",
+            "title": "Total Banners",
+            "description": "Total active banners"
+          },
+          "total_links": {
+            "type": "integer",
+            "title": "Total Links",
+            "description": "Total external links"
+          },
+          "articles_by_category": {
+            "items": {
+              "$ref": "#/components/schemas/CategoryStats"
+            },
+            "type": "array",
+            "title": "Articles By Category",
+            "description": "Article count per category"
+          },
+          "latest_article_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latest Article Date",
+            "description": "Date of the most recent article"
+          }
+        },
+        "type": "object",
+        "required": [
+          "total_articles",
+          "total_categories",
+          "total_tags",
+          "total_banners",
+          "total_links"
+        ],
+        "title": "StatisticsResponse",
+        "description": "Content statistics for the organization."
+      },
+      "SubmitFormRequest": {
+        "properties": {
+          "data": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Data"
+          },
+          "submitter_name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Submitter Name"
+          },
+          "submitter_email": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 254
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Submitter Email"
+          },
+          "submitter_phone": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 20
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Submitter Phone"
+          },
+          "is_anonymous": {
+            "type": "boolean",
+            "title": "Is Anonymous",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "title": "SubmitFormRequest"
+      },
+      "TagListResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/TagResponse"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "total"
+        ],
+        "title": "TagListResponse",
+        "description": "Tag list response."
+      },
+      "TagResponse": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "count"
+        ],
+        "title": "TagResponse",
+        "description": "Tag with article count."
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

@@ -1,6 +1,5 @@
 import { InfoBar } from "@/components/client";
 import { PageBanner } from "@/components/server";
-import { api } from "@/lib/api";
 import {
   FeaturedNews,
   HighlightsSection,
@@ -15,54 +14,45 @@ import {
   ProceduresSection,
 } from "@/components/home";
 
-async function fetchHomeData() {
-  const [
-    featuredRes,
-    highlightsRes,
-    categoriesRes,
-    threeCategoriesRes,
-    partyBuildingRes,
-    staffWorkRes,
-    partyActivityRes,
-    organizationRes,
-    servicesRes,
-    proceduresRes,
-    analyticsRes,
-    planningsRes,
-    electionRes,
-    announcementsRes,
-  ] = await Promise.all([
-    api.news.getFeatured(),
-    api.news.getHighlights(),
-    api.news.getCategories(),
-    api.news.getCategories('three-categories'),
-    api.news.getPartyBuilding(),
-    api.news.getStaffWork(),
-    api.news.getPartyActivity(),
-    api.organization.getMembers(),
-    api.services.getCitizenServices(),
-    api.procedures.getList({ limit: 2 }),
-    api.analytics.getStats(),
-    api.plannings.getFeatured(),
-    api.news.getElectionInfo(),
-    api.announcements.getList({ pinned: true, limit: 1 }),
-  ]);
+// TODO: Replace mock data imports with real API calls via compositeApi.getHomepage()
+// once components are updated to accept the new HomepageResponse shape.
+// Example:
+//   import { compositeApi } from "@/lib/api";
+//   const data = await compositeApi.getHomepage({ featured_limit: 5, latest_limit: 10 });
+import {
+  featuredNewsData,
+  highlightsData,
+  newsCategoriesData,
+  threeCategoriesData,
+  partyBuildingData,
+  staffWorkData,
+  partyActivityData,
+  organizationMembersData,
+  citizenServicesData,
+  proceduresData,
+  analyticsStatsData,
+  planningFeaturedData,
+  planningSidebarData,
+  electionInfoData,
+  announcementsData,
+} from '@/lib/mock-data';
 
+async function fetchHomeData() {
   return {
-    featured: featuredRes.data,
-    highlights: highlightsRes.data,
-    categories: categoriesRes.data,
-    threeCategories: threeCategoriesRes.data,
-    partyBuilding: partyBuildingRes.data,
-    staffWork: staffWorkRes.data,
-    partyActivity: partyActivityRes.data,
-    organization: organizationRes.data,
-    services: servicesRes.data,
-    procedures: proceduresRes.data,
-    analytics: analyticsRes.data,
-    plannings: planningsRes.data,
-    election: electionRes.data,
-    announcements: announcementsRes.data,
+    featured: featuredNewsData,
+    highlights: highlightsData,
+    categories: newsCategoriesData,
+    threeCategories: threeCategoriesData,
+    partyBuilding: partyBuildingData,
+    staffWork: staffWorkData,
+    partyActivity: partyActivityData,
+    organization: organizationMembersData,
+    services: citizenServicesData,
+    procedures: proceduresData,
+    analytics: { ...analyticsStatsData, lastUpdated: new Date().toISOString() },
+    plannings: { featured: planningFeaturedData, sidebar: planningSidebarData },
+    election: electionInfoData,
+    announcements: announcementsData,
   };
 }
 

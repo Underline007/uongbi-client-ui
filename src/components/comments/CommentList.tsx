@@ -2,9 +2,15 @@
 
 import { useState, useEffect } from 'react';
 import { MessageCircle } from 'lucide-react';
-import { commentsApi } from '@/lib/api';
-import type { Comment } from '@/types/api';
+import { feedbackApi } from '@/lib/api';
 import { CommentForm } from './CommentForm';
+
+interface Comment {
+  id: string;
+  author_name: string;
+  content: string;
+  created_at: string;
+}
 
 interface CommentListProps {
   articleId: string;
@@ -28,7 +34,7 @@ export function CommentList({ articleId }: CommentListProps) {
   const [comments, setComments] = useState<Comment[]>([]);
 
   useEffect(() => {
-    commentsApi.getByArticleId(articleId).then((res) => {
+    feedbackApi.getComments(articleId).then((res: { data: Comment[] }) => {
       setComments(res.data);
     });
   }, [articleId]);
@@ -50,15 +56,15 @@ export function CommentList({ articleId }: CommentListProps) {
           {comments.map((comment) => (
             <div key={comment.id} className="flex gap-3">
               <div className="flex-shrink-0 w-10 h-10 rounded-full bg-red-100 text-red-600 flex items-center justify-center font-semibold text-sm">
-                {getInitial(comment.name)}
+                {getInitial(comment.author_name)}
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
                   <span className="font-semibold text-sm text-gray-900">
-                    {comment.name}
+                    {comment.author_name}
                   </span>
                   <span className="text-xs text-gray-500">
-                    {formatCommentDate(comment.createdAt)}
+                    {formatCommentDate(comment.created_at)}
                   </span>
                 </div>
                 <p className="text-sm text-gray-700 leading-relaxed">
