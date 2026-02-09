@@ -13,12 +13,10 @@ import {
   ElectionSection,
   ProceduresSection,
 } from "@/components/home";
+import { compositeApi } from "@/lib/api";
+import { transformHomepageData } from "@/lib/homepage-adapters";
 
-// TODO: Replace mock data imports with real API calls via compositeApi.getHomepage()
-// once components are updated to accept the new HomepageResponse shape.
-// Example:
-//   import { compositeApi } from "@/lib/api";
-//   const data = await compositeApi.getHomepage({ featured_limit: 5, latest_limit: 10 });
+// Import fallback mock data for when API is not available
 import {
   featuredNewsData,
   highlightsData,
@@ -38,22 +36,38 @@ import {
 } from '@/lib/mock-data';
 
 async function fetchHomeData() {
-  return {
-    featured: featuredNewsData,
-    highlights: highlightsData,
-    categories: newsCategoriesData,
-    threeCategories: threeCategoriesData,
-    partyBuilding: partyBuildingData,
-    staffWork: staffWorkData,
-    partyActivity: partyActivityData,
-    organization: organizationMembersData,
-    services: citizenServicesData,
-    procedures: proceduresData,
-    analytics: { ...analyticsStatsData, lastUpdated: new Date().toISOString() },
-    plannings: { featured: planningFeaturedData, sidebar: planningSidebarData },
-    election: electionInfoData,
-    announcements: announcementsData,
-  };
+  try {
+    // Try to fetch real data from backend
+    const homepageData = await compositeApi.getHomepage({
+      featured_limit: 5,
+      latest_limit: 10,
+      popular_limit: 5,
+      articles_per_category: 4,
+    });
+
+    // Transform backend data to match component expectations
+    return transformHomepageData(homepageData);
+  } catch (error) {
+    console.warn('Failed to fetch homepage data from API, using mock data:', error);
+
+    // Fallback to mock data if API fails
+    return {
+      featured: featuredNewsData,
+      highlights: highlightsData,
+      categories: newsCategoriesData,
+      threeCategories: threeCategoriesData,
+      partyBuilding: partyBuildingData,
+      staffWork: staffWorkData,
+      partyActivity: partyActivityData,
+      organization: organizationMembersData,
+      services: citizenServicesData,
+      procedures: proceduresData,
+      analytics: { ...analyticsStatsData, lastUpdated: new Date().toISOString() },
+      plannings: { featured: planningFeaturedData, sidebar: planningSidebarData },
+      election: electionInfoData,
+      announcements: announcementsData,
+    };
+  }
 }
 
 export default async function Home() {
