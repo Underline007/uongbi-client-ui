@@ -41,7 +41,8 @@ export function AnalyticsStatsClient({ className }: AnalyticsStatsProps) {
     );
   }
 
-  const stats = data.data;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const stats = data as any;
 
   return (
     <div className={cn('bg-white border border-gray-200 p-4 shadow-sm', className)}>

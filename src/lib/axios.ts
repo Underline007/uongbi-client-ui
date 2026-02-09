@@ -1,7 +1,7 @@
 import axios, { AxiosError, type AxiosInstance, type InternalAxiosRequestConfig } from 'axios';
 
-// API Base URL - defaults to same origin for Next.js API routes
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || '/api';
+// API Base URL - CMS backend
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
 // Create axios instance
 export const apiClient: AxiosInstance = axios.create({
@@ -44,18 +44,16 @@ apiClient.interceptors.response.use(
     }
     return response;
   },
-  (error: AxiosError<{ error?: { message?: string; code?: string } }>) => {
+  (error: AxiosError<{ detail?: string | { msg: string }[] }>) => {
     // Handle common errors
     if (error.response) {
-      const { status, data } = error.response;
+      const { status } = error.response;
 
       switch (status) {
         case 401:
-          // Unauthorized - clear token and redirect to login
+          // Unauthorized - clear token
           if (typeof window !== 'undefined') {
             localStorage.removeItem('auth_token');
-            // Optionally redirect to login
-            // window.location.href = '/login';
           }
           break;
         case 403:
@@ -64,11 +62,17 @@ apiClient.interceptors.response.use(
         case 404:
           console.error('Not Found:', error.config?.url);
           break;
+        case 422:
+          console.error('Validation Error:', error.response.data?.detail);
+          break;
+        case 429:
+          console.error('Rate Limited: Too many requests');
+          break;
         case 500:
-          console.error('Server Error:', data?.error?.message || 'Internal server error');
+          console.error('Server Error');
           break;
         default:
-          console.error('API Error:', data?.error?.message || error.message);
+          console.error('API Error:', status, error.message);
       }
     } else if (error.request) {
       console.error('Network Error: No response received');
@@ -79,43 +83,5 @@ apiClient.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
-// Helper types for API responses
-export interface ApiResponse<T> {
-  success: true;
-  data: T;
-  meta?: {
-    total: number;
-    page: number;
-    limit: number;
-    totalPages: number;
-  };
-}
-
-export interface ApiError {
-  success: false;
-  error: {
-    code: string;
-    message: string;
-  };
-}
-
-// Generic API request functions
-export const api = {
-  get: <T>(url: string, params?: object) =>
-    apiClient.get<ApiResponse<T>>(url, { params }).then(res => res.data),
-
-  post: <T>(url: string, data?: object) =>
-    apiClient.post<ApiResponse<T>>(url, data).then(res => res.data),
-
-  put: <T>(url: string, data?: object) =>
-    apiClient.put<ApiResponse<T>>(url, data).then(res => res.data),
-
-  patch: <T>(url: string, data?: object) =>
-    apiClient.patch<ApiResponse<T>>(url, data).then(res => res.data),
-
-  delete: <T>(url: string) =>
-    apiClient.delete<ApiResponse<T>>(url).then(res => res.data),
-};
 
 export default apiClient;

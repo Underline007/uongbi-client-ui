@@ -1,203 +1,208 @@
+import { apiClient } from '@/lib/axios';
 import type {
-  ApiResponse,
-  FeaturedNews,
-  HighlightColumn,
-  NewsCategory,
-  PartyBuildingColumn,
-  StaffWorkData,
-  PartyActivityData,
-  OrganizationMember,
-  CitizenService,
-  Procedure,
-  Announcement,
-  AnalyticsStats,
-  PlanningItem,
-  Comment,
+  OrganizationResponse,
+  ArticleResponse,
+  ArticleDetailResponse,
+  ArticleListResponse,
+  ArticleListParams,
+  ArticleSearchParams,
+  CategoryResponse,
+  CategoryListResponse,
+  CategoryTreeResponse,
+  CategoryPageResponse,
+  BannerResponse,
+  BannerListResponse,
+  LinkResponse,
+  LinkListResponse,
+  TagListResponse,
+  PageListResponse,
+  PageDetailResponse,
+  DocSectionTreeResponse,
+  DocSectionDetailResponse,
+  DocumentDetailResponse,
+  DataSheetDetailResponse,
+  GlobalSearchResponse,
+  CreateCommentRequest,
+  ReactionRequest,
+  SubmitFormRequest,
+  HomepageResponse,
+  HomepageParams,
+  ArchiveResponse,
+  ArchiveParams,
+  SitemapResponse,
+  StatisticsResponse,
+  PaginationParams,
 } from '@/types/api';
 
-// Import mock data for direct use during SSR/build
-import {
-  featuredNewsData,
-  highlightsData,
-  newsCategoriesData,
-  threeCategoriesData,
-  partyBuildingData,
-  staffWorkData,
-  partyActivityData,
-  organizationMembersData,
-  citizenServicesData,
-  proceduresData,
-  analyticsStatsData,
-  planningFeaturedData,
-  planningSidebarData,
-  electionInfoData,
-  announcementsData,
-  commentsData,
-} from '@/lib/mock-data';
+// Organization code from environment
+const ORG_CODE = process.env.NEXT_PUBLIC_ORG_CODE || 'uongbi';
+const PREFIX = `/api/v1/${ORG_CODE}`;
 
-// Helper to create API response
-function createResponse<T>(data: T): ApiResponse<T> {
-  return { success: true, data };
+// Helper: extract response data from axios
+function getData<T>(response: { data: T }): T {
+  return response.data;
 }
 
-// News API - returns mock data directly for SSR compatibility
-export const newsApi = {
-  getFeatured: async (): Promise<ApiResponse<FeaturedNews>> => {
-    return createResponse(featuredNewsData);
-  },
-
-  getHighlights: async (): Promise<ApiResponse<HighlightColumn[]>> => {
-    return createResponse(highlightsData);
-  },
-
-  getCategories: async (type?: 'three-categories'): Promise<ApiResponse<NewsCategory[]>> => {
-    if (type === 'three-categories') {
-      return createResponse(threeCategoriesData);
-    }
-    return createResponse(newsCategoriesData);
-  },
-
-  getPartyBuilding: async (): Promise<ApiResponse<PartyBuildingColumn[]>> => {
-    return createResponse(partyBuildingData);
-  },
-
-  getStaffWork: async (): Promise<ApiResponse<StaffWorkData>> => {
-    return createResponse(staffWorkData);
-  },
-
-  getPartyActivity: async (): Promise<ApiResponse<PartyActivityData>> => {
-    return createResponse(partyActivityData);
-  },
-
-  getElectionInfo: async (): Promise<ApiResponse<typeof electionInfoData>> => {
-    return createResponse(electionInfoData);
-  },
-};
-
-// Organization API
+// --- Organization ---
 export const organizationApi = {
-  getMembers: async (): Promise<ApiResponse<OrganizationMember[]>> => {
-    return createResponse(organizationMembersData);
-  },
+  get: () =>
+    apiClient.get<OrganizationResponse>(`${PREFIX}`).then(getData),
 };
 
-// Services API
-export const servicesApi = {
-  getCitizenServices: async (): Promise<ApiResponse<CitizenService[]>> => {
-    return createResponse(citizenServicesData);
-  },
+// --- Articles ---
+export const articlesApi = {
+  list: (params?: ArticleListParams) =>
+    apiClient.get<ArticleListResponse>(`${PREFIX}/articles`, { params }).then(getData),
+
+  getBySlug: (slug: string) =>
+    apiClient.get<ArticleDetailResponse>(`${PREFIX}/articles/${slug}`).then(getData),
+
+  getLatest: (limit?: number) =>
+    apiClient.get<ArticleResponse[]>(`${PREFIX}/articles/latest`, { params: { limit } }).then(getData),
+
+  getPopular: (limit?: number) =>
+    apiClient.get<ArticleResponse[]>(`${PREFIX}/articles/popular`, { params: { limit } }).then(getData),
+
+  getFeatured: (limit?: number) =>
+    apiClient.get<ArticleResponse[]>(`${PREFIX}/articles/featured`, { params: { limit } }).then(getData),
+
+  search: (params: ArticleSearchParams) =>
+    apiClient.get<ArticleListResponse>(`${PREFIX}/articles/search`, { params }).then(getData),
+
+  getRelated: (slug: string, limit?: number) =>
+    apiClient.get<ArticleResponse[]>(`${PREFIX}/articles/${slug}/related`, { params: { limit } }).then(getData),
 };
 
-// Procedures API
-export const proceduresApi = {
-  getList: async (params?: { page?: number; limit?: number; search?: string; category?: string }): Promise<ApiResponse<Procedure[]>> => {
-    let filteredData = [...proceduresData];
+// --- Categories ---
+export const categoriesApi = {
+  list: () =>
+    apiClient.get<CategoryListResponse>(`${PREFIX}/categories`).then(getData),
 
-    if (params?.search) {
-      filteredData = filteredData.filter(p =>
-        p.title.toLowerCase().includes(params.search!.toLowerCase())
-      );
-    }
+  getTree: (depth?: number) =>
+    apiClient.get<CategoryTreeResponse>(`${PREFIX}/categories/tree`, { params: depth ? { depth } : undefined }).then(getData),
 
-    if (params?.category) {
-      filteredData = filteredData.filter(p => p.category === params.category);
-    }
+  getBySlug: (slug: string) =>
+    apiClient.get<CategoryResponse>(`${PREFIX}/categories/${slug}`).then(getData),
 
-    const limit = params?.limit || 10;
-    const page = params?.page || 1;
-    const startIndex = (page - 1) * limit;
-    const paginatedData = filteredData.slice(startIndex, startIndex + limit);
+  getArticles: (slug: string, params?: PaginationParams) =>
+    apiClient.get<ArticleListResponse>(`${PREFIX}/categories/${slug}/articles`, { params }).then(getData),
 
-    return {
-      success: true,
-      data: paginatedData,
-      meta: {
-        total: filteredData.length,
-        page,
-        limit,
-        totalPages: Math.ceil(filteredData.length / limit)
-      }
-    };
-  },
+  getPage: (slug: string, params?: PaginationParams) =>
+    apiClient.get<CategoryPageResponse>(`${PREFIX}/categories/${slug}/page`, { params }).then(getData),
 };
 
-// Announcements API
-export const announcementsApi = {
-  getList: async (params?: { page?: number; limit?: number; pinned?: boolean }): Promise<ApiResponse<Announcement[]>> => {
-    let filteredData = [...announcementsData];
+// --- Banners ---
+export const bannersApi = {
+  list: (position?: string) =>
+    apiClient.get<BannerListResponse>(`${PREFIX}/banners`, { params: position ? { position } : undefined }).then(getData),
 
-    if (params?.pinned) {
-      filteredData = filteredData.filter(a => a.pinned);
-    }
+  getActive: (position?: string) =>
+    apiClient.get<BannerResponse[]>(`${PREFIX}/banners/active`, { params: { position: position || 'homepage' } }).then(getData),
 
-    const limit = params?.limit || 10;
-    const page = params?.page || 1;
-    const startIndex = (page - 1) * limit;
-    const paginatedData = filteredData.slice(startIndex, startIndex + limit);
-
-    return {
-      success: true,
-      data: paginatedData,
-      meta: {
-        total: filteredData.length,
-        page,
-        limit,
-        totalPages: Math.ceil(filteredData.length / limit)
-      }
-    };
-  },
+  getByCode: (code: string) =>
+    apiClient.get<BannerResponse>(`${PREFIX}/banners/by-code/${code}`).then(getData),
 };
 
-// Analytics API
-export const analyticsApi = {
-  getStats: async (): Promise<ApiResponse<AnalyticsStats>> => {
-    return createResponse({
-      ...analyticsStatsData,
-      lastUpdated: new Date().toISOString()
-    });
-  },
+// --- Links ---
+export const linksApi = {
+  list: (category?: string) =>
+    apiClient.get<LinkListResponse>(`${PREFIX}/links`, { params: category ? { category } : undefined }).then(getData),
+
+  getByCategory: (category: string) =>
+    apiClient.get<LinkResponse[]>(`${PREFIX}/links/category/${category}`).then(getData),
 };
 
-// Plannings API
-export const planningsApi = {
-  getFeatured: async (): Promise<ApiResponse<{ featured: PlanningItem; sidebar: PlanningItem }>> => {
-    return createResponse({
-      featured: planningFeaturedData,
-      sidebar: planningSidebarData
-    });
-  },
+// --- Tags ---
+export const tagsApi = {
+  list: (limit?: number) =>
+    apiClient.get<TagListResponse>(`${PREFIX}/tags`, { params: limit ? { limit } : undefined }).then(getData),
+
+  getArticles: (tag: string, params?: PaginationParams) =>
+    apiClient.get<ArticleListResponse>(`${PREFIX}/tags/${tag}/articles`, { params }).then(getData),
 };
 
-// Comments API
-export const commentsApi = {
-  getByArticleId: async (articleId: string): Promise<ApiResponse<Comment[]>> => {
-    const filtered = commentsData.filter(c => c.articleId === articleId);
-    return createResponse(filtered);
-  },
+// --- Pages ---
+export const pagesApi = {
+  list: () =>
+    apiClient.get<PageListResponse>(`${PREFIX}/pages`).then(getData),
 
-  create: async (data: { articleId: string; name: string; content: string }): Promise<ApiResponse<Comment>> => {
-    const newComment: Comment = {
-      id: `cmt-${Date.now()}`,
-      articleId: data.articleId,
-      name: data.name,
-      content: data.content,
-      createdAt: new Date().toISOString(),
-    };
-    commentsData.push(newComment);
-    return createResponse(newComment);
-  },
+  getBySlug: (slug: string) =>
+    apiClient.get<PageDetailResponse>(`${PREFIX}/pages/${slug}`).then(getData),
 };
 
-// Export all APIs
-export const api = {
-  news: newsApi,
+// --- Documents ---
+export const documentsApi = {
+  getSections: (doc_type?: string) =>
+    apiClient.get<DocSectionTreeResponse>(`${PREFIX}/documents/sections`, { params: doc_type ? { doc_type } : undefined }).then(getData),
+
+  getSectionBySlug: (slug: string) =>
+    apiClient.get<DocSectionDetailResponse>(`${PREFIX}/documents/sections/${slug}`).then(getData),
+
+  getBySlug: (slug: string) =>
+    apiClient.get<DocumentDetailResponse>(`${PREFIX}/documents/${slug}`).then(getData),
+
+  getDataSheet: (slug: string) =>
+    apiClient.get<DataSheetDetailResponse>(`${PREFIX}/documents/data-sheets/${slug}`).then(getData),
+};
+
+// --- Search ---
+export const searchApi = {
+  global: (params: { q: string; page?: number; page_size?: number }) =>
+    apiClient.get<GlobalSearchResponse>(`${PREFIX}/search`, { params }).then(getData),
+};
+
+// --- Feedback ---
+export const feedbackApi = {
+  getComments: (articleSlug: string, params?: PaginationParams) =>
+    apiClient.get(`${PREFIX}/feedback/articles/${articleSlug}/comments`, { params }).then(getData),
+
+  createComment: (articleSlug: string, data: CreateCommentRequest) =>
+    apiClient.post(`${PREFIX}/feedback/articles/${articleSlug}/comments`, data).then(getData),
+
+  addReaction: (commentId: string, data: ReactionRequest) =>
+    apiClient.post(`${PREFIX}/feedback/comments/${commentId}/reactions`, data).then(getData),
+
+  listForms: () =>
+    apiClient.get(`${PREFIX}/feedback/forms`).then(getData),
+
+  getForm: (formSlug: string) =>
+    apiClient.get(`${PREFIX}/feedback/forms/${formSlug}`).then(getData),
+
+  submitForm: (formId: string, data: SubmitFormRequest) =>
+    apiClient.post(`${PREFIX}/feedback/forms/${formId}/submit`, data).then(getData),
+};
+
+// --- Composite ---
+export const compositeApi = {
+  getHomepage: (params?: HomepageParams) =>
+    apiClient.get<HomepageResponse>(`${PREFIX}/homepage`, { params }).then(getData),
+
+  getCategoryPage: (slug: string, params?: PaginationParams) =>
+    apiClient.get<CategoryPageResponse>(`${PREFIX}/categories/${slug}/page`, { params }).then(getData),
+
+  getArchive: (params?: ArchiveParams) =>
+    apiClient.get<ArchiveResponse>(`${PREFIX}/archive`, { params }).then(getData),
+
+  getSitemap: () =>
+    apiClient.get<SitemapResponse>(`${PREFIX}/sitemap`).then(getData),
+
+  getStatistics: () =>
+    apiClient.get<StatisticsResponse>(`${PREFIX}/statistics`).then(getData),
+};
+
+// --- Combined API export ---
+export const cmsApi = {
   organization: organizationApi,
-  services: servicesApi,
-  procedures: proceduresApi,
-  announcements: announcementsApi,
-  analytics: analyticsApi,
-  plannings: planningsApi,
-  comments: commentsApi,
+  articles: articlesApi,
+  categories: categoriesApi,
+  banners: bannersApi,
+  links: linksApi,
+  tags: tagsApi,
+  pages: pagesApi,
+  documents: documentsApi,
+  search: searchApi,
+  feedback: feedbackApi,
+  composite: compositeApi,
 };
 
-export default api;
+export default cmsApi;

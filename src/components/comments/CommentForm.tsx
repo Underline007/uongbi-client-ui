@@ -4,13 +4,12 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
 import { commentFormSchema, type CommentFormData } from '@/lib/validations';
-import { commentsApi } from '@/lib/api';
+import { feedbackApi } from '@/lib/api';
 import { cn } from '@/lib/utils';
-import type { Comment } from '@/types/api';
 
 interface CommentFormProps {
   articleId: string;
-  onCommentAdded: (comment: Comment) => void;
+  onCommentAdded: (comment: { id: string; author_name: string; content: string; created_at: string }) => void;
 }
 
 export function CommentForm({ articleId, onCommentAdded }: CommentFormProps) {
@@ -29,12 +28,11 @@ export function CommentForm({ articleId, onCommentAdded }: CommentFormProps) {
 
   const onSubmit = async (data: CommentFormData) => {
     try {
-      const result = await commentsApi.create({
-        articleId,
-        name: data.name,
+      const result = await feedbackApi.createComment(articleId, {
+        author_name: data.name,
         content: data.content,
       });
-      onCommentAdded(result.data);
+      onCommentAdded(result as { id: string; author_name: string; content: string; created_at: string });
       toast.success('Bình luận đã được gửi!');
       reset();
     } catch {

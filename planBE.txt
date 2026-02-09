@@ -1,0 +1,246 @@
+Plan: Tích hợp Backend API & Tạo Service Layer
+
+ Context
+
+ Project đang sử dụng mock data trong src/lib/api.ts để render SSR. Cần chuyển sang gọi real backend API (FastAPI CMS, OpenAPI 3.1.0) tại /api/v1/{org_code}/.... Cấu hình org_code và API URL sẽ lưu trong .env.
+
+ Tổng quan thay đổi
+
+ 1. Cấu hình Environment (.env.local)
+
+ - Thêm NEXT_PUBLIC_API_URL=https://your-api-url.com (placeholder)
+ - Thêm NEXT_PUBLIC_ORG_CODE=uongbi (mặc định)
+
+ 2. Viết lại Types (src/types/api.ts)
+
+ Thay thế toàn bộ types cũ (mock-based) bằng types khớp với OpenAPI schemas thực tế:
+
+ Types mới cần tạo:
+ - OrganizationResponse (id, code, name, description, logo_url, address, phone, email, website)
+ - ArticleResponse (id, title, slug, excerpt, featured_image, author_name, category_name, category_slug, tags[], views, published_at)
+ - ArticleDetailResponse (extends ArticleResponse + content)
+ - ArticleListResponse (success, data: ArticleResponse[], meta: PaginationMeta)
+ - PaginationMeta (total, page, page_size, total_pages)
+ - CategoryResponse (id, name, slug, description, article_count)
+ - CategoryTreeNode (extends CategoryResponse + children[])
+ - CategoryTreeResponse, CategoryListResponse
+ - CategoryPageResponse (category, articles, total_articles, page, page_size, total_pages, subcategories, parent_category)
+ - CategoryArticlesSection (category, articles)
+ - BannerResponse (id, title, image_url, subtitle, link_url, link_target, position, code, description, display_mode, layout_width, layout_height, items[])
+ - BannerItemResponse (image_url, title, link_url, link_target, display_order)
+ - BannerListResponse
+ - LinkResponse (id, title, url, description, logo_url, category, target)
+ - LinkListResponse
+ - TagResponse (name, count), TagListResponse
+ - PageSummaryResponse, PageDetailResponse, PageListResponse
+ - DocumentDetailResponse, DocumentSummaryResponse
+ - DocSectionDetailResponse, DocSectionTreeNodeResponse, DocSectionTreeResponse
+ - DataSheetDetailResponse, DataSheetSummaryResponse
+ - GlobalSearchResponse (query, articles: ArticleListResponse, categories[], total_results)
+ - HomepageResponse (organization, featured_articles, latest_articles, popular_articles, articles_by_category, banners, header_menu, footer_menu)
+ - MenuWithItemsResponse, MenuItemTreeNode
+ - CreateCommentRequest, ReactionRequest, SubmitFormRequest
+ - ArchiveResponse, ArchiveMonthStats
+ - SitemapResponse, SitemapArticle
+ - StatisticsResponse, CategoryStats
+
+ 3. Cập nhật Axios Client (src/lib/axios.ts)
+
+ - Thay BASE_URL để dùng NEXT_PUBLIC_API_URL
+ - Các generic helpers (api.get, api.post...) sẽ trả về response.data trực tiếp (backend trả data thẳng, không wrap trong {success, data})
+
+ 4. Tạo Service Layer mới (src/lib/api.ts)
+
+ Viết lại hoàn toàn, thay mock data bằng real API calls qua axios. Tổ chức theo domain:
+
+ const ORG = process.env.NEXT_PUBLIC_ORG_CODE || 'uongbi';
+ const prefix = `/api/v1/${ORG}`;
+
+ export const cmsApi = {
+   organization: {
+     get: () => apiClient.get<OrganizationResponse>(`${prefix}`),
+   },
+   articles: {
+     list: (params?) => apiClient.get<ArticleListResponse>(`${prefix}/articles`, { params }),
+     getBySlug: (slug) => apiClient.get<ArticleDetailResponse>(`${prefix}/articles/${slug}`),
+     getLatest: (limit?) => apiClient.get<ArticleResponse[]>(`${prefix}/articles/latest`, { params: { limit } }),
+     getPopular: (limit?) => apiClient.get<ArticleResponse[]>(`${prefix}/articles/popular`, { params: { limit } }),
+     getFeatured: (limit?) => apiClient.get<ArticleResponse[]>(`${prefix}/articles/featured`, { params: { limit } }),
+     search: (params) => apiClient.get<ArticleListResponse>(`${prefix}/articles/search`, { params }),
+     getRelated: (slug, limit?) => apiClient.get<ArticleResponse[]>(`${prefix}/articles/${slug}/related`, { params: { limit } }),
+   },
+   categories: {
+     list: () => apiClient.get<CategoryListResponse>(`${prefix}/categories`),
+     getTree: (depth?) => apiClient.get<CategoryTreeResponse>(`${prefix}/categories/tree`, { params: { depth } }),
+     getBySlug: (slug) => apiClient.get<CategoryResponse>(`${prefix}/categories/${slug}`),
+     getArticles: (slug, params?) => apiClient.get<ArticleListResponse>(`${prefix}/categories/${slug}/articles`, { params }),
+     getPage: (slug, params?) => apiClient.get<CategoryPageResponse>(`${prefix}/categories/${slug}/page`, { params }),
+   },
+   banners: {
+     list: (position?) => apiClient.get<BannerListResponse>(`${prefix}/banners`, { params: { position } }),
+     getActive: (position?) => apiClient.get<BannerResponse[]>(`${prefix}/banners/active`, { params: { position } }),
+     getByCode: (code) => apiClient.get<BannerResponse>(`${prefix}/banners/by-code/${code}`),
+   },
+   links: {
+     list: (category?) => apiClient.get<LinkListResponse>(`${prefix}/links`, { params: { category } }),
+     getByCategory: (category) => apiClient.get<LinkResponse[]>(`${prefix}/links/category/${category}`),
+   },
+   tags: {
+     list: (limit?) => apiClient.get<TagListResponse>(`${prefix}/tags`, { params: { limit } }),
+     getArticles: (tag, params?) => apiClient.get<ArticleListResponse>(`${prefix}/tags/${tag}/articles`, { params }),
+   },
+   pages: {
+     list: () => apiClient.get<PageListResponse>(`${prefix}/pages`),
+     getBySlug: (slug) => apiClient.get<PageDetailResponse>(`${prefix}/pages/${slug}`),
+   },
+   documents: {
+     getSections: (doc_type?) => apiClient.get<DocSectionTreeResponse>(`${prefix}/documents/sections`, { params: { doc_type } }),
+     getSectionBySlug: (slug) => apiClient.get<DocSectionDetailResponse>(`${prefix}/documents/sections/${slug}`),
+     getBySlug: (slug) => apiClient.get<DocumentDetailResponse>(`${prefix}/documents/${slug}`),
+     getDataSheet: (slug) => apiClient.get<DataSheetDetailResponse>(`${prefix}/documents/data-sheets/${slug}`),
+   },
+   search: {
+     global: (params) => apiClient.get<GlobalSearchResponse>(`${prefix}/search`, { params }),
+   },
+   feedback: {
+     getComments: (articleSlug, params?) => apiClient.get(`${prefix}/feedback/articles/${articleSlug}/comments`, { params }),
+     createComment: (articleSlug, data) => apiClient.post(`${prefix}/feedback/articles/${articleSlug}/comments`, data),
+     addReaction: (commentId, data) => apiClient.post(`${prefix}/feedback/comments/${commentId}/reactions`, data),
+     listForms: () => apiClient.get(`${prefix}/feedback/forms`),
+     getForm: (formSlug) => apiClient.get(`${prefix}/feedback/forms/${formSlug}`),
+     submitForm: (formId, data) => apiClient.post(`${prefix}/feedback/forms/${formId}/submit`, data),
+   },
+   composite: {
+     getHomepage: (params?) => apiClient.get<HomepageResponse>(`${prefix}/homepage`, { params }),
+     getCategoryPage: (slug, params?) => apiClient.get<CategoryPageResponse>(`${prefix}/categories/${slug}/page`, { params }),
+     getArchive: (params?) => apiClient.get<ArchiveResponse>(`${prefix}/archive`, { params }),
+     getSitemap: () => apiClient.get<SitemapResponse>(`${prefix}/sitemap`),
+     getStatistics: () => apiClient.get<StatisticsResponse>(`${prefix}/statistics`),
+   },
+ };
+
+ 5. Cập nhật Query Keys (src/lib/react-query.ts)
+
+ Thêm query keys cho các domain mới: categories, banners, links, tags, pages, documents, search, feedback, composite.
+
+ 6. Cập nhật React Query Hooks (src/hooks/api/)
+
+ Cập nhật tất cả hooks hiện tại và thêm hooks mới:
+
+ Files cần cập nhật:
+ - use-news.ts → đổi tên thành use-articles.ts (articles thay cho news)
+ - use-announcements.ts → tích hợp với articles
+ - use-analytics.ts → dùng statistics API
+ - use-config.ts → dùng organization API
+ - use-contact-form.ts → dùng feedback API
+ - use-procedures.ts → có thể map vào documents hoặc giữ nguyên
+
+ Files hooks mới:
+ - use-categories.ts - category tree, category page
+ - use-banners.ts - banners, active banners
+ - use-links.ts - external links
+ - use-tags.ts - tags, articles by tag
+ - use-pages.ts - static pages
+ - use-documents.ts - documents, sections
+ - use-search.ts - global search
+ - use-feedback.ts - comments, forms
+ - use-homepage.ts - composite homepage data
+
+ Cập nhật index.ts để export tất cả hooks mới.
+
+ Files sẽ thay đổi
+ ┌─────────────────────────────────┬────────────────────────────────────────────────┐
+ │              File               │                   Hành động                    │
+ ├─────────────────────────────────┼────────────────────────────────────────────────┤
+ │ .env.local                      │ Thêm NEXT_PUBLIC_API_URL, NEXT_PUBLIC_ORG_CODE │
+ ├─────────────────────────────────┼────────────────────────────────────────────────┤
+ │ src/types/api.ts                │ Viết lại hoàn toàn - types mới từ OpenAPI      │
+ ├─────────────────────────────────┼────────────────────────────────────────────────┤
+ │ src/lib/axios.ts                │ Cập nhật BASE_URL, giữ interceptors            │
+ ├─────────────────────────────────┼────────────────────────────────────────────────┤
+ │ src/lib/api.ts                  │ Viết lại hoàn toàn - real API calls thay mock  │
+ ├─────────────────────────────────┼────────────────────────────────────────────────┤
+ │ src/lib/react-query.ts          │ Thêm query keys cho domains mới                │
+ ├─────────────────────────────────┼────────────────────────────────────────────────┤
+ │ src/hooks/api/use-articles.ts   │ Mới (thay use-news.ts)                         │
+ ├─────────────────────────────────┼────────────────────────────────────────────────┤
+ │ src/hooks/api/use-categories.ts │ Mới                                            │
+ ├─────────────────────────────────┼────────────────────────────────────────────────┤
+ │ src/hooks/api/use-banners.ts    │ Mới                                            │
+ ├─────────────────────────────────┼────────────────────────────────────────────────┤
+ │ src/hooks/api/use-links.ts      │ Mới                                            │
+ ├─────────────────────────────────┼────────────────────────────────────────────────┤
+ │ src/hooks/api/use-tags.ts       │ Mới                                            │
+ ├─────────────────────────────────┼────────────────────────────────────────────────┤
+ │ src/hooks/api/use-pages.ts      │ Mới                                            │
+ ├─────────────────────────────────┼────────────────────────────────────────────────┤
+ │ src/hooks/api/use-documents.ts  │ Mới                                            │
+ ├─────────────────────────────────┼────────────────────────────────────────────────┤
+ │ src/hooks/api/use-search.ts     │ Mới                                            │
+ ├─────────────────────────────────┼────────────────────────────────────────────────┤
+ │ src/hooks/api/use-feedback.ts   │ Mới                                            │
+ ├─────────────────────────────────┼────────────────────────────────────────────────┤
+ │ src/hooks/api/use-homepage.ts   │ Mới                                            │
+ ├─────────────────────────────────┼────────────────────────────────────────────────┤
+ │ src/hooks/api/index.ts          │ Cập nhật exports                               │
+ └─────────────────────────────────┴────────────────────────────────────────────────┘
+ Lưu ý quan trọng
+
+ - Backend trả data trực tiếp (không wrap trong {success: true, data: ...} cho hầu hết endpoints) - cần điều chỉnh axios response handling
+ - ArticleListResponse có wrap {success, data, meta} nhưng các endpoint trả array thì không wrap
+ - Giữ nguyên mock data files (không xóa) để có thể fallback nếu cần
+ - KHÔNG thay đổi components - chỉ thay đổi service layer, components sẽ cần cập nhật riêng sau
+
+ Verification
+
+ 1. Chạy npm run build để kiểm tra TypeScript compilation
+ 2. Kiểm tra import paths không bị broken
+ 3. Sau khi có API URL thật, test thử cmsApi.composite.getHomepage() xem data trả về đúng format
+
+
+
+
+
+
+ -----
+
+ 
+  Files đã tạo/cập nhật:
+  ┌─────────────────────────────────┬─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │              File               │                                                                  Thay đổi                                                                   │
+  ├─────────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ .env.local                      │ Thêm NEXT_PUBLIC_API_URL, NEXT_PUBLIC_ORG_CODE                                                                                              │
+  ├─────────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ src/types/api.ts                │ Viết lại - 40+ types mới từ OpenAPI + giữ legacy types                                                                                      │
+  ├─────────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ src/lib/axios.ts                │ Cập nhật BASE_URL dùng env, thêm handler 422/429                                                                                            │
+  ├─────────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ src/lib/api.ts                  │ Viết lại - 11 API domains: cmsApi.{organization, articles, categories, banners, links, tags, pages, documents, search, feedback, composite} │
+  ├─────────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ src/lib/react-query.ts          │ Thêm query keys cho tất cả domains mới                                                                                                      │
+  ├─────────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ src/hooks/api/use-articles.ts   │ Mới - 8 hooks (list, detail, latest, popular, featured, search, related, prefetch)                                                          │
+  ├─────────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ src/hooks/api/use-categories.ts │ Mới - 5 hooks                                                                                                                               │
+  ├─────────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ src/hooks/api/use-banners.ts    │ Mới - 3 hooks                                                                                                                               │
+  ├─────────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ src/hooks/api/use-links.ts      │ Mới - 2 hooks                                                                                                                               │
+  ├─────────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ src/hooks/api/use-tags.ts       │ Mới - 2 hooks                                                                                                                               │
+  ├─────────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ src/hooks/api/use-pages.ts      │ Mới - 2 hooks                                                                                                                               │
+  ├─────────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ src/hooks/api/use-documents.ts  │ Mới - 4 hooks                                                                                                                               │
+  ├─────────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ src/hooks/api/use-search.ts     │ Mới - 1 hook                                                                                                                                │
+  ├─────────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ src/hooks/api/use-feedback.ts   │ Mới - 6 hooks (comments, reactions, forms)                                                                                                  │
+  ├─────────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ src/hooks/api/use-homepage.ts   │ Mới - 4 hooks (homepage, archive, sitemap, statistics)                                                                                      │
+  └─────────────────────────────────┴─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+  Bước tiếp theo:
+
+  1. Cập nhật NEXT_PUBLIC_API_URL trong .env.local với URL backend thật
+  2. Cập nhật components trong src/components/home/ để dùng HomepageResponse thay vì mock data shapes
+  3. Khi gọi API thật, dùng cmsApi.composite.getHomepage() thay vì import mock data trực tiếp
