@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { Phone, Eye, TrendingUp, Users } from "lucide-react";
-import type { Announcement, AnalyticsStats } from "@/types/api";
+import type { ArticleResponse, AnalyticsStats } from "@/types/api";
 
 interface HomeSidebarProps {
-    announcements: Announcement[];
+    announcements: ArticleResponse[];
     analytics: AnalyticsStats;
     orgName?: string | null;
     orgPhone?: string | null;
@@ -20,7 +20,7 @@ export function HomeSidebar({ announcements, analytics, orgName, orgPhone }: Hom
                             <div className="overflow-hidden">
                                 <div className="overflow-hidden cursor-pointer">
                                     <img
-                                        src="https://storage.4ship.vn/public/image/59d7ec0b-0052-418b-81d2-963b5aa99401.jpg"
+                                        src="/thu-tuc-hanh-chinh.png"
                                         alt="thủ tục hành chính"
                                         className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                                         loading="lazy"
@@ -39,14 +39,20 @@ export function HomeSidebar({ announcements, analytics, orgName, orgPhone }: Hom
                             </Link>
                         </div>
                         <div className="space-y-0">
-                            {announcements.map((announcement) => (
-                                <div key={announcement.id}
-                                    className="py-3">
-                                    <div className="font-semibold text-sm text-gray-900 line-clamp-2 leading-snug " style={{ fontFamily: 'var(--font-merriweather), Merriweather, serif' }}>
-                                        {announcement.title}
-                                    </div>
+                            {announcements.length === 0 ? (
+                                <div className="text-center py-8 text-gray-500">
+                                    <p>Chưa có thông báo nào</p>
                                 </div>
-                            ))}
+                            ) : (
+                                announcements.map((announcement) => (
+                                    <Link key={announcement.id} href={`/announcements/${announcement.slug}`}
+                                        className="block py-3 hover:bg-gray-50 transition-colors">
+                                        <div className="font-semibold text-sm text-gray-900 line-clamp-2 leading-snug hover:text-red-600 transition-colors" style={{ fontFamily: 'var(--font-merriweather), Merriweather, serif' }}>
+                                            {announcement.title}
+                                        </div>
+                                    </Link>
+                                ))
+                            )}
                         </div>
                     </div>
 
@@ -81,12 +87,15 @@ export function HomeSidebar({ announcements, analytics, orgName, orgPhone }: Hom
                         <div className="space-y-4">
                             <div className="overflow-hidden">
                                 <div className="overflow-hidden cursor-pointer">
-                                    <img
-                                        src="https://storage.4ship.vn/public/image/1fab35bf-1424-4800-94f7-8f3c31c603f5.jpg"
-                                        alt="dịch vụ công"
-                                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                                        loading="lazy"
-                                    />
+                                    <a href="https://dichvucong.gov.vn/p/home/dvc-trang-chu.html">
+                                        <img
+                                            src="/cong-dich-vu-cong.jpg"
+
+                                            alt="dịch vụ công"
+                                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                                            loading="lazy"
+                                        />
+                                    </a>
                                 </div>
                             </div>
                         </div>

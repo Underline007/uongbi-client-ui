@@ -16,7 +16,6 @@ import type {
   Procedure,
   AnalyticsStats,
   PlanningItem,
-  Announcement,
   NewsItem,
 } from '@/types/api';
 
@@ -35,7 +34,7 @@ export function transformHomepageData(data: HomepageResponse) {
     analytics: transformToAnalytics(),
     plannings: transformToPlanning(data.latest_articles || []),
     election: transformToElection(data.articles_by_category || []),
-    announcements: [], // Will need separate API call for announcements
+    // announcements are fetched separately via categoriesApi.getArticles("thong-bao")
   };
 }
 
@@ -46,7 +45,7 @@ function transformToFeaturedNews(articles: ArticleResponse[]): FeaturedNews {
         id: '',
         title: 'Không có bài viết nổi bật',
         description: '',
-        image: '/placeholder-image.jpg',
+        image: '/no-image.png',
         createdAt: new Date().toISOString(),
       },
       sidebar: [],
@@ -60,13 +59,13 @@ function transformToFeaturedNews(articles: ArticleResponse[]): FeaturedNews {
       id: main.slug || main.id,
       title: main.title,
       description: main.excerpt || '',
-      image: main.featured_image || '/placeholder-image.jpg',
+      image: main.featured_image || '/no-image.png',
       createdAt: main.published_at,
     },
     sidebar: sidebar.slice(0, 6).map(article => ({
       id: article.slug || article.id,
       title: article.title,
-      image: article.featured_image || '/placeholder-image.jpg',
+      image: article.featured_image || '/no-image.png',
     })),
   };
 }
@@ -110,11 +109,11 @@ function transformToNewsCategories(categorySections: CategoryArticlesSection[]):
       featured: featured ? {
         id: featured.slug || featured.id,
         title: featured.title,
-        image: featured.featured_image || '/placeholder-image.jpg',
+        image: featured.featured_image || '/no-image.png',
       } : {
         id: '',
         title: 'Không có bài viết',
-        image: '/placeholder-image.jpg',
+        image: '/no-image.png',
       },
       items: items.slice(0, 3).map(article => ({
         id: article.slug || article.id,
@@ -141,18 +140,18 @@ function transformToPartyBuilding(categorySections: CategoryArticlesSection[]): 
       featured: featured ? {
         id: featured.slug || featured.id,
         title: featured.title,
-        image: featured.featured_image || '/placeholder-image.jpg',
+        image: featured.featured_image || '/no-image.png',
         description: featured.excerpt || '',
       } : {
         id: '',
         title: 'Không có bài viết',
-        image: '/placeholder-image.jpg',
+        image: '/no-image.png',
         description: '',
       },
       secondary: secondary ? {
         id: secondary.slug || secondary.id,
         title: secondary.title,
-        image: secondary.featured_image || '/placeholder-image.jpg',
+        image: secondary.featured_image || '/no-image.png',
       } : null,
     };
   });
@@ -166,7 +165,7 @@ function transformToStaffWork(articles: ArticleResponse[]): StaffWorkData {
     main: mainArticles.map(article => ({
       id: article.slug || article.id,
       title: article.title,
-      image: article.featured_image || '/placeholder-image.jpg',
+      image: article.featured_image || '/no-image.png',
       date: formatDateShort(article.published_at),
     })),
     sidebar: sidebarArticles.map(article => ({
@@ -185,20 +184,20 @@ function transformToPartyActivity(articles: ArticleResponse[]): PartyActivityDat
     featured: featured ? {
       id: featured.slug || featured.id,
       title: featured.title,
-      image: featured.featured_image || '/placeholder-image.jpg',
+      image: featured.featured_image || '/no-image.png',
       description: featured.excerpt || '',
       date: formatDateShort(featured.published_at),
     } : {
       id: '',
       title: 'Không có bài viết',
-      image: '/placeholder-image.jpg',
+      image: '/no-image.png',
       description: '',
       date: '',
     },
     grid: grid.slice(0, 6).map(article => ({
       id: article.slug || article.id,
       title: article.title,
-      image: article.featured_image || '/placeholder-image.jpg',
+      image: article.featured_image || '/no-image.png',
       date: formatDateShort(article.published_at),
     })),
   };
@@ -210,7 +209,7 @@ function transformToPlanning(articles: ArticleResponse[]): { featured: PlanningI
   const defaultItem: PlanningItem = {
     id: '',
     title: 'Không có thông tin quy hoạch',
-    image: '/placeholder-image.jpg',
+    image: '/no-image.png',
     description: '',
     category: 'planning',
     date: '',
@@ -220,7 +219,7 @@ function transformToPlanning(articles: ArticleResponse[]): { featured: PlanningI
     featured: featured ? {
       id: featured.slug || featured.id,
       title: featured.title,
-      image: featured.featured_image || '/placeholder-image.jpg',
+      image: featured.featured_image || '/no-image.png',
       description: featured.excerpt || '',
       category: 'planning',
       date: formatDateShort(featured.published_at),
@@ -228,7 +227,7 @@ function transformToPlanning(articles: ArticleResponse[]): { featured: PlanningI
     sidebar: sidebar ? {
       id: sidebar.slug || sidebar.id,
       title: sidebar.title,
-      image: sidebar.featured_image || '/placeholder-image.jpg',
+      image: sidebar.featured_image || '/no-image.png',
       description: sidebar.excerpt || '',
       category: 'planning',
       date: formatDateShort(sidebar.published_at),
@@ -251,7 +250,7 @@ function transformToElection(categorySections: CategoryArticlesSection[]) {
       featured: {
         id: '',
         title: 'Không có thông tin bầu cử',
-        image: '/placeholder-image.jpg',
+        image: '/no-image.png',
       },
     };
   }
@@ -265,11 +264,11 @@ function transformToElection(categorySections: CategoryArticlesSection[]) {
     featured: featured ? {
       id: featured.slug || featured.id,
       title: featured.title,
-      image: featured.featured_image || '/placeholder-image.jpg',
+      image: featured.featured_image || '/no-image.png',
     } : {
       id: '',
       title: 'Không có bài viết',
-      image: '/placeholder-image.jpg',
+      image: '/no-image.png',
     },
   };
 }

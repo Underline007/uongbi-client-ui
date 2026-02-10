@@ -16,55 +16,28 @@ export function StaffWorkSection({ staffWork }: StaffWorkSectionProps) {
                             Công tác cán bộ
                         </h3>
                     </div>
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <div className="lg:col-span-2 space-y-4">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                {staffWork.main.map((news) => (
-                                    <Link key={news.id} className="group block bg-white transition-all duration-300" href={`/tin-tuc/${news.id}`}>
-                                        <div className="aspect-16/10">
-                                            <div className="bg-gray-100 overflow-hidden w-full h-full">
-                                                <img src={news.image} alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                                            </div>
-                                        </div>
-                                        <div className="py-4">
-                                            <h4 className="font-semibold text-gray-900 group-hover:text-red-600 transition-colors mb-2">
-                                                {news.title}
-                                            </h4>
-                                            <div className="flex items-center gap-2 text-xs text-gray-500">
-                                                <Clock className="h-3 w-3" />
-                                                <time>{news.date}</time>
-                                            </div>
-                                        </div>
-                                    </Link>
-                                ))}
-                            </div>
-                        </div>
-                        <div className="lg:col-span-1">
-                            <div className="space-y-2">
-                                {staffWork.sidebar.map((news) => (
-                                    <Link key={news.id} className="group block py-3 hover:bg-gray-50 transition-colors duration-200" href={`/tin-tuc/${news.id}`}>
-                                        <div className="flex items-start gap-3">
-                                            <span className="text-red-600 font-bold text-xs md:mt-0.5 shrink-0">•</span>
-                                            <div className="flex-1">
-                                                <h5 className="font-medium text-sm text-gray-900 group-hover:text-red-600 transition-colors leading-tight">
-                                                    {news.title}
-                                                </h5>
-                                                <div className="mt-1">
-                                                    <div className="flex items-center gap-2 text-xs text-gray-500">
-                                                        <time>{news.date}</time>
-                                                        <span>•</span>
-                                                        <time>{news.time}</time>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </Link>
-                                ))}
-                            </div>
-                        </div>
+                    <div className="grid grid-cols-3 gap-6">
+                        {staffWork.main.map((news) => (
+                            <Link key={news.id} className="group block bg-white transition-all duration-300" href={`/tin-tuc/${news.id}`}>
+                                <div className="aspect-16/10">
+                                    <div className="bg-gray-100 overflow-hidden w-full h-full">
+                                        <img src={news.image} alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                                    </div>
+                                </div>
+                                <div className="py-4">
+                                    <h4 className="font-semibold text-gray-900 group-hover:text-red-600 transition-colors mb-2">
+                                        {news.title}
+                                    </h4>
+                                    <div className="flex items-center gap-2 text-xs text-gray-500">
+                                        <Clock className="h-3 w-3" />
+                                        <time>{news.date}</time>
+                                    </div>
+                                </div>
+                            </Link>
+                        ))}
                     </div>
                 </section>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 }

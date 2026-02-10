@@ -129,7 +129,7 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ slu
                                                     <div className="flex items-start gap-3">
                                                         <div className="shrink-0 w-16 h-12 bg-gray-100 overflow-hidden">
                                                             <img
-                                                                src={news.featured_image || '/placeholder-image.jpg'}
+                                                                src={news.featured_image || '/no-image.png'}
                                                                 alt={news.title}
                                                                 className="w-full h-full object-cover"
                                                                 loading="lazy"
@@ -191,7 +191,7 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ slu
                                         <div className="aspect-16/10 mb-4">
                                             <div className="relative overflow-hidden w-full h-full bg-gray-100 group-hover:opacity-95 transition-opacity">
                                                 <img
-                                                    src={news.featured_image || '/placeholder-image.jpg'}
+                                                    src={news.featured_image || '/no-image.png'}
                                                     alt={news.title}
                                                     className="w-full h-full object-cover"
                                                     loading="lazy"

@@ -13,7 +13,7 @@ import {
   ElectionSection,
   ProceduresSection,
 } from "@/components/home";
-import { compositeApi } from "@/lib/api";
+import { compositeApi, categoriesApi } from "@/lib/api";
 import { transformHomepageData } from "@/lib/homepage-adapters";
 import { getOrganization } from "@/lib/organization";
 
@@ -34,7 +34,11 @@ async function fetchHomeData() {
 }
 
 export default async function Home() {
-  const [data, org] = await Promise.all([fetchHomeData(), getOrganization()]);
+  const [data, org, announcementsRes] = await Promise.all([
+    fetchHomeData(),
+    getOrganization(),
+    categoriesApi.getArticles("thong-bao", { page: 1, page_size: 5 }).catch(() => null),
+  ]);
 
   if (!data) {
     return (
@@ -64,7 +68,7 @@ export default async function Home() {
                 <FeaturedNews featured={data.featured} />
                 <HighlightsSection highlights={data.highlights} />
               </div>
-              <HomeSidebar announcements={data.announcements} analytics={data.analytics} orgName={org?.name} orgPhone={org?.phone} />
+              <HomeSidebar announcements={announcementsRes?.data ?? []} analytics={data.analytics} orgName={org?.name} orgPhone={org?.phone} />
             </div>
           </div>
         </section>
