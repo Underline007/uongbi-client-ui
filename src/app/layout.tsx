@@ -6,6 +6,7 @@ import { Header, Navbar } from "@/components/client";
 import { Footer, FloatingPhoneButton } from "@/components/server";
 import { Providers } from "@/providers";
 import { GoogleAnalytics, PageTracker, WebVitals } from "@/components/analytics";
+import { getOrganization } from "@/lib/organization";
 
 const merriweather = Merriweather({
   variable: "--font-merriweather",
@@ -22,19 +23,21 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Trang Thông Tin Điện Tử - UBND Phường",
-  description: "Trang thông tin điện tử UBND Phường. Tin tức, thông báo, thủ tục hành chính và dịch vụ công trực tuyến.",
-  keywords: "Phường, UBND, thông tin điện tử, tin tức, thủ tục hành chính, dịch vụ công",
+  title: "Trang Thông Tin Điện Tử - UBND Phường Hà Lầm",
+  description: "Trang thông tin điện tử UBND Phường Hà Lầm. Tin tức, thông báo, thủ tục hành chính và dịch vụ công trực tuyến.",
+  keywords: "Phường Hà Lầm, UBND Phường Hà Lầm, thông tin điện tử Phường Hà Lầm, tin tức Phường Hà Lầm, thủ tục hành chính  Phường Hà Lầm, dịch vụ công Phường Hà Lầm",
   icons: {
     icon: "images/quochuy.png",
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const org = await getOrganization();
+
   return (
     <html lang="vi">
       <body
@@ -42,13 +45,13 @@ export default function RootLayout({
       >
         <Providers>
           <Theme accentColor="red" grayColor="slate" radius="medium" scaling="100%">
-            <Header />
+            <Header orgName={org?.name} logoUrl={org?.logo_url} />
             <Navbar />
             <main style={{ minHeight: "60vh" }}>
               {children}
             </main>
-            <Footer />
-            <FloatingPhoneButton />
+            <Footer org={org} />
+            <FloatingPhoneButton phone={org?.phone} />
           </Theme>
         </Providers>
         <GoogleAnalytics />

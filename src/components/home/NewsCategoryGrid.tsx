@@ -22,7 +22,7 @@ export function NewsCategoryGrid({ categories }: NewsCategoryGridProps) {
                                     </Link>
                                 </div>
                                 <div className="space-y-2 lg:space-y-4">
-                                    <Link className="block group" href={`/tin-tuc/${category.featured.id}`}>
+                                    <Link className="block group" href={`/news/${category.featured.id}`}>
                                         <div className="space-y-2">
                                             <div className="aspect-[16/9] overflow-hidden bg-gray-100">
                                                 <img
@@ -42,7 +42,7 @@ export function NewsCategoryGrid({ categories }: NewsCategoryGridProps) {
                                             <div className="border-t border-gray-200 pt-2"></div>
                                             <div className="m-0">
                                                 {category.items.map((item, idx) => (
-                                                    <Link key={item.id} className="block group" href={`/tin-tuc/${item.id}`}>
+                                                    <Link key={item.id} className="block group" href={`/news/${item.id}`}>
                                                         <div className={`py-2 ${idx < category.items.length - 1 ? 'border-b border-gray-200' : ''}`}>
                                                             <h4 className="font-medium text-gray-700 leading-relaxed group-hover:text-red-600 transition-colors line-clamp-2 m-0" style={{ fontSize: "0.8rem" }}>
                                                                 {item.title}

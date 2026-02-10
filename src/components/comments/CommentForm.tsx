@@ -8,11 +8,11 @@ import { feedbackApi } from '@/lib/api';
 import { cn } from '@/lib/utils';
 
 interface CommentFormProps {
-  articleId: string;
+  articleSlug: string;
   onCommentAdded: (comment: { id: string; author_name: string; content: string; created_at: string }) => void;
 }
 
-export function CommentForm({ articleId, onCommentAdded }: CommentFormProps) {
+export function CommentForm({ articleSlug, onCommentAdded }: CommentFormProps) {
   const {
     register,
     handleSubmit,
@@ -28,11 +28,16 @@ export function CommentForm({ articleId, onCommentAdded }: CommentFormProps) {
 
   const onSubmit = async (data: CommentFormData) => {
     try {
-      const result = await feedbackApi.createComment(articleId, {
+      const result = await feedbackApi.createComment(articleSlug, {
         author_name: data.name,
         content: data.content,
+      }) as Record<string, unknown>;
+      onCommentAdded({
+        id: (result?.id as string) || crypto.randomUUID(),
+        author_name: (result?.author_name as string) || data.name,
+        content: (result?.content as string) || data.content,
+        created_at: (result?.created_at as string) || new Date().toISOString(),
       });
-      onCommentAdded(result as { id: string; author_name: string; content: string; created_at: string });
       toast.success('Bình luận đã được gửi!');
       reset();
     } catch {

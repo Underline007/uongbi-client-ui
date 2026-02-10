@@ -1,77 +1,8 @@
 import Link from "next/link";
-import { Calendar, Bell, Pin, ChevronRight, Megaphone } from "lucide-react";
+import { notFound } from "next/navigation";
+import { Calendar, Bell, ChevronRight, Megaphone } from "lucide-react";
 import { ArticleTracker, ShareButtons } from "@/components/analytics";
-
-// Mock data - sẽ được thay thế bằng API call
-const announcementDetail = {
-    id: "694e2c8f6808578c44aa1eb5",
-    title: "Phường Móng Cái 3 ra mắt mô hình 'Biên giới bình yên – xã, phường không xuất nhập cảnh trái phép'",
-    slug: "phuong-mong-cai-3-ra-mat-mo-hinh-bien-gioi-binh-yen",
-    type: {
-        id: "type-001",
-        name: "Thông thường",
-        slug: "thong-thuong",
-    },
-    category: "Thông báo",
-    isPinned: true,
-    isImportant: false,
-    publishedAt: "2025-12-26T06:34:00.000Z",
-    content: `
-        <p>Ngày 5/8, Phường Móng Cái 3 ra mắt mô hình "Biên giới bình yên - xã/phường không xuất nhập cảnh trái phép" và thành lập Ban Chỉ đạo triển khai mô hình. Tới dự có các đồng chí: Thượng tá Phạm Văn Dũng, UVBTV Đảng ủy, Phó Giám đốc Công an Tỉnh Quảng Ninh; Nguyễn Phúc Vinh, Bí thư Đảng ủy phường Móng Cái 3; Đỗ Thị Hồng Nhung, Phó Bí thư Đảng ủy, Chủ tịch UBND phường Móng Cái 3; Trung tá Phạm Thị Hoài Thu, Trưởng Công an phường Móng Cái 3 và các đơn vị đứng chân trên địa bàn cùng đông đảo nhân dân.</p>
-        <p>Mô hình "Biên giới bình yên – xã, phường không xuất nhập cảnh trái phép" được thành lập nhằm phát huy vai trò của Nhân dân trong phòng ngừa, phát hiện, ngăn chặn hoạt động xuất nhập cảnh trái phép, xây dựng phong trào toàn dân bảo vệ an ninh Tổ quốc, góp phần giữ gìn an ninh trật tự tại địa bàn các khu dân cư trên địa bàn phường. Ban Chỉ đạo triển khai mô hình được thành lập gồm Trưởng ban là đồng chí Chủ tịch UBND phường Đỗ Thị Hồng Nhung; Phó Trưởng ban là đồng chí Phạm Thị Hoài Thu - Trưởng Công an Phường.</p>
-    `,
-};
-
-const relatedAnnouncements = [
-    {
-        id: "2",
-        title: "Thông báo lịch tiếp công dân định kỳ tháng 1/2026",
-        slug: "thong-bao-lich-tiep-cong-dan-dinh-ky-thang-1-2026",
-        publishedAt: "2025-12-25",
-        isPinned: true,
-    },
-    {
-        id: "3",
-        title: "Thông báo về việc tạm dừng tiếp nhận hồ sơ trực tiếp",
-        slug: "thong-bao-ve-viec-tam-dung-tiep-nhan-ho-so-truc-tiep",
-        publishedAt: "2025-12-24",
-        isPinned: false,
-    },
-    {
-        id: "4",
-        title: "Kế hoạch tổ chức các hoạt động mừng Đảng, mừng Xuân 2026",
-        slug: "ke-hoach-to-chuc-cac-hoat-dong-mung-dang-mung-xuan-2026",
-        publishedAt: "2025-12-23",
-        isPinned: false,
-    },
-];
-
-const otherAnnouncements = [
-    {
-        id: "5",
-        title: "Thông báo về việc triển khai dịch vụ công trực tuyến mức độ 4",
-        slug: "thong-bao-ve-viec-trien-khai-dich-vu-cong-truc-tuyen-muc-do-4",
-        publishedAt: "2025-12-22",
-    },
-    {
-        id: "6",
-        title: "Lịch làm việc của UBND phường trong dịp Tết Nguyên đán 2026",
-        slug: "lich-lam-viec-cua-ubnd-phuong-trong-dip-tet-nguyen-dan-2026",
-        publishedAt: "2025-12-21",
-    },
-    {
-        id: "7",
-        title: "Thông báo kết quả xét tuyển viên chức năm 2025",
-        slug: "thong-bao-ket-qua-xet-tuyen-vien-chuc-nam-2025",
-        publishedAt: "2025-12-20",
-    },
-    {
-        id: "8",
-        title: "Công khai quyết toán ngân sách năm 2024",
-        slug: "cong-khai-quyet-toan-ngan-sach-nam-2024",
-        publishedAt: "2025-12-19",
-    },
-];
+import { articlesApi } from "@/lib/api";
 
 function formatDate(dateString: string, includeTime = false) {
     const date = new Date(dateString);
@@ -88,7 +19,21 @@ function formatDate(dateString: string, includeTime = false) {
     return `${day}/${month}/${year}`;
 }
 
-export default function AnnouncementDetailPage() {
+export default async function AnnouncementDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params;
+
+    let announcementDetail;
+    try {
+        announcementDetail = await articlesApi.getBySlug(slug);
+    } catch {
+        notFound();
+    }
+
+    const [relatedAnnouncements, otherAnnouncements] = await Promise.all([
+        articlesApi.getRelated(slug, 3).catch(() => []),
+        articlesApi.getLatest(4).catch(() => []),
+    ]);
+
     return (
         <ArticleTracker type="announcement" id={announcementDetail.id} title={announcementDetail.title}>
             <main className="flex-1">
@@ -117,19 +62,15 @@ export default function AnnouncementDetailPage() {
                                         <div className="mb-8">
                                             {/* Header with badges */}
                                             <div className="flex flex-wrap items-center gap-3 mb-4">
-                                                {announcementDetail.isPinned && (
-                                                    <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-amber-50 text-amber-700 text-xs font-semibold border border-amber-200">
-                                                        <Pin className="w-3 h-3" />
-                                                        Ghim
-                                                    </span>
-                                                )}
                                                 <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-red-50 text-red-700 text-xs font-semibold border border-red-200">
                                                     <Bell className="w-3 h-3" />
-                                                    {announcementDetail.type.name}
+                                                    Thông báo
                                                 </span>
-                                                <span className="px-2.5 py-1 bg-gray-100 text-gray-600 text-xs font-medium">
-                                                    {announcementDetail.category}
-                                                </span>
+                                                {announcementDetail.category_name && (
+                                                    <span className="px-2.5 py-1 bg-gray-100 text-gray-600 text-xs font-medium">
+                                                        {announcementDetail.category_name}
+                                                    </span>
+                                                )}
                                             </div>
 
                                             {/* Title */}
@@ -142,10 +83,10 @@ export default function AnnouncementDetailPage() {
                                                 <div className="flex items-center text-gray-500 text-sm">
                                                     <Calendar className="h-4 w-4 mr-2" />
                                                     <span className="sm:hidden">
-                                                        {formatDate(announcementDetail.publishedAt)}
+                                                        {formatDate(announcementDetail.published_at)}
                                                     </span>
                                                     <span className="hidden sm:inline">
-                                                        {formatDate(announcementDetail.publishedAt, true)}
+                                                        {formatDate(announcementDetail.published_at, true)}
                                                     </span>
                                                 </div>
                                             </div>
@@ -195,18 +136,14 @@ export default function AnnouncementDetailPage() {
                                                     >
                                                         <div className="flex items-start gap-3 p-3 hover:bg-gray-50 transition-colors -mx-3">
                                                             <div className="flex-shrink-0 w-10 h-10 bg-red-50 flex items-center justify-center">
-                                                                {item.isPinned ? (
-                                                                    <Pin className="w-4 h-4 text-amber-600" />
-                                                                ) : (
-                                                                    <Bell className="w-4 h-4 text-red-600" />
-                                                                )}
+                                                                <Bell className="w-4 h-4 text-red-600" />
                                                             </div>
                                                             <div className="flex-1 min-w-0">
                                                                 <h4 className="font-medium text-sm text-gray-900 group-hover:text-red-600 transition-colors leading-snug line-clamp-2">
                                                                     {item.title}
                                                                 </h4>
                                                                 <div className="text-xs text-gray-500 mt-1">
-                                                                    {formatDate(item.publishedAt)}
+                                                                    {formatDate(item.published_at)}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -277,7 +214,7 @@ export default function AnnouncementDetailPage() {
                                                     </h4>
                                                     <div className="flex items-center gap-1 text-xs text-gray-500 mt-2">
                                                         <Calendar className="w-3 h-3" />
-                                                        {formatDate(item.publishedAt)}
+                                                        {formatDate(item.published_at)}
                                                     </div>
                                                 </div>
                                             </div>

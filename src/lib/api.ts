@@ -35,7 +35,7 @@ import type {
 } from '@/types/api';
 
 // Organization code from environment
-const ORG_CODE = process.env.NEXT_PUBLIC_ORG_CODE || 'uongbi';
+const ORG_CODE = process.env.NEXT_PUBLIC_ORG_CODE;
 const PREFIX = `/api/v1/${ORG_CODE}`;
 
 // Helper: extract response data from axios

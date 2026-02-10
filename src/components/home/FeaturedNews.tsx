@@ -22,7 +22,7 @@ export function FeaturedNews({ featured }: FeaturedNewsProps) {
                         </div>
                     </div>
                     <div className="pt-6">
-                        <Link href={`/tin-tuc/${featured.main.id}`}>
+                        <Link href={`/news/${featured.main.id}`}>
                             <h2 className="text-xl font-bold text-gray-900 mb-4 hover:text-red-600 transition-colors">
                                 {featured.main.title}
                             </h2>
@@ -41,7 +41,7 @@ export function FeaturedNews({ featured }: FeaturedNewsProps) {
                         <Link
                             key={news.id}
                             className={`block group py-3 ${index < featured.sidebar.length - 1 ? 'border-b border-gray-200' : ''}`}
-                            href={`/tin-tuc/${news.id}`}
+                            href={`/news/${news.id}`}
                         >
                             <div className="flex space-x-3">
                                 <div className="flex-1">
@@ -68,7 +68,7 @@ export function FeaturedNews({ featured }: FeaturedNewsProps) {
                         <Link
                             key={news.id}
                             className={`block group py-3 ${index < featured.sidebar.length - 1 ? 'border-b border-gray-200' : ''}`}
-                            href={`/tin-tuc/${news.id}`}
+                            href={`/news/${news.id}`}
                         >
                             <div className="flex space-x-3">
                                 <div className="flex-1">

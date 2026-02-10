@@ -29,7 +29,7 @@ export function ElectionSection({ election }: ElectionSectionProps) {
                                 </Link>
                             </div>
                             <div className="space-y-2 lg:space-y-4">
-                                <Link className="block group" href={`/tin-tuc/${election.featured.id}`}>
+                                <Link className="block group" href={`/news/${election.featured.id}`}>
                                     <div className="space-y-2">
                                         <div className="aspect-[16/9] overflow-hidden bg-gray-100">
                                             <img

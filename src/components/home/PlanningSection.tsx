@@ -22,7 +22,7 @@ export function PlanningSection({ plannings }: PlanningSectionProps) {
                     <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
                         <div className="lg:col-span-1">
                             <div className="space-y-4 h-full">
-                                <Link className="group block bg-white transition-all duration-300" href={`/tin-tuc/${plannings.sidebar.id}`}>
+                                <Link className="group block bg-white transition-all duration-300" href={`/news/${plannings.sidebar.id}`}>
                                     <div className="aspect-[16/10]">
                                         <div className="bg-gray-100 overflow-hidden w-full h-full">
                                             <img src={plannings.sidebar.image} alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
@@ -41,7 +41,7 @@ export function PlanningSection({ plannings }: PlanningSectionProps) {
                             </div>
                         </div>
                         <div className="lg:col-span-3">
-                            <Link className="group block bg-white transition-all duration-300 h-full" href={`/tin-tuc/${plannings.featured.id}`}>
+                            <Link className="group block bg-white transition-all duration-300 h-full" href={`/news/${plannings.featured.id}`}>
                                 <div className="flex flex-col h-full">
                                     <div className="aspect-[16/10] shrink-0">
                                         <div className="bg-gray-100 overflow-hidden w-full h-full">

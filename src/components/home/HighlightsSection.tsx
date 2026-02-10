@@ -29,7 +29,7 @@ export function HighlightsSection({ highlights }: HighlightsSectionProps) {
                                         <span className="text-xs text-gray-500 block mb-2">{item.date}</span>
                                         <Link
                                             className={`${item.featured ? 'font-semibold' : ''} text-gray-900 hover:text-red-600 transition-colors line-clamp-${item.featured ? '3' : '2'} text-sm leading-relaxed`}
-                                            href={`/tin-tuc/${item.id}`}
+                                            href={`/news/${item.id}`}
                                         >
                                             {item.title}
                                         </Link>
