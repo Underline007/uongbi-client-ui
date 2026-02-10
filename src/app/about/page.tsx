@@ -1,10 +1,10 @@
-'use client';
-
 import { PageBanner } from "@/components/server";
 import { MapPin, Phone, Mail, User } from "lucide-react";
 import { OutboundLink } from "@/components/analytics";
+import { getOrganization } from "@/lib/organization";
 
-export default function AboutPage() {
+export default async function AboutPage() {
+    const org = await getOrganization();
     return (
         <main className="flex-1">
             <div className="min-h-screen bg-white">
@@ -85,27 +85,41 @@ export default function AboutPage() {
                                         {/* Sidebar */}
                                         <div className="space-y-6">
                                             <div className="space-y-4">
-                                                <OutboundLink
-                                                    href="https://www.google.com/maps/search/?api=1&query=số%20533%20đường%20Doan%20Tĩnh,%20khu%20Hải%20Yên%204,%20phường%20Móng%20Cái%203,%20tỉnh%20Quảng%20Ninh"
-                                                    className="block bg-gray-50 border border-gray-200 rounded-lg p-4 hover:bg-gray-100 hover:border-red-300 transition-all cursor-pointer"
-                                                >
-                                                    <div className="flex items-start space-x-3">
-                                                        <MapPin className="h-5 w-5 text-red-600 mt-0.5 flex-shrink-0" />
-                                                        <div className="flex-1">
-                                                            <p className="text-sm font-medium text-gray-500 mb-1">Địa chỉ</p>
-                                                            <p className="text-gray-900 font-medium">số 533 đường Đoan Tĩnh, khu Hải Yên 4, phường Móng Cái 3, tỉnh Quảng Ninh</p>
-                                                            <p className="text-xs text-blue-600 mt-1 font-medium">Nhấn để chỉ đường</p>
+                                                <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 hover:bg-gray-100 hover:border-red-300 transition-all cursor-pointer">
+                                                    {org?.address ? (
+                                                        <OutboundLink
+                                                            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(org.address)}`}
+                                                            className="flex items-start space-x-3"
+                                                        >
+                                                            <MapPin className="h-5 w-5 text-red-600 mt-0.5 flex-shrink-0" />
+                                                            <div className="flex-1">
+                                                                <p className="text-sm font-medium text-gray-500 mb-1">Địa chỉ</p>
+                                                                <p className="text-gray-900 font-medium">{org.address}</p>
+                                                                <p className="text-xs text-blue-600 mt-1 font-medium">Nhấn để chỉ đường</p>
+                                                            </div>
+                                                        </OutboundLink>
+                                                    ) : (
+                                                        <div className="flex items-start space-x-3">
+                                                            <MapPin className="h-5 w-5 text-red-600 mt-0.5 flex-shrink-0" />
+                                                            <div className="flex-1">
+                                                                <p className="text-sm font-medium text-gray-500 mb-1">Địa chỉ</p>
+                                                                <p className="text-gray-900 font-medium">-</p>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </OutboundLink>
+                                                    )}
+                                                </div>
                                                 <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
                                                     <div className="flex items-start space-x-3">
                                                         <Phone className="h-5 w-5 text-red-600 mt-0.5 flex-shrink-0" />
                                                         <div className="flex-1">
                                                             <p className="text-sm font-medium text-gray-500 mb-1">Điện thoại</p>
-                                                            <a href="tel:0203.3881892" className="text-blue-600 hover:text-blue-800 font-medium">
-                                                                0203.3881892
-                                                            </a>
+                                                            {org?.phone ? (
+                                                                <a href={`tel:${org.phone.replace(/\./g, '')}`} className="text-blue-600 hover:text-blue-800 font-medium">
+                                                                    {org.phone}
+                                                                </a>
+                                                            ) : (
+                                                                <span className="text-gray-900 font-medium">-</span>
+                                                            )}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -114,9 +128,13 @@ export default function AboutPage() {
                                                         <Mail className="h-5 w-5 text-red-600 mt-0.5 flex-shrink-0" />
                                                         <div className="flex-1">
                                                             <p className="text-sm font-medium text-gray-500 mb-1">Email</p>
-                                                            <a href="mailto:ubnd.pmc3@quangninh.gov.vn" className="text-blue-600 hover:text-blue-800 font-medium break-all">
-                                                                ubnd.pmc3@quangninh.gov.vn
-                                                            </a>
+                                                            {org?.email ? (
+                                                                <a href={`mailto:${org.email}`} className="text-blue-600 hover:text-blue-800 font-medium break-all">
+                                                                    {org.email}
+                                                                </a>
+                                                            ) : (
+                                                                <span className="text-gray-900 font-medium">-</span>
+                                                            )}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -129,11 +147,15 @@ export default function AboutPage() {
                                                                 <div className="flex items-center justify-between bg-white rounded-lg p-2 border border-red-100">
                                                                     <div>
                                                                         <div className="font-medium text-red-900 text-sm">Đường dây chính</div>
-                                                                        <div className="text-xs text-red-600">Trực ban tại phường</div>
+                                                                        <div className="text-xs text-red-600">Trực ban tại {org?.name || 'phường'}</div>
                                                                     </div>
-                                                                    <a href="tel:0203.3881892" className="text-red-700 hover:text-red-900 font-bold">
-                                                                        0203.3881892
-                                                                    </a>
+                                                                    {org?.phone ? (
+                                                                        <a href={`tel:${org.phone.replace(/\./g, '')}`} className="text-red-700 hover:text-red-900 font-bold">
+                                                                            {org.phone}
+                                                                        </a>
+                                                                    ) : (
+                                                                        <span className="text-red-700 font-bold">-</span>
+                                                                    )}
                                                                 </div>
                                                             </div>
                                                         </div>

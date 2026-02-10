@@ -3,6 +3,7 @@ import type {
   ArticleResponse,
   CategoryArticlesSection,
 } from '@/types/api';
+import { citizenServicesData } from '@/lib/mock-data/services';
 import type {
   FeaturedNews,
   HighlightColumn,
@@ -29,7 +30,7 @@ export function transformHomepageData(data: HomepageResponse) {
     staffWork: transformToStaffWork(data.latest_articles || []),
     partyActivity: transformToPartyActivity(data.popular_articles || []),
     organization: [], // Will need separate API call for organization members
-    services: [], // Will need separate API call for citizen services
+    services: citizenServicesData,
     procedures: [], // Will need separate API call for procedures
     analytics: transformToAnalytics(),
     plannings: transformToPlanning(data.latest_articles || []),

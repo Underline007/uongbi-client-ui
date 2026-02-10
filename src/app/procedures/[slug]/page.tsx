@@ -1,39 +1,24 @@
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { ArrowLeft, FileText } from "lucide-react";
 import { ArticleTracker, ShareButtons } from "@/components/analytics";
+import { articlesApi } from "@/lib/api";
 
-// Mock data - sẽ được thay thế bằng API call
-const guideDetail = {
-    id: "694e2b856808578c44aa1eb2",
-    title: "Đăng ký thường trú",
-    slug: "dang-ky-thuong-tru",
-    content: `
-        <h2>Trình tự thực hiện</h2>
-        <p>Bước 1: Cá nhân chuẩn bị hồ sơ theo quy định của pháp luật.</p>
-        <p>Bước 2: Cá nhân nộp hồ sơ đến Công an cấp xã.</p>
-        <p>Bước 3: Khi tiếp nhận hồ sơ đăng ký thường trú, cơ quan đăng ký cư trú kiểm tra tính pháp lý và nội dung hồ sơ; thực hiện khai thác thông tin chứng minh về chỗ ở hợp pháp, quan hệ nhân thân do công dân cung cấp trong trong căn cước điện tử, tài khoản định danh điện tử trên hệ thống định danh và xác thực điện tử qua Ứng dụng định danh quốc gia hoặc trong Cơ sở dữ liệu quốc gia về dân cư, Cơ sở dữ liệu về cư trú, Kho quản lý dữ liệu điện tử tổ chức, cá nhân trên Cổng dịch vụ công quốc gia, Hệ thống thông tin giải quyết thủ tục hành chính cấp bộ, cấp tỉnh hoặc cơ sở dữ liệu quốc gia, cơ sở dữ liệu chuyên ngành khác.</p>
-        <p>Trường hợp không khai thác được thông tin thì cơ quan đăng ký cư trú có trách nhiệm kiểm tra, xác minh để giải quyết thủ tục về cư trú; công dân có trách nhiệm cung cấp bản sao, bản chụp, bản điện tử một trong các giấy tờ, tài liệu chứng minh về chỗ ở hợp pháp khi cơ quan đăng ký cư trú có yêu cầu.</p>
-        <p>- Trường hợp hồ sơ đã đầy đủ, hợp lệ thì tiếp nhận hồ sơ và cấp Phiếu tiếp nhận hồ sơ và hẹn trả kết quả (Mẫu CT04 ban hành kèm theo Thông tư số 66/2023/TT-BCA) cho người đăng ký.</p>
-        <p>+ Chuyển hồ sơ đề nghị cấp văn bản đồng ý cho giải quyết thường trú đến cơ quan quản lý xuất, nhập cảnh Công an tỉnh, thành phố trực thuộc Trung ương nơi công dân đề nghị đăng ký thường trú (kèm hồ sơ đề nghị đăng ký thường trú) để kiểm tra, xác minh và đề nghị cơ quan quản lý xuất, nhập cảnh Bộ Công an xem xét cấp văn bản đồng ý cho giải quyết thường trú đối với trường hợp công dân Việt Nam định cư ở nước ngoài không có hộ chiếu Việt Nam còn giá trị sử dụng (nếu có).</p>
-        <p>+ Chuyển hồ sơ đề nghị xác nhận nơi thường xuyên đậu, đỗ; sử dụng phương tiện vào mục đích để ở hoặc hồ sơ đề nghị xác nhận tình trạng chỗ ở hợp pháp, diện tích nhà ở tối thiểu để đăng ký thường trú, đăng ký tạm trú đến Ủy ban nhân dân cấp xã để xem xét, giải quyết theo quy định (nếu có).</p>
-        <p>- Trường hợp hồ sơ đủ điều kiện nhưng chưa đầy đủ thành phần hồ sơ theo quy định của pháp luật thì hướng dẫn bổ sung, hoàn thiện và cấp Phiếu hướng dẫn bổ sung, hoàn thiện hồ sơ (Mẫu CT05 ban hành kèm theo Thông tư số 66/2023/TT-BCA) cho người đăng ký;</p>
-        <p>- Trường hợp hồ sơ không đủ điều kiện thì từ chối và cấp Phiếu từ chối tiếp nhận, giải quyết hồ sơ (Mẫu CT06 ban hành kèm theo Thông tư số 66/2023/TT-BCA) cho người đăng ký.</p>
-        <p>Bước 4: Cá nhân nộp lệ phí đăng ký thường trú theo quy định.</p>
-        <p>Bước 5: Căn cứ theo ngày hẹn trên Phiếu tiếp nhận hồ sơ và hẹn trả kết quả để nhận thông báo kết quả giải quyết thủ tục đăng ký cư trú (nếu có).</p>
-    `,
-};
+export default async function GuideDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params;
 
-const relatedGuides = [
-    {
-        id: "694e2a666808578c44aa1ead",
-        title: "Thủ tục đăng ký khai sinh",
-        slug: "thu-tuc-dang-ky-khai-sinh",
-    },
-];
+    let guideDetail;
+    try {
+        guideDetail = await articlesApi.getBySlug(slug);
+    } catch {
+        notFound();
+    }
 
-const otherGuides: { id: string; title: string; slug: string }[] = [];
+    const [relatedGuides, otherGuides] = await Promise.all([
+        articlesApi.getRelated(slug, 5).catch(() => []),
+        articlesApi.getLatest(5).catch(() => []),
+    ]);
 
-export default function GuideDetailPage() {
     return (
         <ArticleTracker type="procedure" id={guideDetail.id} title={guideDetail.title}>
         <main className="flex-1">

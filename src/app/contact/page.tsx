@@ -1,8 +1,11 @@
 import { PageBanner } from "@/components/server";
 import { ContactForm } from "@/components/client";
 import { Clock, MapPin, Phone, Mail } from "lucide-react";
+import { getOrganization } from "@/lib/organization";
 
-export default function ContactPage() {
+export default async function ContactPage() {
+    const org = await getOrganization();
+
     return (
         <main className="flex-1">
             <PageBanner />
@@ -47,13 +50,13 @@ export default function ContactPage() {
                                     <div className="flex items-start gap-2 text-sm text-gray-700">
                                         <Phone className="w-5 h-5 text-gray-600 flex-shrink-0 mt-0.5" />
                                         <span className="flex-1">
-                                            Hotline: <span className="font-bold text-gray-900">0203.3881892</span>
+                                            Hotline: <span className="font-bold text-gray-900">{org?.phone || "-"}</span>
                                         </span>
                                     </div>
                                     <div className="flex items-start gap-2 text-sm text-gray-700">
                                         <Mail className="w-5 h-5 text-gray-600 flex-shrink-0 mt-0.5" />
                                         <span className="flex-1">
-                                            Email: <span className="font-bold text-gray-900">ubnd.pmc3@quangninh.gov.vn</span>
+                                            Email: <span className="font-bold text-gray-900">{org?.email || "-"}</span>
                                         </span>
                                     </div>
                                     <div className="flex items-start gap-2 text-sm text-gray-700">
@@ -61,7 +64,7 @@ export default function ContactPage() {
                                         <span className="flex-1">
                                             Địa chỉ:{" "}
                                             <span className="font-medium text-gray-900">
-                                                số 533 đường Đoan Tĩnh, khu Hải Yên 4, phường Móng Cái 3, tỉnh Quảng Ninh
+                                                {org?.address || "-"}
                                             </span>
                                         </span>
                                     </div>

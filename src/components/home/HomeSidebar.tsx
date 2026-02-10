@@ -5,9 +5,11 @@ import type { Announcement, AnalyticsStats } from "@/types/api";
 interface HomeSidebarProps {
     announcements: Announcement[];
     analytics: AnalyticsStats;
+    orgName?: string | null;
+    orgPhone?: string | null;
 }
 
-export function HomeSidebar({ announcements, analytics }: HomeSidebarProps) {
+export function HomeSidebar({ announcements, analytics, orgName, orgPhone }: HomeSidebarProps) {
     return (
         <aside className="lg:col-span-1">
             <div className="space-y-6">
@@ -60,10 +62,14 @@ export function HomeSidebar({ announcements, analytics }: HomeSidebarProps) {
                                         <Phone className="h-5 w-5 text-red-600" />
                                     </div>
                                     <div className="flex-1 text-base">
-                                        <h3 className="font-medium mb-1 text-yellow-200 uppercase">Trực ban tại phường</h3>
-                                        <a href="tel:0203.3881892" className="font-bold text-yellow-200 hover:text-white transition-colors">
-                                            0203.3881892
-                                        </a>
+                                        <h3 className="font-medium mb-1 text-yellow-200 uppercase">Trực ban tại {orgName || 'phường'}</h3>
+                                        {orgPhone ? (
+                                            <a href={`tel:${orgPhone.replace(/\./g, '')}`} className="font-bold text-yellow-200 hover:text-white transition-colors">
+                                                {orgPhone}
+                                            </a>
+                                        ) : (
+                                            <span className="font-bold text-yellow-200">-</span>
+                                        )}
                                     </div>
                                 </div>
                             </div>

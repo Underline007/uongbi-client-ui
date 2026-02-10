@@ -4,7 +4,12 @@ import { Bell } from "lucide-react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 
-export function Header() {
+interface HeaderProps {
+    orgName?: string | null;
+    logoUrl?: string | null;
+}
+
+export function Header({ orgName, logoUrl }: HeaderProps) {
     const [dateString, setDateString] = useState("");
 
     useEffect(() => {
@@ -21,6 +26,8 @@ export function Header() {
         const interval = setInterval(updateTime, 60000);
         return () => clearInterval(interval);
     }, []);
+
+    const displayName = orgName || "UBND Phường";
 
     return (
         <header className="bg-white border-b shadow-sm relative w-full font-sans" style={{ borderColor: "var(--gray-200)" }}>
@@ -39,8 +46,8 @@ export function Header() {
                     <div className="flex items-center flex-1">
                         <div className="mr-2 sm:mr-4 lg:mr-6">
                             <img
-                                src="/images/quochuy.png"
-                                alt="Logo Phường Móng Cái 3"
+                                src={logoUrl || "/images/quochuy.png"}
+                                alt={`Logo ${displayName}`}
                                 className="h-12 w-12 sm:h-16 sm:w-16 lg:h-28 lg:w-28 object-contain"
                             />
                         </div>
@@ -48,8 +55,8 @@ export function Header() {
                             <div className="text-red-600 font-bold text-xs sm:text-sm lg:text-lg mb-0.5 sm:mb-1 leading-tight">
                                 TRANG THÔNG TIN ĐIỆN TỬ
                             </div>
-                            <h1 className="text-red-600 font-bold text-sm sm:text-lg lg:text-2xl leading-tight">
-                                PHƯỜNG MÓNG CÁI 3
+                            <h1 className="text-red-600 font-bold text-sm sm:text-lg lg:text-2xl leading-tight uppercase">
+                                Phường {displayName}
                             </h1>
                             <div className="text-xs sm:text-sm text-gray-600 mt-0.5 sm:mt-1">
                                 <span className="block sm:inline">{dateString}</span>
@@ -66,14 +73,6 @@ export function Header() {
                             >
                                 <Bell className="h-5 w-5 sm:h-6 sm:w-6" />
                             </Link>
-                        </div>
-                        <div className="ml-2 sm:ml-4 lg:ml-6 hidden sm:block">
-                            <img
-                                src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Coat_of_arms_of_Vietnam.svg/200px-Coat_of_arms_of_Vietnam.svg.png"
-                                alt="Quốc huy Việt Nam"
-                                className="h-12 sm:h-16 lg:h-28 object-contain"
-                                style={{ display: 'none' }}
-                            />
                         </div>
                     </div>
                 </div>
