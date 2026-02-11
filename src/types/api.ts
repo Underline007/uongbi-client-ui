@@ -334,6 +334,67 @@ export interface SubmitFormRequest {
   is_anonymous?: boolean;
 }
 
+// --- Feedback Forms ---
+
+export interface FeedbackFormFieldValidation {
+  min_length?: number | null;
+  max_length?: number | null;
+  min?: number | null;
+  max?: number | null;
+  pattern?: string | null;
+  options?: string[] | null;
+  max_file_size?: number | null;
+  allowed_file_types?: string[] | null;
+}
+
+export interface FeedbackFormField {
+  field_id: string;
+  type: 'text' | 'textarea' | 'email' | 'phone' | 'select' | 'radio' | 'checkbox' | 'rating' | 'number' | 'date';
+  label: string;
+  placeholder?: string | null;
+  required: boolean;
+  help_text?: string | null;
+  default_value?: string | null;
+  validation: FeedbackFormFieldValidation;
+  conditional?: unknown | null;
+  order: number;
+}
+
+export interface FeedbackFormSettings {
+  require_captcha: boolean;
+  allow_anonymous: boolean;
+  success_message?: string | null;
+  notification_emails?: string[] | null;
+  max_submissions?: number | null;
+  close_date?: string | null;
+}
+
+export interface FeedbackFormSummary {
+  id: string;
+  title: string;
+  slug: string;
+  description?: string | null;
+  status: string;
+  fields: FeedbackFormField[];
+  settings: FeedbackFormSettings;
+  submission_count: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface FeedbackFormDetail {
+  id: string;
+  title: string;
+  slug: string;
+  description?: string | null;
+  status: string;
+  fields: FeedbackFormField[];
+  settings: FeedbackFormSettings;
+  submission_count: number;
+  created_at: string;
+  updated_at: string;
+}
+
 // --- Composite: Homepage ---
 
 export interface HomepageResponse {
