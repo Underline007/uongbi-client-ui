@@ -19,7 +19,7 @@ export function PartyActivitySection({ partyActivity }: PartyActivitySectionProp
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="md:col-span-1">
                             <Link className="group block bg-white transition-all duration-300" href={`/tin-tuc/${partyActivity.featured.id}`}>
-                                <div className="aspect-[16/10]">
+                                <div className="aspect-16/10">
                                     <div className="bg-gray-100 overflow-hidden w-full h-full">
                                         <img src={partyActivity.featured.image} alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                                     </div>
@@ -42,7 +42,7 @@ export function PartyActivitySection({ partyActivity }: PartyActivitySectionProp
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                 {partyActivity.grid.map((news) => (
                                     <Link key={news.id} className="group block bg-white transition-all duration-300" href={`/tin-tuc/${news.id}`}>
-                                        <div className="aspect-[16/10]">
+                                        <div className="aspect-16/10">
                                             <div className="bg-gray-100 overflow-hidden w-full h-full">
                                                 <img src={news.image} alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                                             </div>

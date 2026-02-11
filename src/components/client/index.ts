@@ -6,3 +6,4 @@ export { ContactForm } from "./ContactForm";
 export { DocumentSearch } from "./DocumentSearch";
 export { SearchInput } from "./SearchInput";
 export { BannerDisplay } from "./BannerDisplay";
+export { SectionDocumentsModal } from "./SectionDocumentsModal";

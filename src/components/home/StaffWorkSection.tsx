@@ -12,11 +12,11 @@ export function StaffWorkSection({ staffWork }: StaffWorkSectionProps) {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <section className="w-full">
                     <div className="mb-3 lg:mb-6">
-                        <h3 className="text-base font-bold uppercase text-gray-900 mb-2 pb-2 border-b-2 border-red-600">
+                        <h3 className="font-bold uppercase text-gray-900 mb-2 pb-2 border-b-2 border-red-600">
                             Công tác cán bộ
                         </h3>
                     </div>
-                    <div className="grid grid-cols-3 gap-6">
+                    <div className="grid grid-cols-3 gap-6 text-sx">
                         {staffWork.main.map((news) => (
                             <Link key={news.id} className="group block bg-white transition-all duration-300" href={`/tin-tuc/${news.id}`}>
                                 <div className="aspect-16/10">
@@ -25,7 +25,7 @@ export function StaffWorkSection({ staffWork }: StaffWorkSectionProps) {
                                     </div>
                                 </div>
                                 <div className="py-4">
-                                    <h4 className="font-semibold text-gray-900 group-hover:text-red-600 transition-colors mb-2">
+                                    <h4 className="font-semibold text-sm text-gray-900 group-hover:text-red-600 transition-colors mb-2">
                                         {news.title}
                                     </h4>
                                     <div className="flex items-center gap-2 text-xs text-gray-500">

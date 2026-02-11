@@ -35,8 +35,5 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
-những vị trí đặt bannner, nên đặt banner như nào
 
-tin quan trọng có api riêng, tiêu điểm có api riêng
 
-gg anlaytistc

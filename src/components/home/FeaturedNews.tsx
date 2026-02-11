@@ -12,7 +12,7 @@ export function FeaturedNews({ featured }: FeaturedNewsProps) {
             <div className="lg:col-span-3">
                 <div>
                     <div className="relative">
-                        <div className="aspect-[16/9] overflow-hidden bg-gray-100">
+                        <div className="aspect-video overflow-hidden bg-gray-100">
                             <img
                                 src={featured.main.image}
                                 alt="Featured"

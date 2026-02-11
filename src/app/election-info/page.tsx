@@ -24,7 +24,7 @@ export default function ElectionInfoPage() {
                                     className="group block bg-white border border-gray-200 transition-all overflow-hidden h-full"
                                     href="/tin-tuc/thong-bao-danh-sach-don-vi-bau-cu-va-so-luong-dai-bieu-hoi-dong-nhan-dan-phuong-mong-cai-3"
                                 >
-                                    <div className="aspect-[16/9] overflow-hidden bg-gray-100">
+                                    <div className="aspect-16/9 overflow-hidden bg-gray-100">
                                         <img
                                             src="https://storage.4ship.vn/public/image/9ec81a3d-b673-468f-b24a-176b17cb5799.jpg"
                                             alt="Thông báo danh sách đơn vị bầu cử và số lượng đại biểu Hội đồng nhân dân phường Móng Cái 3"

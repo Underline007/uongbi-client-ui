@@ -23,7 +23,7 @@ export function OrganizationSection({ organization }: OrganizationSectionProps) 
                             {/* Mobile Horizontal Scroll */}
                             <div className="md:hidden flex gap-3 pb-4 overflow-x-auto">
                                 {organization.map((member) => (
-                                    <div key={member.id} className="flex-shrink-0 w-40">
+                                    <div key={member.id} className="shrink-0 w-40">
                                         <div className="bg-white border border-gray-200 p-2 lg:p-3 min-w-[160px] h-full hover:shadow-md transition-shadow duration-200">
                                             <div className="flex flex-col items-center text-center h-full">
                                                 <div className="mb-2">

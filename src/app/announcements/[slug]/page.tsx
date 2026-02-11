@@ -135,7 +135,7 @@ export default async function AnnouncementDetailPage({ params }: { params: Promi
                                                         className="group block"
                                                     >
                                                         <div className="flex items-start gap-3 p-3 hover:bg-gray-50 transition-colors -mx-3">
-                                                            <div className="flex-shrink-0 w-10 h-10 bg-red-50 flex items-center justify-center">
+                                                            <div className="shrink-0 w-10 h-10 bg-red-50 flex items-center justify-center">
                                                                 <Bell className="w-4 h-4 text-red-600" />
                                                             </div>
                                                             <div className="flex-1 min-w-0">
@@ -205,7 +205,7 @@ export default async function AnnouncementDetailPage({ params }: { params: Promi
                                             className="group block bg-white border border-gray-200 hover:border-red-300 hover:shadow-md transition-all p-4"
                                         >
                                             <div className="flex items-start gap-3">
-                                                <div className="flex-shrink-0 w-10 h-10 bg-red-50 flex items-center justify-center group-hover:bg-red-100 transition-colors">
+                                                <div className="shrink-0 w-10 h-10 bg-red-50 flex items-center justify-center group-hover:bg-red-100 transition-colors">
                                                     <Bell className="w-5 h-5 text-red-600" />
                                                 </div>
                                                 <div className="flex-1 min-w-0">

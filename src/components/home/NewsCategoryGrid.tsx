@@ -24,7 +24,7 @@ export function NewsCategoryGrid({ categories }: NewsCategoryGridProps) {
                                 <div className="space-y-2 lg:space-y-4">
                                     <Link className="block group" href={`/news/${category.featured.id}`}>
                                         <div className="space-y-2">
-                                            <div className="aspect-[16/9] overflow-hidden bg-gray-100">
+                                            <div className="aspect-video overflow-hidden bg-gray-100">
                                                 <img
                                                     src={category.featured.image}
                                                     alt={category.featured.title}
@@ -32,7 +32,7 @@ export function NewsCategoryGrid({ categories }: NewsCategoryGridProps) {
                                                     loading="lazy"
                                                 />
                                             </div>
-                                            <h4 className="font-bold text-gray-900 leading-relaxed group-hover:text-red-600 transition-colors line-clamp-2" style={{ fontSize: "0.8rem" }}>
+                                            <h4 className="font-bold text-gray-900 text-sm leading-relaxed group-hover:text-red-600 transition-colors line-clamp-2">
                                                 {category.featured.title}
                                             </h4>
                                         </div>
@@ -40,11 +40,11 @@ export function NewsCategoryGrid({ categories }: NewsCategoryGridProps) {
                                     {category.items.length > 0 && (
                                         <>
                                             <div className="border-t border-gray-200 pt-2"></div>
-                                            <div className="m-0">
+                                            <div className="m-0 ">
                                                 {category.items.map((item, idx) => (
                                                     <Link key={item.id} className="block group" href={`/news/${item.id}`}>
                                                         <div className={`py-2 ${idx < category.items.length - 1 ? 'border-b border-gray-200' : ''}`}>
-                                                            <h4 className="font-medium text-gray-700 leading-relaxed group-hover:text-red-600 transition-colors line-clamp-2 m-0" style={{ fontSize: "0.8rem" }}>
+                                                            <h4 className="font-medium text-gray-700 leading-relaxed group-hover:text-red-600 transition-colors line-clamp-2 m-0">
                                                                 {item.title}
                                                             </h4>
                                                         </div>

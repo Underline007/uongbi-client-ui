@@ -31,7 +31,7 @@ export function ElectionSection({ election }: ElectionSectionProps) {
                             <div className="space-y-2 lg:space-y-4">
                                 <Link className="block group" href={`/news/${election.featured.id}`}>
                                     <div className="space-y-2">
-                                        <div className="aspect-[16/9] overflow-hidden bg-gray-100">
+                                        <div className="aspect-video overflow-hidden bg-gray-100">
                                             <img
                                                 src={election.featured.image}
                                                 alt={election.featured.title}
@@ -39,7 +39,7 @@ export function ElectionSection({ election }: ElectionSectionProps) {
                                                 loading="lazy"
                                             />
                                         </div>
-                                        <h4 className="font-bold text-gray-900 leading-relaxed group-hover:text-red-600 transition-colors line-clamp-2" style={{ fontSize: "0.8rem" }}>
+                                        <h4 className="font-bold text-gray-900 leading-relaxed group-hover:text-red-600 transition-colors line-clamp-2">
                                             {election.featured.title}
                                         </h4>
                                     </div>

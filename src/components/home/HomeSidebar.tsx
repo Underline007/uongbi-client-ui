@@ -1,34 +1,42 @@
 import Link from "next/link";
 import { Phone, Eye, TrendingUp, Users } from "lucide-react";
-import type { ArticleResponse, AnalyticsStats } from "@/types/api";
+import { BannerDisplay } from "@/components/client/BannerDisplay";
+import type { ArticleResponse, AnalyticsStats, BannerResponse } from "@/types/api";
 
 interface HomeSidebarProps {
     announcements: ArticleResponse[];
     analytics: AnalyticsStats;
     orgName?: string | null;
     orgPhone?: string | null;
+    sidebarBanners?: BannerResponse[];
 }
 
-export function HomeSidebar({ announcements, analytics, orgName, orgPhone }: HomeSidebarProps) {
+export function HomeSidebar({ announcements, analytics, orgName, orgPhone, sidebarBanners = [] }: HomeSidebarProps) {
     return (
         <aside className="lg:col-span-1">
             <div className="space-y-6">
                 <div className="space-y-4">
-                    {/* Banner Image 1 */}
-                    <div className="hidden md:block">
-                        <div className="space-y-4">
-                            <div className="overflow-hidden">
-                                <div className="overflow-hidden cursor-pointer">
-                                    <img
-                                        src="/thu-tuc-hanh-chinh.png"
-                                        alt="thủ tục hành chính"
-                                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                                        loading="lazy"
-                                    />
+                    {/* Sidebar Banners */}
+                    {sidebarBanners.length > 0 ? (
+                        <div className="hidden md:block space-y-4">
+                            {sidebarBanners.map((banner) => (
+                                <div key={banner.id} className="overflow-hidden">
+                                    <BannerDisplay banner={banner} />
                                 </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="hidden md:block">
+                            <div className="overflow-hidden cursor-pointer">
+                                <img
+                                    src="/thu-tuc-hanh-chinh.png"
+                                    alt="thủ tục hành chính"
+                                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                                    loading="lazy"
+                                />
                             </div>
                         </div>
-                    </div>
+                    )}
 
                     {/* Thông báo */}
                     <div className="hidden md:block bg-white border border-gray-200 p-4 shadow-sm">
@@ -82,24 +90,21 @@ export function HomeSidebar({ announcements, analytics, orgName, orgPhone }: Hom
                         </div>
                     </div>
 
-                    {/* Banner Image 2 */}
-                    <div className="hidden md:block">
-                        <div className="space-y-4">
-                            <div className="overflow-hidden">
-                                <div className="overflow-hidden cursor-pointer">
-                                    <a href="https://dichvucong.gov.vn/p/home/dvc-trang-chu.html">
-                                        <img
-                                            src="/cong-dich-vu-cong.jpg"
-
-                                            alt="dịch vụ công"
-                                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                                            loading="lazy"
-                                        />
-                                    </a>
-                                </div>
+                    {/* Banner Image 2 (static fallback) */}
+                    {sidebarBanners.length === 0 && (
+                        <div className="hidden md:block">
+                            <div className="overflow-hidden cursor-pointer">
+                                <a href="https://dichvucong.gov.vn/p/home/dvc-trang-chu.html">
+                                    <img
+                                        src="/cong-dich-vu-cong.jpg"
+                                        alt="dịch vụ công"
+                                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                                        loading="lazy"
+                                    />
+                                </a>
                             </div>
                         </div>
-                    </div>
+                    )}
 
                     {/* Thống kê truy cập */}
                     <div className="hidden md:block bg-white border border-gray-200 p-4 shadow-sm">

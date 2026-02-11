@@ -1,0 +1,88 @@
+import type { ArticleResponse } from '@/types/api';
+
+/**
+ * Mock data cho featured articles, theo đúng ArticleResponse schema từ BE.
+ * Sử dụng khi BE chưa có dữ liệu featured_articles.
+ * Endpoint: GET /api/v1/{org_code}/articles/featured
+ */
+export const mockFeaturedArticles: ArticleResponse[] = [
+  {
+    id: 'mock-feat-1',
+    title: 'Hà Lầm đẩy mạnh phát triển kinh tế - xã hội năm 2026',
+    slug: 'ha-lam-day-manh-phat-trien-kinh-te-xa-hoi-nam-2026',
+    excerpt:
+      'Phường Hà Lầm tiếp tục triển khai các giải pháp đồng bộ nhằm thúc đẩy phát triển kinh tế - xã hội, nâng cao đời sống nhân dân trên địa bàn Phường trong năm 2026.',
+    featured_image: '/no-image.png',
+    author_name: 'Ban biên tập',
+    category_name: 'Tin tức - Sự kiện',
+    category_slug: 'tin-tuc-su-kien',
+    tags: ['kinh tế', 'xã hội', 'Hà Lầm'],
+    views: 1250,
+    published_at: '2026-02-10T08:00:00Z',
+  },
+  {
+    id: 'mock-feat-2',
+    title: 'Hội nghị tổng kết công tác năm 2025 và triển khai nhiệm vụ năm 2026',
+    slug: 'ha-lam-to-chuc-hoi-nghi-tong-ket-cong-tac-nam-2025',
+    excerpt: 'Ngày 15/01, UBND Phường Hà Lầm tổ chức Hội nghị tổng kết công tác năm 2025.',
+    featured_image: '/no-image.png',
+    author_name: 'Phòng Văn hóa',
+    category_name: 'Tin tức - Sự kiện',
+    category_slug: 'tin-tuc-su-kien',
+    tags: ['hội nghị', 'tổng kết'],
+    views: 890,
+    published_at: '2026-02-09T10:30:00Z',
+  },
+  {
+    id: 'mock-feat-3',
+    title: 'Nâng cao chất lượng cải cách hành chính, phục vụ người dân và doanh nghiệp',
+    slug: 'nang-cao-chat-luong-cai-cach-hanh-chinh',
+    excerpt: 'Phường tiếp tục đẩy mạnh cải cách hành chính, nâng cao chỉ số hài lòng của người dân.',
+    featured_image: '/no-image.png',
+    author_name: 'Phòng Nội vụ',
+    category_name: 'Cải cách hành chính',
+    category_slug: 'cai-cach-hanh-chinh',
+    tags: ['cải cách', 'hành chính'],
+    views: 650,
+    published_at: '2026-02-08T14:00:00Z',
+  },
+  {
+    id: 'mock-feat-4',
+    title: 'Đẩy mạnh chuyển đổi số trong quản lý nhà nước tại Phường Hà Lầm',
+    slug: 'day-manh-chuyen-doi-so-quan-ly-nha-nuoc',
+    excerpt: 'Chuyển đổi số là xu hướng tất yếu trong công tác quản lý nhà nước hiện đại.',
+    featured_image: '/no-image.png',
+    author_name: 'Ban biên tập',
+    category_name: 'Chuyển đổi số',
+    category_slug: 'chuyen-doi-so',
+    tags: ['chuyển đổi số', 'công nghệ'],
+    views: 420,
+    published_at: '2026-02-07T09:15:00Z',
+  },
+  {
+    id: 'mock-feat-5',
+    title: 'Triển khai kế hoạch phòng chống thiên tai và tìm kiếm cứu nạn năm 2026',
+    slug: 'trien-khai-ke-hoach-phong-chong-thien-tai-2026',
+    excerpt: 'UBND Phường ban hành kế hoạch phòng chống thiên tai và tìm kiếm cứu nạn.',
+    featured_image: '/no-image.png',
+    author_name: 'Phòng Kinh tế',
+    category_name: 'An ninh - Quốc phòng',
+    category_slug: 'an-ninh-quoc-phong',
+    tags: ['thiên tai', 'cứu nạn'],
+    views: 310,
+    published_at: '2026-02-06T16:45:00Z',
+  },
+  {
+    id: 'mock-feat-6',
+    title: 'Phường Hà Lầm tổ chức các hoạt động chào mừng Ngày thành lập Đảng',
+    slug: 'ha-lam-to-chuc-hoat-dong-chao-mung-ngay-thanh-lap-dang',
+    excerpt: 'Nhiều hoạt động văn hóa, thể thao diễn ra sôi nổi chào mừng kỷ niệm ngày thành lập Đảng.',
+    featured_image: '/no-image.png',
+    author_name: 'Ban Tuyên giáo',
+    category_name: 'Xây dựng Đảng',
+    category_slug: 'xay-dung-dang',
+    tags: ['đảng', 'kỷ niệm'],
+    views: 780,
+    published_at: '2026-02-05T07:30:00Z',
+  },
+];
