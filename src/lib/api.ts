@@ -25,6 +25,8 @@ import type {
   CreateCommentRequest,
   ReactionRequest,
   SubmitFormRequest,
+  FeedbackFormSummary,
+  FeedbackFormDetail,
   HomepageResponse,
   HomepageParams,
   ArchiveResponse,
@@ -163,13 +165,13 @@ export const feedbackApi = {
     apiClient.post(`${PREFIX}/feedback/comments/${commentId}/reactions`, data).then(getData),
 
   listForms: () =>
-    apiClient.get(`${PREFIX}/feedback/forms`).then(getData),
+    apiClient.get<FeedbackFormSummary[]>(`${PREFIX}/feedback/forms`).then(getData),
 
   getForm: (formSlug: string) =>
-    apiClient.get(`${PREFIX}/feedback/forms/${formSlug}`).then(getData),
+    apiClient.get<FeedbackFormDetail>(`${PREFIX}/feedback/forms/${formSlug}`).then(getData),
 
   submitForm: (formId: string, data: SubmitFormRequest) =>
-    apiClient.post(`${PREFIX}/feedback/forms/${formId}/submit`, data).then(getData),
+    apiClient.post(`/api/feedback/forms/${formId}/submit`, data).then(getData),
 };
 
 // --- Composite ---
