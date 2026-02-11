@@ -4,6 +4,7 @@ import type {
   CategoryArticlesSection,
 } from '@/types/api';
 import { citizenServicesData } from '@/lib/mock-data/services';
+import { mockFeaturedArticles } from '@/lib/mock-data/featured-news';
 import type {
   FeaturedNews,
   HighlightColumn,
@@ -20,8 +21,13 @@ import type {
 } from '@/types/api';
 
 export function transformHomepageData(data: HomepageResponse) {
+  // Fallback to mock data when BE has no featured articles
+  const featuredArticles = (data.featured_articles && data.featured_articles.length > 0)
+    ? data.featured_articles
+    : mockFeaturedArticles;
+
   return {
-    featured: transformToFeaturedNews(data.featured_articles || []),
+    featured: transformToFeaturedNews(featuredArticles),
     highlights: transformToHighlights(data.latest_articles || []),
     categories: transformToNewsCategories(data.articles_by_category || []),
     threeCategories: transformToThreeCategories(data.articles_by_category || []),
@@ -39,18 +45,6 @@ export function transformHomepageData(data: HomepageResponse) {
 }
 
 function transformToFeaturedNews(articles: ArticleResponse[]): FeaturedNews {
-  if (articles.length === 0) {
-    return {
-      main: {
-        id: '',
-        title: 'Không có bài viết nổi bật',
-        description: '',
-        image: '/no-image.png',
-        createdAt: new Date().toISOString(),
-      },
-      sidebar: [],
-    };
-  }
 
   const [main, ...sidebar] = articles;
 

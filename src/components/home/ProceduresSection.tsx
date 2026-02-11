@@ -77,7 +77,7 @@ export function ProceduresSection({ services, procedures }: ProceduresSectionPro
                             <ul className="space-y-3">
                                 {procedures.map((proc) => (
                                     <li key={proc.id} className="flex items-start group">
-                                        <span className="w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0 group-hover:bg-red-600 transition-colors"></span>
+                                        <span className="w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 mr-3 shrink-0 group-hover:bg-red-600 transition-colors"></span>
                                         <Link className="flex-1" href={`/procedures/${proc.id}`}>
                                             <h4 className="font-medium text-gray-900 text-sm leading-relaxed group-hover:text-red-600 transition-colors">
                                                 {proc.title}

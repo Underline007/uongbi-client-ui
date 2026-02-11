@@ -12,7 +12,7 @@ export function PartyBuildingSection({ partyBuilding }: PartyBuildingSectionProp
                 <div className="w-full bg-white">
                     <section className="w-full">
                         <div className="mb-3 md:mb-0 md:relative md:z-10">
-                            <h3 className="inline-block bg-primary py-1.5 px-2.5 text-base font-black uppercase text-white rounded-sm w-fit md:absolute md:top-[-20px] md:left-6 md:z-[1]" style={{ fontWeight: 900 }}>
+                            <h3 className="inline-block bg-primary py-1.5 px-2.5 text-base font-black uppercase text-white rounded-sm w-fit md:absolute md:top-[-20px] md:left-6 md:z-1" style={{ fontWeight: 900 }}>
                                 công tác xây dựng đảng trong sạch vững mạnh
                             </h3>
                         </div>
@@ -21,7 +21,7 @@ export function PartyBuildingSection({ partyBuilding }: PartyBuildingSectionProp
                                 {partyBuilding.map((col, colIndex) => (
                                     <div key={colIndex} className="flex flex-col space-y-2 md:space-y-3">
                                         <Link className="group block" href={`/tin-tuc/${col.featured.id}`}>
-                                            <div className="aspect-[16/12] mb-2 md:mb-3 overflow-hidden bg-gray-100">
+                                            <div className="aspect-16/12 mb-2 md:mb-3 overflow-hidden bg-gray-100">
                                                 <img
                                                     src={col.featured.image}
                                                     alt="Featured"

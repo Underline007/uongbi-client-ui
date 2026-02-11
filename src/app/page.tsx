@@ -13,9 +13,10 @@ import {
   ElectionSection,
   ProceduresSection,
 } from "@/components/home";
-import { compositeApi, categoriesApi } from "@/lib/api";
+import { compositeApi, categoriesApi, bannersApi } from "@/lib/api";
 import { transformHomepageData } from "@/lib/homepage-adapters";
 import { getOrganization } from "@/lib/organization";
+import { getMockActiveBanners } from "@/lib/mock-data/banners";
 
 async function fetchHomeData() {
   try {
@@ -34,10 +35,11 @@ async function fetchHomeData() {
 }
 
 export default async function Home() {
-  const [data, org, announcementsRes] = await Promise.all([
+  const [data, org, announcementsRes, sidebarBanners] = await Promise.all([
     fetchHomeData(),
     getOrganization(),
     categoriesApi.getArticles("thong-bao", { page: 1, page_size: 5 }).catch(() => null),
+    bannersApi.getActive("sidebar").then((r) => r.length > 0 ? r : getMockActiveBanners("sidebar")).catch(() => getMockActiveBanners("sidebar")),
   ]);
 
   if (!data) {
@@ -64,11 +66,13 @@ export default async function Home() {
         <section className="edit-section bg-white pb-4 pt-4">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-0 lg:gap-6">
-              <div className="lg:col-span-3 space-y-2 lg:space-y-8">
+              <div className="lg:col-span-3 flex flex-col gap-2 lg:gap-8">
                 <FeaturedNews featured={data.featured} />
-                <HighlightsSection highlights={data.highlights} />
+                <div className="flex-1">
+                  <HighlightsSection highlights={data.highlights} />
+                </div>
               </div>
-              <HomeSidebar announcements={announcementsRes?.data ?? []} analytics={data.analytics} orgName={org?.name} orgPhone={org?.phone} />
+              <HomeSidebar announcements={announcementsRes?.data ?? []} analytics={data.analytics} orgName={org?.name} orgPhone={org?.phone} sidebarBanners={sidebarBanners} />
             </div>
           </div>
         </section>

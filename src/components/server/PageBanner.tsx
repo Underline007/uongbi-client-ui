@@ -1,15 +1,23 @@
 import { bannersApi } from "@/lib/api";
 import { BannerDisplay } from "@/components/client/BannerDisplay";
+import { getMockActiveBanners } from "@/lib/mock-data/banners";
 import type { BannerResponse } from "@/types/api";
 
-export async function PageBanner() {
+interface PageBannerProps {
+    position?: string;
+}
+
+export async function PageBanner({ position = "homepage" }: PageBannerProps) {
     let banners: BannerResponse[] = [];
 
     try {
-        banners = await bannersApi.getActive();
-    } catch (error) {
-        // API failed — render nothing
-        return null;
+        banners = await bannersApi.getActive(position);
+    } catch {
+        console.warn('[PageBanner] API không khả dụng, sử dụng mock data');
+    }
+
+    if (banners.length === 0) {
+        banners = getMockActiveBanners(position);
     }
 
     if (banners.length === 0) return null;

@@ -25,7 +25,7 @@ export function StaffWorkSection({ staffWork }: StaffWorkSectionProps) {
                                     </div>
                                 </div>
                                 <div className="py-4">
-                                    <h4 className="font-semibold text-gray-900 group-hover:text-red-600 transition-colors mb-2">
+                                    <h4 className="font-semibold text-sm text-gray-900 group-hover:text-red-600 transition-colors mb-2">
                                         {news.title}
                                     </h4>
                                     <div className="flex items-center gap-2 text-xs text-gray-500">
