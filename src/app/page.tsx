@@ -79,7 +79,7 @@ export default async function Home() {
 
         {/* <OrganizationSection organization={data.organization} /> */}
         <NewsCategoryGrid categories={data.categories} />
-        <PartyBuildingSection partyBuilding={data.partyBuilding} />
+        {/* <PartyBuildingSection partyBuilding={data.partyBuilding} /> */}
         <NewsCategoryGrid categories={data.threeCategories} />
         <StaffWorkSection staffWork={data.staffWork} />
         <PartyActivitySection partyActivity={data.partyActivity} />

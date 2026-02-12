@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState } from "react";
 import {
     Send, Loader2, CheckCircle2, AlertCircle,
     FileText, ChevronLeft, Star,

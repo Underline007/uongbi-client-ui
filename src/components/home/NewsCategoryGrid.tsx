@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { NewsCategory } from "@/types/api";
 
@@ -24,12 +25,13 @@ export function NewsCategoryGrid({ categories }: NewsCategoryGridProps) {
                                 <div className="space-y-2 lg:space-y-4">
                                     <Link className="block group" href={`/news/${category.featured.id}`}>
                                         <div className="space-y-2">
-                                            <div className="aspect-video overflow-hidden bg-gray-100">
-                                                <img
+                                            <div className="relative aspect-video overflow-hidden bg-gray-100">
+                                                <Image
                                                     src={category.featured.image}
                                                     alt={category.featured.title}
-                                                    className="w-full h-full group-hover:scale-105 transition-transform duration-200"
-                                                    loading="lazy"
+                                                    fill
+                                                    className="object-cover group-hover:scale-105 transition-transform duration-200"
+                                                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                                                 />
                                             </div>
                                             <h4 className="font-bold text-gray-900 text-sm leading-relaxed group-hover:text-red-600 transition-colors line-clamp-2">

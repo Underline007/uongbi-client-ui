@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Calendar, Bell, ChevronRight, Megaphone } from "lucide-react";
 import { ArticleTracker, ShareButtons } from "@/components/analytics";
+import { Breadcrumb } from "@/components/server";
 import { articlesApi } from "@/lib/api";
 
 function formatDate(dateString: string, includeTime = false) {
@@ -40,20 +41,10 @@ export default async function AnnouncementDetailPage({ params }: { params: Promi
                 <div className="min-h-screen bg-white">
                     <div className="py-1 sm:py-8">
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                            {/* Breadcrumb */}
-                            <nav className="flex items-center space-x-2 text-sm text-gray-500 mb-6">
-                                <Link href="/" className="hover:text-red-600 transition-colors">
-                                    Trang chủ
-                                </Link>
-                                <ChevronRight className="w-4 h-4" />
-                                <Link href="/announcements" className="hover:text-red-600 transition-colors">
-                                    Thông báo
-                                </Link>
-                                <ChevronRight className="w-4 h-4" />
-                                <span className="text-gray-900 font-medium truncate max-w-[200px]">
-                                    Chi tiết
-                                </span>
-                            </nav>
+                            <Breadcrumb items={[
+                                { label: "Thông báo", href: "/announcements" },
+                                { label: announcementDetail.title },
+                            ]} />
 
                             <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
                                 {/* Main Content */}

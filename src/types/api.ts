@@ -240,20 +240,6 @@ export interface DataSheetSummaryResponse {
   published_at?: string | null;
 }
 
-export interface DataSheetDetailResponse {
-  id: string;
-  section_slug: string;
-  section_name: string;
-  doc_type: string;
-  title: string;
-  slug: string;
-  custom_fields: Record<string, unknown>[];
-  thumbnails: string[];
-  order: number;
-  views: number;
-  published_at?: string | null;
-}
-
 export interface DocSectionTreeNodeResponse {
   id: string;
   name: string;
@@ -282,6 +268,25 @@ export interface DocSectionDetailResponse {
 
 export interface DocSectionTreeResponse {
   items: DocSectionTreeNodeResponse[];
+  total: number;
+}
+
+export interface DocSectionFullTreeNodeResponse {
+  id: string;
+  name: string;
+  slug: string;
+  description?: string | null;
+  icon?: string | null;
+  doc_type: string;
+  order: number;
+  published_document_count: number;
+  documents: DocumentSummaryResponse[];
+  data_sheets: DataSheetSummaryResponse[];
+  children: DocSectionFullTreeNodeResponse[];
+}
+
+export interface DocSectionFullTreeResponse {
+  items: DocSectionFullTreeNodeResponse[];
   total: number;
 }
 

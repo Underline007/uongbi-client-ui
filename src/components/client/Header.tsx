@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Bell } from "lucide-react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -45,9 +46,11 @@ export function Header({ orgName, logoUrl }: HeaderProps) {
                 <div className="flex items-center py-3 sm:py-4">
                     <div className="flex items-center flex-1">
                         <div className="mr-2 sm:mr-4 lg:mr-6">
-                            <img
+                            <Image
                                 src={logoUrl || "/images/quochuy.png"}
                                 alt={`Logo ${displayName}`}
+                                width={112}
+                                height={112}
                                 className="h-12 w-12 sm:h-16 sm:w-16 lg:h-28 lg:w-28 object-contain"
                             />
                         </div>

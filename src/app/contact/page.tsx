@@ -1,4 +1,4 @@
-import { PageBanner } from "@/components/server";
+import { PageBanner, Breadcrumb } from "@/components/server";
 import { ContactForm } from "@/components/client";
 import { Clock, MapPin, Phone, Mail } from "lucide-react";
 import { getOrganization } from "@/lib/organization";
@@ -11,6 +11,9 @@ export default async function ContactPage() {
             <PageBanner />
             <div className="min-h-screen bg-white py-8">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <Breadcrumb items={[
+                        { label: "Liên hệ" },
+                    ]} />
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                         {/* Left Column - Form (Client Component) */}
                         <ContactForm />

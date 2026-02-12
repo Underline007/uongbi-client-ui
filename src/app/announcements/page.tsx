@@ -1,4 +1,4 @@
-import { PageBanner } from "@/components/server";
+import { PageBanner, Breadcrumb } from "@/components/server";
 import { Bell, Eye, Calendar } from "lucide-react";
 import Link from "next/link";
 import { categoriesApi } from "@/lib/api";
@@ -29,6 +29,9 @@ export default async function AnnouncementsPage() {
             <PageBanner />
             <div className="min-h-screen bg-gray-50">
                 <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                    <Breadcrumb items={[
+                        { label: "Thông báo" },
+                    ]} />
                     {/* Header */}
                     <div className="mb-12">
                         <div className="flex items-center mb-6">

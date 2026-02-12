@@ -1,9 +1,11 @@
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Calendar } from "lucide-react";
+import { Calendar, Eye, Tag, User } from "lucide-react";
 import { ArticleTracker, ShareButtons, SummaryButton } from "@/components/analytics";
 import { CommentList } from "@/components/comments";
-import { articlesApi, categoriesApi } from "@/lib/api";
+import { Breadcrumb } from "@/components/server";
+import { articlesApi, categoriesApi, tagsApi } from "@/lib/api";
 
 function formatDate(dateString: string, includeTime = false) {
     const date = new Date(dateString);
@@ -30,10 +32,11 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ slu
         notFound();
     }
 
-    const [relatedNews, categoriesData, otherNews] = await Promise.all([
+    const [relatedNews, categoriesData, otherNews, tagsData] = await Promise.all([
         articlesApi.getRelated(slug, 3).catch(() => []),
         categoriesApi.getTree().catch(() => ({ items: [] })),
         articlesApi.getLatest(8).catch(() => []),
+        tagsApi.list(5).catch(() => ({ items: [], total: 0 })),
     ]);
 
     const categories = categoriesData.items.map((cat) => ({
@@ -52,55 +55,94 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ slu
             <div className="min-h-screen bg-white">
                 <div className="py-1 sm:py-8">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <Breadcrumb items={[
+                            ...(newsDetail.category_name
+                                ? [{ label: newsDetail.category_name, href: `/news?category=${newsDetail.category_slug}` }]
+                                : [{ label: "Tin tức", href: "/news" }]),
+                            { label: newsDetail.title },
+                        ]} />
                         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
                             {/* Main Content */}
                             <div className="lg:col-span-3">
                                 <article>
                                     <div className="mb-8">
-                                        {/* Header */}
-                                        <div className="flex items-center justify-between mb-6 gap-2">
-                                            <div className="flex items-center space-x-4">
-                                                <div className="flex items-center text-gray-500 text-sm">
-                                                    <Calendar className="h-4 w-4 mr-1" />
-                                                    <span className="sm:hidden">
-                                                        {formatDate(newsDetail.published_at)}
-                                                    </span>
-                                                    <span className="hidden sm:inline">
-                                                        {formatDate(newsDetail.published_at, true)}
-                                                    </span>
-                                                </div>
+                                        {/* Category */}
+                                        {newsDetail.category_name && (
+                                            <div className="mb-4">
+                                                <Link
+                                                    href={`/news?category=${newsDetail.category_slug}`}
+                                                    className="inline-block px-3 py-1 text-sm font-medium bg-red-600 text-white hover:bg-red-700 transition-colors"
+                                                >
+                                                    {newsDetail.category_name}
+                                                </Link>
                                             </div>
-                                            <div className="flex items-center space-x-2 sm:space-x-3">
+                                        )}
+
+                                        {/* Title */}
+                                        <h1 className="text-3xl font-bold text-gray-900 mb-4">
+                                            {newsDetail.title}
+                                        </h1>
+
+                                        {/* Meta */}
+                                        <div className="flex items-center flex-wrap gap-x-4 gap-y-2 mb-6 text-sm text-gray-500">
+                                            <div className="flex items-center">
+                                                <Calendar className="h-4 w-4 mr-1" />
+                                                <span className="sm:hidden">
+                                                    {formatDate(newsDetail.published_at)}
+                                                </span>
+                                                <span className="hidden sm:inline">
+                                                    {formatDate(newsDetail.published_at, true)}
+                                                </span>
+                                            </div>
+                                            {newsDetail.author_name && (
+                                                <div className="flex items-center">
+                                                    <User className="h-4 w-4 mr-1" />
+                                                    <span>{newsDetail.author_name}</span>
+                                                </div>
+                                            )}
+                                            <div className="flex items-center">
+                                                <Eye className="h-4 w-4 mr-1" />
+                                                <span>{newsDetail.views?.toLocaleString('vi-VN') || 0} lượt xem</span>
+                                            </div>
+                                            <div className="flex items-center space-x-2 sm:space-x-3 ml-auto">
                                                 <SummaryButton
                                                     articleId={newsDetail.id}
                                                     articleTitle={newsDetail.title}
                                                 />
                                             </div>
-                                        </div>
-
-                                        {/* Title */}
-                                        <h1 className="text-3xl font-bold text-gray-900 mb-6">
-                                            {newsDetail.title}
-                                        </h1>
-
+                                        </div>                                  
                                         {/* Content */}
-                                        <div className="max-w-none">
-                                            <div className="text-gray-700 leading-relaxed">
-                                                <div
-                                                    className="prose prose-lg max-w-none [&_p]:mb-4 [&_img]:rounded-lg [&_img]:shadow-md"
-                                                    dangerouslySetInnerHTML={{ __html: newsDetail.content }}
-                                                />
-                                            </div>
-                                        </div>
+                                        <div
+                                            className="prose max-w-none"
+                                            dangerouslySetInnerHTML={{ __html: newsDetail.content }}
+                                        />
                                     </div>
 
-                                    {/* Share Buttons */}
-                                    <div className="flex justify-end mt-8">
-                                        <ShareButtons
-                                            contentType="news"
-                                            itemId={newsDetail.id}
-                                            title={newsDetail.title}
-                                        />
+                                    {/* Tags & Share Buttons */}
+                                    <div className="flex items-center justify-between gap-4 mt-8 pt-6 border-t border-gray-200">
+                                        {newsDetail.tags && newsDetail.tags.length > 0 ? (
+                                            <div className="flex items-center flex-wrap gap-2 flex-1 min-w-0">
+                                                <Tag className="h-4 w-4 text-gray-400 shrink-0" />
+                                                {newsDetail.tags.map((tag) => (
+                                                    <Link
+                                                        key={tag}
+                                                        href={`/news?tag=${encodeURIComponent(tag)}`}
+                                                        className="inline-block px-3 py-1 text-sm bg-gray-100 text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors rounded-full"
+                                                    >
+                                                        {tag}
+                                                    </Link>
+                                                ))}
+                                            </div>
+                                        ) : (
+                                            <div />
+                                        )}
+                                        <div className="shrink-0">
+                                            <ShareButtons
+                                                contentType="news"
+                                                itemId={newsDetail.id}
+                                                title={newsDetail.title}
+                                            />
+                                        </div>
                                     </div>
 
                                     {/* Comments */}
@@ -127,12 +169,13 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ slu
                                                     href={`/news/${news.slug}`}
                                                 >
                                                     <div className="flex items-start gap-3">
-                                                        <div className="shrink-0 w-16 h-12 bg-gray-100 overflow-hidden">
-                                                            <img
+                                                        <div className="relative shrink-0 w-16 h-12 bg-gray-100 overflow-hidden">
+                                                            <Image
                                                                 src={news.featured_image || '/no-image.png'}
                                                                 alt={news.title}
-                                                                className="w-full h-full object-cover"
-                                                                loading="lazy"
+                                                                fill
+                                                                className="object-cover"
+                                                                sizes="64px"
                                                             />
                                                         </div>
                                                         <div className="flex-1 min-w-0">
@@ -148,6 +191,27 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ slu
                                             ))}
                                         </div>
                                     </div>
+
+                                    {/* Popular Tags */}
+                                    {tagsData.items.length > 0 && (
+                                        <div className="mb-8">
+                                            <h3 className="text-xl font-bold text-gray-900 mb-6 pb-2 border-b-2 border-red-600">
+                                                Tags phổ biến
+                                            </h3>
+                                            <div className="flex flex-wrap gap-2">
+                                                {tagsData.items.map((tag) => (
+                                                    <Link
+                                                        key={tag.name}
+                                                        href={`/news?tag=${encodeURIComponent(tag.name)}`}
+                                                        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm bg-gray-100 text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors rounded-full"
+                                                    >
+                                                        {tag.name}
+                                                        <span className="text-xs text-gray-400">({tag.count})</span>
+                                                    </Link>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
 
                                     {/* Categories */}
                                     <div>
@@ -190,11 +254,12 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ slu
                                     >
                                         <div className="aspect-16/10 mb-4">
                                             <div className="relative overflow-hidden w-full h-full bg-gray-100 group-hover:opacity-95 transition-opacity">
-                                                <img
+                                                <Image
                                                     src={news.featured_image || '/no-image.png'}
                                                     alt={news.title}
-                                                    className="w-full h-full object-cover"
-                                                    loading="lazy"
+                                                    fill
+                                                    className="object-cover"
+                                                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
                                                 />
                                             </div>
                                         </div>

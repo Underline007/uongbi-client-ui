@@ -1,4 +1,4 @@
-import { PageBanner } from "@/components/server";
+import { PageBanner, Breadcrumb } from "@/components/server";
 import { SearchInput } from "@/components/client";
 import Link from "next/link";
 
@@ -8,6 +8,9 @@ export default function ProceduresPage() {
             <div className="min-h-screen">
                 <PageBanner />
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 md:py-4 lg:py-8">
+                    <Breadcrumb items={[
+                        { label: "Thủ tục hành chính" },
+                    ]} />
                     {/* Header */}
                     <div className="mb-3 md:mb-6">
                         <h1 className="text-lg md:text-3xl font-bold text-gray-900 mb-1 md:mb-2">

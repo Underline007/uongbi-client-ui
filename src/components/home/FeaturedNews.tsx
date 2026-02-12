@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { FeaturedNews as FeaturedNewsType } from "@/types/api";
 
@@ -12,12 +13,13 @@ export function FeaturedNews({ featured }: FeaturedNewsProps) {
             <div className="lg:col-span-3">
                 <div>
                     <div className="relative">
-                        <div className="aspect-video overflow-hidden bg-gray-100">
-                            <img
+                        <div className="relative aspect-video overflow-hidden bg-gray-100">
+                            <Image
                                 src={featured.main.image}
                                 alt="Featured"
-                                className="w-full h-full object-cover"
-                                loading="lazy"
+                                fill
+                                className="object-cover"
+                                sizes="(max-width: 1024px) 100vw, 60vw"
                             />
                         </div>
                     </div>
@@ -49,12 +51,13 @@ export function FeaturedNews({ featured }: FeaturedNewsProps) {
                                         {news.title}
                                     </h4>
                                 </div>
-                                <div className="w-24 h-16 bg-gray-100 shrink-0 ">
-                                    <img
+                                <div className="relative w-24 h-16 bg-gray-100 shrink-0">
+                                    <Image
                                         src={news.image}
                                         alt={news.title}
-                                        className="w-full h-full object-cover"
-                                        loading="lazy"
+                                        fill
+                                        className="object-cover"
+                                        sizes="96px"
                                     />
                                 </div>
                             </div>
@@ -76,12 +79,13 @@ export function FeaturedNews({ featured }: FeaturedNewsProps) {
                                         {news.title}
                                     </h4>
                                 </div>
-                                <div className="w-24 h-16 bg-gray-100 overflow-hidden shrink-0">
-                                    <img
+                                <div className="relative w-24 h-16 bg-gray-100 overflow-hidden shrink-0">
+                                    <Image
                                         src={news.image}
                                         alt={news.title}
-                                        className="w-full h-full object-cover"
-                                        loading="lazy"
+                                        fill
+                                        className="object-cover"
+                                        sizes="96px"
                                     />
                                 </div>
                             </div>

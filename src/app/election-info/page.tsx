@@ -1,20 +1,15 @@
-
 import Link from "next/link";
 import { Calendar } from "lucide-react";
+import { Breadcrumb } from "@/components/server";
 
 export default function ElectionInfoPage() {
     return (
         <main className="flex-1">
             <div className="min-h-screen bg-white py-2 md:py-4 lg:py-8">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    {/* Breadcrumb */}
-                    <div className="inline-flex items-center text-[10px] md:text-sm text-gray-600 mb-2 md:mb-6">
-                        <Link className="hover:text-red-600 transition-colors" href="/news">
-                            Tin tức
-                        </Link>
-                        <span className="mx-1 md:mx-2">›</span>
-                        <span className="text-gray-900 font-medium">Thông Tin Bầu Cử</span>
-                    </div>
+                    <Breadcrumb items={[
+                        { label: "Thông tin bầu cử" },
+                    ]} />
 
                     <section className="mb-4 md:mb-12 border-b border-gray-200 pb-4 md:pb-12">
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 md:gap-8">

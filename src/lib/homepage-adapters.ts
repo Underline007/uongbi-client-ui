@@ -28,10 +28,10 @@ export function transformHomepageData(data: HomepageResponse) {
 
   return {
     featured: transformToFeaturedNews(featuredArticles),
-    highlights: transformToHighlights(data.latest_articles || []),
+    highlights: transformToHighlights(data.popular_articles || []),
     categories: transformToNewsCategories(data.articles_by_category || []),
     threeCategories: transformToThreeCategories(data.articles_by_category || []),
-    partyBuilding: transformToPartyBuilding(data.articles_by_category || []),
+    // partyBuilding: transformToPartyBuilding(data.articles_by_category || []),
     staffWork: transformToStaffWork(data.latest_articles || []),
     partyActivity: transformToPartyActivity(data.popular_articles || []),
     organization: [], // Will need separate API call for organization members
