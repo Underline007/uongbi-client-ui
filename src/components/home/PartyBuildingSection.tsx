@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { PartyBuildingColumn } from "@/types/api";
 
@@ -21,11 +22,13 @@ export function PartyBuildingSection({ partyBuilding }: PartyBuildingSectionProp
                                 {partyBuilding.map((col, colIndex) => (
                                     <div key={colIndex} className="flex flex-col space-y-2 md:space-y-3">
                                         <Link className="group block" href={`/tin-tuc/${col.featured.id}`}>
-                                            <div className="aspect-16/12 mb-2 md:mb-3 overflow-hidden bg-gray-100">
-                                                <img
+                                            <div className="relative aspect-16/12 mb-2 md:mb-3 overflow-hidden bg-gray-100">
+                                                <Image
                                                     src={col.featured.image}
                                                     alt="Featured"
-                                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                                    fill
+                                                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                                                    sizes="(max-width: 1024px) 100vw, 33vw"
                                                 />
                                             </div>
                                             <h3 className="text-sm md:text-lg font-bold text-gray-900 group-hover:text-red-600 transition-colors mb-1 md:mb-2 line-clamp-2">
@@ -38,11 +41,13 @@ export function PartyBuildingSection({ partyBuilding }: PartyBuildingSectionProp
                                         {col.secondary && (
                                             <div className="space-y-2 md:space-y-3 pt-2 md:pt-3 border-t border-gray-200">
                                                 <Link className="group flex gap-2 md:gap-3 pb-2 md:pb-3" href={`/tin-tuc/${col.secondary.id}`}>
-                                                    <div className="shrink-0 w-20 md:w-28 h-11 md:h-16 overflow-hidden bg-gray-100">
-                                                        <img
+                                                    <div className="relative shrink-0 w-20 md:w-28 h-11 md:h-16 overflow-hidden bg-gray-100">
+                                                        <Image
                                                             src={col.secondary.image}
                                                             alt="Featured"
-                                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                                            fill
+                                                            className="object-cover group-hover:scale-105 transition-transform duration-300"
+                                                            sizes="(max-width: 768px) 80px, 112px"
                                                         />
                                                     </div>
                                                     <div className="flex-1 min-w-0">

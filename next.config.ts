@@ -1,18 +1,19 @@
 import type { NextConfig } from "next";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
-
 const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
-  async rewrites() {
-    return [
+  images: {
+    remotePatterns: [
       {
-        // Proxy media requests to backend
-        source: "/api/v1/media/:path*",
-        destination: `${API_URL}/api/v1/media/:path*`,
+        protocol: 'https',
+        hostname: 'pub-ffbb8e8070154e98a44313af02fff446.r2.dev',
       },
-    ];
+      {
+        protocol: 'https',
+        hostname: 'storage.4ship.vn',
+      },
+    ],
   },
 };
 

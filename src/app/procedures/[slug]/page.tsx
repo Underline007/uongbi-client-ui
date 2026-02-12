@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, FileText } from "lucide-react";
+import { FileText } from "lucide-react";
 import { ArticleTracker, ShareButtons } from "@/components/analytics";
+import { Breadcrumb } from "@/components/server";
 import { articlesApi } from "@/lib/api";
 
 export default async function GuideDetailPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -28,27 +29,10 @@ export default async function GuideDetailPage({ params }: { params: Promise<{ sl
                         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
                             {/* Main Content */}
                             <div className="lg:col-span-3">
-                                {/* Breadcrumb */}
-                                <nav className="flex mb-8" aria-label="Breadcrumb">
-                                    <ol className="flex items-center space-x-4">
-                                        <li>
-                                            <Link
-                                                className="text-red-600 hover:text-red-700 text-sm font-medium"
-                                                href="/guides"
-                                            >
-                                                Hướng dẫn thủ tục
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <div className="flex items-center">
-                                                <ArrowLeft className="flex-shrink-0 h-4 w-4 text-gray-400 rotate-180" />
-                                                <span className="ml-4 text-sm font-medium text-gray-500 truncate">
-                                                    Chi tiết hướng dẫn
-                                                </span>
-                                            </div>
-                                        </li>
-                                    </ol>
-                                </nav>
+                                <Breadcrumb items={[
+                                    { label: "Thủ tục hành chính", href: "/procedures" },
+                                    { label: guideDetail.title },
+                                ]} />
 
                                 {/* Header */}
                                 <div className="mb-12">

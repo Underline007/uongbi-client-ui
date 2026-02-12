@@ -1442,6 +1442,76 @@
         }
       }
     },
+    "/api/v1/{org_code}/documents/tree": {
+      "get": {
+        "tags": [
+          "documents"
+        ],
+        "summary": "Get Doc Section Full Tree",
+        "description": "Get document section tree with documents and data sheets from root.",
+        "operationId": "get_doc_section_full_tree_api_v1__org_code__documents_tree_get",
+        "parameters": [
+          {
+            "name": "org_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 50,
+              "description": "Organization code",
+              "title": "Org Code"
+            },
+            "description": "Organization code"
+          },
+          {
+            "name": "doc_type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Filter by doc_type",
+              "title": "Doc Type"
+            },
+            "description": "Filter by doc_type"
+          },
+          {
+            "name": "depth",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Tree depth limit (1=root only, 2=root+children, etc.)",
+              "title": "Depth"
+            },
+            "description": "Tree depth limit (1=root only, 2=root+children, etc.)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocSectionFullTreeResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/{org_code}/documents/sections/{slug}": {
       "get": {
         "tags": [
@@ -1481,62 +1551,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/DocSectionDetailResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/{org_code}/documents/data-sheets/{slug}": {
-      "get": {
-        "tags": [
-          "documents"
-        ],
-        "summary": "Get Data Sheet By Slug",
-        "description": "Get data sheet detail by slug.",
-        "operationId": "get_data_sheet_by_slug_api_v1__org_code__documents_data_sheets__slug__get",
-        "parameters": [
-          {
-            "name": "slug",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Slug"
-            }
-          },
-          {
-            "name": "org_code",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "minLength": 2,
-              "maxLength": 50,
-              "description": "Organization code",
-              "title": "Org Code"
-            },
-            "description": "Organization code"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DataSheetDetailResponse"
                 }
               }
             }
@@ -3306,82 +3320,6 @@
         ],
         "title": "CreateCommentRequest"
       },
-      "DataSheetDetailResponse": {
-        "properties": {
-          "id": {
-            "type": "string",
-            "title": "Id"
-          },
-          "section_slug": {
-            "type": "string",
-            "title": "Section Slug"
-          },
-          "section_name": {
-            "type": "string",
-            "title": "Section Name"
-          },
-          "doc_type": {
-            "type": "string",
-            "title": "Doc Type",
-            "default": "org_info"
-          },
-          "title": {
-            "type": "string",
-            "title": "Title"
-          },
-          "slug": {
-            "type": "string",
-            "title": "Slug"
-          },
-          "custom_fields": {
-            "items": {
-              "additionalProperties": true,
-              "type": "object"
-            },
-            "type": "array",
-            "title": "Custom Fields"
-          },
-          "thumbnails": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array",
-            "title": "Thumbnails"
-          },
-          "order": {
-            "type": "integer",
-            "title": "Order",
-            "default": 0
-          },
-          "views": {
-            "type": "integer",
-            "title": "Views",
-            "default": 0
-          },
-          "published_at": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Published At"
-          }
-        },
-        "type": "object",
-        "required": [
-          "id",
-          "section_slug",
-          "section_name",
-          "title",
-          "slug"
-        ],
-        "title": "DataSheetDetailResponse",
-        "description": "Full data sheet detail with custom fields."
-      },
       "DataSheetSummaryResponse": {
         "properties": {
           "id": {
@@ -3522,6 +3460,110 @@
         ],
         "title": "DocSectionDetailResponse",
         "description": "Section detail with documents, data sheets, and breadcrumb."
+      },
+      "DocSectionFullTreeNodeResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "icon": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Icon"
+          },
+          "doc_type": {
+            "type": "string",
+            "title": "Doc Type",
+            "default": "org_info"
+          },
+          "order": {
+            "type": "integer",
+            "title": "Order",
+            "default": 0
+          },
+          "published_document_count": {
+            "type": "integer",
+            "title": "Published Document Count",
+            "default": 0
+          },
+          "documents": {
+            "items": {
+              "$ref": "#/components/schemas/DocumentSummaryResponse"
+            },
+            "type": "array",
+            "title": "Documents"
+          },
+          "data_sheets": {
+            "items": {
+              "$ref": "#/components/schemas/DataSheetSummaryResponse"
+            },
+            "type": "array",
+            "title": "Data Sheets"
+          },
+          "children": {
+            "items": {
+              "$ref": "#/components/schemas/DocSectionFullTreeNodeResponse"
+            },
+            "type": "array",
+            "title": "Children"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "slug"
+        ],
+        "title": "DocSectionFullTreeNodeResponse",
+        "description": "Section tree node with documents and data sheets (recursive)."
+      },
+      "DocSectionFullTreeResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/DocSectionFullTreeNodeResponse"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "total"
+        ],
+        "title": "DocSectionFullTreeResponse",
+        "description": "Full section tree with documents and data sheets."
       },
       "DocSectionTreeNodeResponse": {
         "properties": {

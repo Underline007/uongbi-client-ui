@@ -62,21 +62,6 @@ export const mockBanners: BannerResponse[] = [
     layout_height: 450,
     items: [],
   },
-  {
-    id: 'mock-banner-3',
-    title: 'Cổng thông tin điện tử',
-    image_url: 'https://ozeo.vn/wp-content/uploads/2018/01/footer-noel-banner-2.jpg',
-    subtitle: 'Cổng thông tin điện tử Phường Hà Lầm',
-    link_url: null,
-    link_target: '_self',
-    position: 'footer',
-    code: 'footer-info',
-    description: 'Banner footer thông tin',
-    display_mode: 'single',
-    layout_width: 1200,
-    layout_height: 250,
-    items: [],
-  },
 ];
 
 export const mockBannerListResponse: BannerListResponse = {

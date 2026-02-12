@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Calendar, FileText, ChevronRight, Eye, Download } from "lucide-react";
+import { Breadcrumb } from "@/components/server";
 import { documentsApi } from "@/lib/api";
 
 function formatDate(dateString: string) {
@@ -28,20 +29,10 @@ export default async function DocumentDetailPage({ params }: { params: Promise<{
             <div className="min-h-screen bg-white">
                 <div className="py-1 sm:py-8">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        {/* Breadcrumb */}
-                        <nav className="flex items-center space-x-2 text-sm text-gray-500 mb-6">
-                            <Link href="/" className="hover:text-blue-600 transition-colors">
-                                Trang chủ
-                            </Link>
-                            <ChevronRight className="w-4 h-4" />
-                            <Link href="/documents" className="hover:text-blue-600 transition-colors">
-                                Văn bản
-                            </Link>
-                            <ChevronRight className="w-4 h-4" />
-                            <span className="text-gray-900 font-medium truncate max-w-[200px]">
-                                Chi tiết
-                            </span>
-                        </nav>
+                        <Breadcrumb items={[
+                            { label: "Văn bản", href: "/documents" },
+                            { label: document.title },
+                        ]} />
 
                         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
                             {/* Main Content */}
@@ -95,15 +86,7 @@ export default async function DocumentDetailPage({ params }: { params: Promise<{
                                         {/* Content */}
                                         <div className="mt-8">
                                             <div
-                                                className="prose prose-lg max-w-none text-gray-700 leading-relaxed
-                                                    [&>p]:mb-4
-                                                    [&>h2]:text-xl [&>h2]:font-bold [&>h2]:text-gray-900 [&>h2]:mt-8 [&>h2]:mb-4
-                                                    [&>h3]:text-lg [&>h3]:font-semibold [&>h3]:text-gray-900 [&>h3]:mt-6 [&>h3]:mb-3
-                                                    [&>ul]:list-disc [&>ul]:pl-6 [&>ul]:mb-4
-                                                    [&>ol]:list-decimal [&>ol]:pl-6 [&>ol]:mb-4
-                                                    [&>li]:mb-2
-                                                    [&>blockquote]:border-l-4 [&>blockquote]:border-blue-500 [&>blockquote]:pl-4 [&>blockquote]:italic [&>blockquote]:text-gray-600
-                                                    [&>img]:rounded-lg [&>img]:shadow-md [&>img]:my-6"
+                                                className="prose max-w-none"
                                                 dangerouslySetInnerHTML={{
                                                     __html: typeof document.content === "string"
                                                         ? document.content

@@ -198,7 +198,7 @@ export function DocumentSearch({ documents, docTypes }: DocumentSearchProps) {
                     {filteredDocuments.map((doc, index) => (
                         <Link
                             key={doc.id}
-                            href={`/documents/${doc.title}`}
+                            href={`/documents/${doc.slug}`}
                             className="group flex items-start gap-4 px-5 py-4 md:px-6 md:py-5
                                        hover:bg-blue-50/40 active:bg-blue-50/70
                                        transition-colors duration-150"

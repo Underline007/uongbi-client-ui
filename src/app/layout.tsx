@@ -3,7 +3,7 @@ import { Merriweather, Inter } from "next/font/google";
 import "./globals.css";
 import { Theme } from "@radix-ui/themes";
 import { Header, Navbar } from "@/components/client";
-import { Footer, FloatingPhoneButton, PageBanner } from "@/components/server";
+import { Footer, FloatingPhoneButton } from "@/components/server";
 import { Providers } from "@/providers";
 import { GoogleAnalytics, PageTracker, WebVitals } from "@/components/analytics";
 import { getOrganization } from "@/lib/organization";
@@ -50,7 +50,6 @@ export default async function RootLayout({
             <main style={{ minHeight: "60vh" }}>
               {children}
             </main>
-            <PageBanner position="footer" />
             <Footer org={org} />
             <FloatingPhoneButton phone={org?.phone} />
           </Theme>

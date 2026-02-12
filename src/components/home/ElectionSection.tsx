@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 interface ElectionSectionProps {
@@ -31,12 +32,13 @@ export function ElectionSection({ election }: ElectionSectionProps) {
                             <div className="space-y-2 lg:space-y-4">
                                 <Link className="block group" href={`/news/${election.featured.id}`}>
                                     <div className="space-y-2">
-                                        <div className="aspect-video overflow-hidden bg-gray-100">
-                                            <img
+                                        <div className="relative aspect-video overflow-hidden bg-gray-100">
+                                            <Image
                                                 src={election.featured.image}
                                                 alt={election.featured.title}
-                                                className="w-full h-full group-hover:scale-105 transition-transform duration-200"
-                                                loading="lazy"
+                                                fill
+                                                className="object-cover group-hover:scale-105 transition-transform duration-200"
+                                                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                                             />
                                         </div>
                                         <h4 className="font-bold text-gray-900 leading-relaxed group-hover:text-red-600 transition-colors line-clamp-2">

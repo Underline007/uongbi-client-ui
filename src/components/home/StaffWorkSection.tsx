@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Clock } from "lucide-react";
 import type { StaffWorkData } from "@/types/api";
@@ -20,8 +21,8 @@ export function StaffWorkSection({ staffWork }: StaffWorkSectionProps) {
                         {staffWork.main.map((news) => (
                             <Link key={news.id} className="group block bg-white transition-all duration-300" href={`/tin-tuc/${news.id}`}>
                                 <div className="aspect-16/10">
-                                    <div className="bg-gray-100 overflow-hidden w-full h-full">
-                                        <img src={news.image} alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                                    <div className="relative bg-gray-100 overflow-hidden w-full h-full">
+                                        <Image src={news.image} alt="Featured" fill className="object-cover group-hover:scale-105 transition-transform duration-300" sizes="33vw" />
                                     </div>
                                 </div>
                                 <div className="py-4">

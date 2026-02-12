@@ -1,4 +1,4 @@
-import { PageBanner } from "@/components/server";
+import { PageBanner, Breadcrumb } from "@/components/server";
 import { MapPin, ChevronRight, FileText } from "lucide-react";
 import Link from "next/link";
 
@@ -7,6 +7,9 @@ export default function PlanningsPage() {
         <main className="flex-1">
             <PageBanner />
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <Breadcrumb items={[
+                    { label: "Quy hoạch" },
+                ]} />
                 {/* Header */}
                 <div className="mb-8">
                     <div className="flex items-center mb-4">

@@ -1,4 +1,4 @@
-import { PageBanner } from "@/components/server";
+import { PageBanner, Breadcrumb } from "@/components/server";
 import { MapPin, Phone, Mail, User } from "lucide-react";
 import { OutboundLink } from "@/components/analytics";
 import { getOrganization } from "@/lib/organization";
@@ -9,7 +9,10 @@ export default async function AboutPage() {
         <main className="flex-1">
             <div className="min-h-screen bg-white">
                 <PageBanner />
-                <div className="max-w-7xl mx-auto py-2">
+                <div className="max-w-7xl mx-auto py-2 px-4 sm:px-6 lg:px-8">
+                    <Breadcrumb items={[
+                        { label: "Giới thiệu" },
+                    ]} />
                     <div className="space-y-12">
 
                         {/* Giới thiệu chung Section */}

@@ -20,7 +20,7 @@ import type {
   DocSectionTreeResponse,
   DocSectionDetailResponse,
   DocumentDetailResponse,
-  DataSheetDetailResponse,
+  DocSectionFullTreeResponse,
   GlobalSearchResponse,
   CreateCommentRequest,
   ReactionRequest,
@@ -137,14 +137,14 @@ export const documentsApi = {
   getSections: (doc_type?: string) =>
     apiClient.get<DocSectionTreeResponse>(`${PREFIX}/documents/sections`, { params: doc_type ? { doc_type } : undefined }).then(getData),
 
+  getFullTree: (params?: { doc_type?: string; depth?: number }) =>
+    apiClient.get<DocSectionFullTreeResponse>(`${PREFIX}/documents/tree`, { params }).then(getData),
+
   getSectionBySlug: (slug: string) =>
     apiClient.get<DocSectionDetailResponse>(`${PREFIX}/documents/sections/${slug}`).then(getData),
 
   getBySlug: (slug: string) =>
     apiClient.get<DocumentDetailResponse>(`${PREFIX}/documents/${slug}`).then(getData),
-
-  getDataSheet: (slug: string) =>
-    apiClient.get<DataSheetDetailResponse>(`${PREFIX}/documents/data-sheets/${slug}`).then(getData),
 };
 
 // --- Search ---
@@ -171,7 +171,7 @@ export const feedbackApi = {
     apiClient.get<FeedbackFormDetail>(`${PREFIX}/feedback/forms/${formSlug}`).then(getData),
 
   submitForm: (formId: string, data: SubmitFormRequest) =>
-    apiClient.post(`/api/feedback/forms/${formId}/submit`, data).then(getData),
+    apiClient.post(`${PREFIX}/feedback/forms/${formId}/submit`, data).then(getData),
 };
 
 // --- Composite ---

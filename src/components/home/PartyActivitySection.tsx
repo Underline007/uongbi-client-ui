@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Clock } from "lucide-react";
 import type { PartyActivityData } from "@/types/api";
@@ -20,8 +21,8 @@ export function PartyActivitySection({ partyActivity }: PartyActivitySectionProp
                         <div className="md:col-span-1">
                             <Link className="group block bg-white transition-all duration-300" href={`/tin-tuc/${partyActivity.featured.id}`}>
                                 <div className="aspect-16/10">
-                                    <div className="bg-gray-100 overflow-hidden w-full h-full">
-                                        <img src={partyActivity.featured.image} alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                                    <div className="relative bg-gray-100 overflow-hidden w-full h-full">
+                                        <Image src={partyActivity.featured.image} alt="Featured" fill className="object-cover group-hover:scale-105 transition-transform duration-300" sizes="(max-width: 768px) 100vw, 50vw" />
                                     </div>
                                 </div>
                                 <div className="py-4">
@@ -43,8 +44,8 @@ export function PartyActivitySection({ partyActivity }: PartyActivitySectionProp
                                 {partyActivity.grid.map((news) => (
                                     <Link key={news.id} className="group block bg-white transition-all duration-300" href={`/tin-tuc/${news.id}`}>
                                         <div className="aspect-16/10">
-                                            <div className="bg-gray-100 overflow-hidden w-full h-full">
-                                                <img src={news.image} alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                                            <div className="relative bg-gray-100 overflow-hidden w-full h-full">
+                                                <Image src={news.image} alt="Featured" fill className="object-cover group-hover:scale-105 transition-transform duration-300" sizes="(max-width: 768px) 100vw, 25vw" />
                                             </div>
                                         </div>
                                         <div className="py-3">

@@ -1,11 +1,15 @@
 import Link from "next/link";
 import { Clock } from "lucide-react";
+import { Breadcrumb } from "@/components/server";
 
 export default function NewsPage() {
     return (
         <main className="flex-1">
             <div className="min-h-screen bg-white">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                    <Breadcrumb items={[
+                        { label: "Tin tức" },
+                    ]} />
                     <div className="w-full bg-white">
                         <div className="w-full bg-white">
                             <div className="space-y-2 lg:space-y-12">

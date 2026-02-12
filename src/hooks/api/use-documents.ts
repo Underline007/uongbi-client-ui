@@ -10,6 +10,14 @@ export function useDocSections(doc_type?: string) {
   });
 }
 
+export function useDocFullTree(doc_type?: string, depth?: number) {
+  return useQuery({
+    queryKey: queryKeys.documents.fullTree(doc_type),
+    queryFn: () => documentsApi.getFullTree({ doc_type, depth }),
+    staleTime: 10 * 60 * 1000,
+  });
+}
+
 export function useDocSectionDetail(slug: string) {
   return useQuery({
     queryKey: queryKeys.documents.sectionDetail(slug),
@@ -23,15 +31,6 @@ export function useDocumentDetail(slug: string) {
   return useQuery({
     queryKey: queryKeys.documents.detail(slug),
     queryFn: () => documentsApi.getBySlug(slug),
-    enabled: !!slug,
-    staleTime: 5 * 60 * 1000,
-  });
-}
-
-export function useDataSheetDetail(slug: string) {
-  return useQuery({
-    queryKey: queryKeys.documents.dataSheet(slug),
-    queryFn: () => documentsApi.getDataSheet(slug),
     enabled: !!slug,
     staleTime: 5 * 60 * 1000,
   });

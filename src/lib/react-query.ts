@@ -96,7 +96,7 @@ export const queryKeys = {
     sections: (doc_type?: string) => [...queryKeys.documents.all, 'sections', doc_type] as const,
     sectionDetail: (slug: string) => [...queryKeys.documents.all, 'section', slug] as const,
     detail: (slug: string) => [...queryKeys.documents.all, 'detail', slug] as const,
-    dataSheet: (slug: string) => [...queryKeys.documents.all, 'data-sheet', slug] as const,
+    fullTree: (doc_type?: string) => [...queryKeys.documents.all, 'full-tree', doc_type] as const,
   },
 
   // Search

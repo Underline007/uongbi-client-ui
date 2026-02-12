@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Clock } from "lucide-react";
 import type { PlanningItem } from "@/types/api";
@@ -24,8 +25,8 @@ export function PlanningSection({ plannings }: PlanningSectionProps) {
                             <div className="space-y-4 h-full">
                                 <Link className="group block bg-white transition-all duration-300" href={`/news/${plannings.sidebar.id}`}>
                                     <div className="aspect-[16/10]">
-                                        <div className="bg-gray-100 overflow-hidden w-full h-full">
-                                            <img src={plannings.sidebar.image} alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                                        <div className="relative bg-gray-100 overflow-hidden w-full h-full">
+                                            <Image src={plannings.sidebar.image} alt="Featured" fill className="object-cover group-hover:scale-105 transition-transform duration-300" sizes="(max-width: 1024px) 100vw, 20vw" />
                                         </div>
                                     </div>
                                     <div className="py-3">
@@ -44,8 +45,8 @@ export function PlanningSection({ plannings }: PlanningSectionProps) {
                             <Link className="group block bg-white transition-all duration-300 h-full" href={`/news/${plannings.featured.id}`}>
                                 <div className="flex flex-col h-full">
                                     <div className="aspect-[16/10] shrink-0">
-                                        <div className="bg-gray-100 overflow-hidden w-full h-full">
-                                            <img src={plannings.featured.image} alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                                        <div className="relative bg-gray-100 overflow-hidden w-full h-full">
+                                            <Image src={plannings.featured.image} alt="Featured" fill className="object-cover group-hover:scale-105 transition-transform duration-300" sizes="(max-width: 1024px) 100vw, 60vw" />
                                         </div>
                                     </div>
                                     <div className="py-6 flex-1 flex flex-col">
